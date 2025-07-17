@@ -9,11 +9,10 @@ Copyright (c) 2025 Leegion. All rights reserved.
 import unittest
 import sys
 from pathlib import Path
+from core.security import SecurityManager, validate_input_security
 
 # Add project root to path
 sys.path.insert(0, str(Path(__file__).parent.parent))
-
-from core.security import SecurityManager, validate_input_security
 
 
 class TestSecurityManager(unittest.TestCase):

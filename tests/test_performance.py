@@ -9,7 +9,7 @@ import time
 import threading
 import gc
 from pathlib import Path
-from unittest.mock import patch, MagicMock
+from unittest.mock import patch
 import tempfile
 import os
 
@@ -73,7 +73,7 @@ class TestPerformance:
         large_wordlist = [f"test{i:06d}" for i in range(10000)]
 
         # Test directory bruteforcer with large wordlist
-        _bruteforcer = DirectoryBruteforcer(self.test_config)
+        bruteforcer = DirectoryBruteforcer(self.test_config)
 
         # Simulate processing large dataset
         results = []
@@ -154,7 +154,7 @@ class TestPerformance:
 
     def test_security_manager_performance(self):
         """Test SecurityManager performance with high volume input validation"""
-        _security_manager = SecurityManager()
+        security_manager = SecurityManager()
 
         # Test high volume input validation
         start_time = time.time()
