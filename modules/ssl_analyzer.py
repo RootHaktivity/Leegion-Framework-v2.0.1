@@ -12,7 +12,6 @@ import socket
 import requests
 import json
 import subprocess
-import threading
 import time
 import os
 import csv
@@ -20,7 +19,7 @@ import cryptography.x509
 from cryptography.hazmat.primitives import hashes
 import hashlib
 from typing import Dict, List, Any, Optional, Tuple
-from datetime import datetime, timedelta
+from datetime import datetime
 from urllib.parse import urlparse
 from core.base_module import BaseModule
 from core.banner import print_module_header

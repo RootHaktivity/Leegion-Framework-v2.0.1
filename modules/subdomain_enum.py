@@ -10,7 +10,6 @@ Copyright (c) 2025 Leegion. All rights reserved.
 import subprocess
 import dns.resolver
 import requests
-import threading
 import time
 import json
 import os
