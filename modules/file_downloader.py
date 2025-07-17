@@ -471,7 +471,7 @@ class FileDownloader(BaseModule):
                     # Add session headers individually to avoid type issues
                     for key, value in session.headers.items():
                         if isinstance(value, bytes):
-                            headers[key] = value.decode('utf-8')
+                            headers[key] = value.decode("utf-8")
                         else:
                             headers[key] = str(value)
 

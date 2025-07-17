@@ -291,7 +291,7 @@ class WPScanIntegration(BaseModule):
 
         self.print_warning("Aggressive scan may be detected by security systems!")
         confirm = self.get_user_input("Continue? (y/N): ")
-        if confirm.lower() != "y":
+        if not confirm or confirm.lower() != "y":
             return
 
         args = [
@@ -418,11 +418,12 @@ class WPScanIntegration(BaseModule):
 
             # Capture output
             output_lines = []
-            for line in process.stdout:
-                line = line.strip()
-                if line:
-                    print(f"\033[95m[WPScan]\033[0m {line}")
-                    output_lines.append(line)
+            if process.stdout:
+                for line in process.stdout:
+                    line = line.strip()
+                    if line:
+                        print(f"\033[95m[WPScan]\033[0m {line}")
+                        output_lines.append(line)
 
             # Wait for completion
             return_code = process.wait()

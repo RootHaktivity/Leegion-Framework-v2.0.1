@@ -48,11 +48,11 @@ def print_banner():
     # Framework info
     print(f"\033[96m{'='*65}\033[0m")
     print("\033[96m" + "Framework Info".center(65) + "\033[0m")
-    print("\033[96m" + "="*65 + "\033[0m")
+    print("\033[96m" + "=" * 65 + "\033[0m")
     print("\033[92m[+]\033[0m Leegion Framework v2.0 - Enhanced Cybersecurity Toolkit")
     print("\033[92m[+]\033[0m Designed for Ethical Hacking & CTF Competitions")
     print("\033[92m[+]\033[0m Built for Linux Terminals | Python Framework")
-    print("\033[96m" + "="*65 + "\033[0m")
+    print("\033[96m" + "=" * 65 + "\033[0m")
 
     # Feature highlights
     features = [
@@ -67,7 +67,7 @@ def print_banner():
     ]
 
     print("\033[93m" + "Key Features".center(65) + "\033[0m")
-    print("\033[93m" + "-"*65 + "\033[0m")
+    print("\033[93m" + "-" * 65 + "\033[0m")
     for i, feature in enumerate(features, 1):
         print(f"\033[94m{i:2d}.\033[0m {feature}")
 
@@ -101,14 +101,14 @@ def print_security_disclaimer():
     """
 
     print("\033[91m" + disclaimer + "\033[0m")
-    print("\033[96m" + "="*65 + "\033[0m")
+    print("\033[96m" + "=" * 65 + "\033[0m")
 
 
 def print_learning_resources():
     """Print learning resources for beginners"""
-    print("\n\033[96m" + "="*65 + "\033[0m")
+    print("\n\033[96m" + "=" * 65 + "\033[0m")
     print("\033[96m" + "🎓 LEARNING RESOURCES FOR BEGINNERS".center(65) + "\033[0m")
-    print("\033[96m" + "="*65 + "\033[0m")
+    print("\033[96m" + "=" * 65 + "\033[0m")
     print(
         f"\033[92m🌟 TryHackMe.com\033[0m - Interactive cybersecurity learning platform"
     )

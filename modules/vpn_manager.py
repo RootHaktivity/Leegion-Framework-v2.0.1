@@ -893,8 +893,8 @@ class VPNManager(BaseModule):
                 "parser": lambda data: {
                     "ip": data.get("ip", "Unknown"),
                     "location": (
-                    f"{data.get('city', 'Unknown')}, {data.get('country_name', 'Unknown')}"
-                ),
+                        f"{data.get('city', 'Unknown')}, {data.get('country_name', 'Unknown')}"
+                    ),
                 },
             },
             {
@@ -902,8 +902,8 @@ class VPNManager(BaseModule):
                 "parser": lambda data: {
                     "ip": data.get("ip", "Unknown"),
                     "location": (
-                    f"{data.get('city', 'Unknown')}, {data.get('country', 'Unknown')}"
-                ),
+                        f"{data.get('city', 'Unknown')}, {data.get('country', 'Unknown')}"
+                    ),
                 },
             },
             {

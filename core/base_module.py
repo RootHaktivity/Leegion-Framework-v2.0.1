@@ -259,7 +259,9 @@ class BaseModule(ABC):
             except KeyboardInterrupt:
                 return None
 
-    def save_results(self, results: Dict[str, Any], filename: Optional[str] = None) -> bool:
+    def save_results(
+        self, results: Dict[str, Any], filename: Optional[str] = None
+    ) -> bool:
         """
         Save scan results to file
 
