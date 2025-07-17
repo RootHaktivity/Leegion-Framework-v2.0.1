@@ -164,7 +164,7 @@ class WPScanIntegration(BaseModule):
         if not target:
             return
 
-        print(f"\n\033[93m🎯 User enumeration techniques:\033[0m")
+        print("\n\033[93m🎯 User enumeration techniques:\033[0m")
         print("1. Basic user enumeration (author archives)")
         print("2. Enumerate users with IDs 1-100 (common range)")
         print("3. Enumerate users with custom range")
@@ -610,7 +610,7 @@ class WPScanIntegration(BaseModule):
         # WordPress information
         wp_info = scan_result["wordpress_info"]
         if wp_info:
-            print(f"\n\033[92mWordPress Information:\033[0m")
+            print("\n\033[92mWordPress Information:\033[0m")
             if "version" in wp_info:
                 print(f"  \033[96mVersion:\033[0m {wp_info['version']}")
             if "theme" in wp_info:
@@ -647,13 +647,13 @@ class WPScanIntegration(BaseModule):
         if vuln_count > 0:
             print(f"\n\033[91mVulnerabilities: {vuln_count} found\033[0m")
         elif scan_result["vulnerabilities"]:
-            print(f"\n\033[93mScan Notes:\033[0m")
+            print("\n\033[93mScan Notes:\033[0m")
             for vuln in scan_result["vulnerabilities"]:
                 print(f"  • {vuln['message']}")
 
         # Interesting entries
         if scan_result["interesting_entries"]:
-            print(f"\n\033[93mInteresting Entries:\033[0m")
+            print("\n\033[93mInteresting Entries:\033[0m")
             for entry in scan_result["interesting_entries"][:3]:
                 print(f"  • {entry}")
 
