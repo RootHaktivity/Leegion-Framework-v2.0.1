@@ -1,0 +1,20 @@
+{
+    "auto_save_results": true,
+    "colored_output": true,
+    "directory_wordlist": "./wordlists/dirb/common.txt",
+    "log_level": "INFO",
+    "max_threads": 50,
+    "nmap_default_args": "-sC -sV",
+    "output_dir": "./reports/output",
+    "report_formats": [
+        "json",
+        "xml",
+        "csv"
+    ],
+    "session_timeout": 3600,
+    "subdomain_wordlist": "./wordlists/subdomains.txt",
+    "timeout": 30,
+    "user_agent": "Leegion-Framework/2.0",
+    "vpn_config_dir": "./vpn_configs",
+    "wpscan_api_token": ""
+}
