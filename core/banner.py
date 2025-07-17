@@ -71,7 +71,7 @@ def print_banner():
     for i, feature in enumerate(features, 1):
         print(f"\033[94m{i:2d}.\033[0m {feature}")
 
-    print(f"\033[96m{'='*65}\033[0m")
+    print("\033[96m" + "=" * 65 + "\033[0m")
 
     # Security disclaimer
     print_security_disclaimer()
@@ -119,7 +119,7 @@ def print_learning_resources():
         f"\n\033[93m💡 PRO TIP:\033[0m Start with TryHackMe's 'Complete Beginner' path"
     )
     print("   then use this framework to practice what you learn!")
-    print(f"\033[96m{'='*65}\033[0m")
+    print("\033[96m" + "=" * 65 + "\033[0m")
 
 
 def print_module_header(module_name: str, description: str = ""):
@@ -136,7 +136,7 @@ def print_module_header(module_name: str, description: str = ""):
     print(f"\033[94m{module_name.upper().center(header_width)}\033[0m")
     if description:
         print(f"\033[96m{description.center(header_width)}\033[0m")
-    print(f"\033[94m{'='*header_width}\033[0m")
+    print("\033[94m" + "=" * header_width + "\033[0m")
 
 
 def print_section_header(section_name: str):
@@ -236,11 +236,11 @@ def print_completion_banner(module_name: str, duration: float = 0):
         module_name: Name of completed module
         duration: Execution duration in seconds
     """
-    print(f"\n\033[92m{'='*50}\033[0m")
+    print("\n\033[92m" + "=" * 50 + "\033[0m")
     print(f"\033[92m{f'{module_name} COMPLETED'.center(50)}\033[0m")
     if duration > 0:
         print(f"\033[92m{f'Execution Time: {duration:.2f} seconds'.center(50)}\033[0m")
-    print(f"\033[92m{'='*50}\033[0m")
+    print("\033[92m" + "=" * 50 + "\033[0m")
 
 
 def clear_screen():
@@ -263,8 +263,8 @@ def clear_screen():
 def print_clean_menu_header(title: str, subtitle: str = ""):
     """Print a clean menu header after clearing screen"""
     clear_screen()
-    print(f"\033[96m{'='*65}\033[0m")
+    print("\033[96m" + "=" * 65 + "\033[0m")
     print(f"\033[96m{title.center(65)}\033[0m")
     if subtitle:
         print(f"\033[94m{subtitle.center(65)}\033[0m")
-    print(f"\033[96m{'='*65}\033[0m")
+    print("\033[96m" + "=" * 65 + "\033[0m")

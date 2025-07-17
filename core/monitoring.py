@@ -9,7 +9,6 @@ Copyright (c) 2025 Leegion. All rights reserved.
 import psutil
 import threading
 import time
-from datetime import datetime
 import json
 from dataclasses import dataclass, asdict
 from enum import Enum
@@ -136,7 +135,7 @@ class MonitoringSystem:
                 time.sleep(self.monitor_interval)
             except Exception:
                 self._create_alert(
-                    AlertLevel.ERROR, f"Monitoring error", "monitoring_system"
+                    AlertLevel.ERROR, "Monitoring error", "monitoring_system"
                 )
 
     def _collect_metrics(self):
@@ -278,7 +277,7 @@ class MonitoringSystem:
         for callback in self.alert_callbacks:
             try:
                 callback(alert)
-            except Exception as e:
+            except Exception:
                 # Don't let callback errors break monitoring
                 pass
 

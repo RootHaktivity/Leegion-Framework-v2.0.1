@@ -1,20 +1,28 @@
 """
-Security utilities for Leegion Framework
+Enhanced security module for Leegion Framework v2.0
 
 Author: Leegion
 Project: Leegion Framework v2.0
 Copyright (c) 2025 Leegion. All rights reserved.
 """
 
-import base64
-import hashlib
-import os
 import re
+import hashlib
+import hmac
 import secrets
-import threading
 import time
+import threading
+from typing import Dict, Any, List, Optional, Union
+from urllib.parse import urlparse
+import ipaddress
+import socket
+import ssl
 from pathlib import Path
-from typing import List, Dict, Any
+
+from core.utils import sanitize_filename
+
+import base64
+import os
 from cryptography.fernet import Fernet
 
 from core.logger import setup_logger

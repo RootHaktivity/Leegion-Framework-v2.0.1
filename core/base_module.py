@@ -8,11 +8,17 @@ Copyright (c) 2025 Leegion. All rights reserved.
 """
 
 import json
+import os
+import sys
 import time
 from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List, Optional, Union
+from pathlib import Path
 
 from core.logger import setup_logger
+from core.banner import print_module_header, print_status_message
+from core.security import validate_input_security
+from core.utils import sanitize_filename
 
 
 class BaseModule(ABC):
@@ -42,8 +48,6 @@ class BaseModule(ABC):
             True if valid, False otherwise
         """
         try:
-            from core.security import validate_input_security
-
             # Use enhanced security validation
             result = validate_input_security(input_value, input_type)
 
@@ -90,7 +94,10 @@ class BaseModule(ABC):
         """Validate IP address format"""
         import re
 
-        ip_pattern = r"^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$"
+        ip_pattern = (
+            r"^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}"
+            r"(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$"
+        )
         if not re.match(ip_pattern, ip):
             self.print_error(f"Invalid IP address format: {ip}")
             return False
@@ -100,7 +107,10 @@ class BaseModule(ABC):
         """Validate URL format"""
         import re
 
-        url_pattern = r"^https?://(?:[-\w.])+(?:\:[0-9]+)?(?:/(?:[\w/_.])*)?(?:\?(?:[\w&=%.])*)?(?:\#(?:[\w.])*)?$"
+        url_pattern = (
+            r"^https?://(?:[-\w.])+(?:\:[0-9]+)?(?:/(?:[\w/_.])*)?"
+            r"(?:\?(?:[\w&=%.])*)?(?:\#(?:[\w.])*)?$"
+        )
         if not re.match(url_pattern, url):
             self.print_error(f"Invalid URL format: {url}")
             return False
@@ -110,7 +120,10 @@ class BaseModule(ABC):
         """Validate domain name format"""
         import re
 
-        domain_pattern = r"^(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\.)*[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?$"
+        domain_pattern = (
+            r"^(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\.)*"
+            r"[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?$"
+        )
         if not re.match(domain_pattern, domain):
             self.print_error(f"Invalid domain format: {domain}")
             return False
@@ -272,7 +285,6 @@ class BaseModule(ABC):
         Returns:
             True if successful, False otherwise
         """
-        import json
         import os
         from datetime import datetime
 
