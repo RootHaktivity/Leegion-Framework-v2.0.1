@@ -9,14 +9,10 @@ Copyright (c) 2025 Leegion. All rights reserved.
 import os
 import sys
 import subprocess
-import platform
-import random
-import string
 import time
+import platform
 from pathlib import Path
 from typing import Any, Dict, List, Optional
-
-from core.logger import setup_logger
 
 # Required packages for the framework
 REQUIRED_PACKAGES = ["python-nmap", "requests", "colorama", "tabulate", "pyyaml"]
@@ -379,8 +375,6 @@ def get_system_info() -> Dict[str, str]:
     Returns:
         Dictionary with system information
     """
-    import platform
-
     info = {
         "system": platform.system(),
         "node": platform.node(),

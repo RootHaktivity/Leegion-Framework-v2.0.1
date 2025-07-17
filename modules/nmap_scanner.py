@@ -13,7 +13,6 @@ import xml.etree.ElementTree as ET
 from typing import Dict, List, Any, Optional
 from datetime import datetime
 import time
-import threading
 from core.base_module import BaseModule
 from core.banner import print_module_header
 

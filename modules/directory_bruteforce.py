@@ -8,16 +8,15 @@ Copyright (c) 2025 Leegion. All rights reserved.
 """
 
 import requests
-import threading
 import time
 import json
 import os
 import csv
-from typing import Dict, List, Any, Set, Optional, Tuple
+import random
+from typing import Dict, List, Any, Set, Optional
 from datetime import datetime
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from urllib.parse import urljoin, urlparse
-import random
 from core.base_module import BaseModule
 from core.banner import print_module_header
 from core.security import network_rate_limiter

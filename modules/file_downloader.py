@@ -10,14 +10,13 @@ Copyright (c) 2025 Leegion. All rights reserved.
 import os
 import sys
 import time
-import json
 import random
 import subprocess
 import requests
 import urllib.request
 import urllib.error
 from urllib.parse import urlparse
-from typing import Dict, Any, Optional, List
+from typing import Dict, Any, Optional
 from pathlib import Path
 
 # Add parent directory to path for imports
