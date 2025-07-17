@@ -639,8 +639,12 @@ Examples:
 def main():
     """Main entry point for Leegion Framework"""
     try:
+        # Parse command line arguments
+        parser = setup_argument_parser()
+        args = parser.parse_args()
+
         # Load configuration
-        config = load_config()
+        config = load_config(args.config)
 
         # Initialize monitoring system
         initialize_monitoring(config)
@@ -658,7 +662,7 @@ def main():
         print_banner()
 
         # Main application loop
-        app = LeegionFramework(config, logger)
+        app = LeegionFramework(args.config, logger)
         app.run_cli_loop()
 
     except KeyboardInterrupt:
