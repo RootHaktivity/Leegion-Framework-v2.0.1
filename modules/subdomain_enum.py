@@ -13,6 +13,7 @@ import requests
 import threading
 import time
 import json
+import os
 from typing import Dict, List, Any, Set, Optional
 from datetime import datetime
 from concurrent.futures import ThreadPoolExecutor, as_completed
@@ -990,8 +991,6 @@ class SubdomainEnumerator(BaseModule):
 
     def _export_json(self, output_dir: str, timestamp: str):
         """Export to JSON format"""
-        import os
-
         os.makedirs(output_dir, exist_ok=True)
 
         filename = f"subdomains_{timestamp}.json"
@@ -1012,7 +1011,6 @@ class SubdomainEnumerator(BaseModule):
     def _export_csv(self, output_dir: str, timestamp: str):
         """Export to CSV format"""
         import csv
-        import os
 
         os.makedirs(output_dir, exist_ok=True)
         filename = f"subdomains_{timestamp}.csv"
@@ -1050,8 +1048,6 @@ class SubdomainEnumerator(BaseModule):
 
     def _export_text_list(self, output_dir: str, timestamp: str):
         """Export as simple text list"""
-        import os
-
         os.makedirs(output_dir, exist_ok=True)
         filename = f"subdomains_list_{timestamp}.txt"
         filepath = os.path.join(output_dir, filename)
@@ -1064,8 +1060,6 @@ class SubdomainEnumerator(BaseModule):
 
     def _export_detailed_report(self, output_dir: str, timestamp: str):
         """Export detailed enumeration report"""
-        import os
-
         os.makedirs(output_dir, exist_ok=True)
         filename = f"subdomain_report_{timestamp}.txt"
         filepath = os.path.join(output_dir, filename)

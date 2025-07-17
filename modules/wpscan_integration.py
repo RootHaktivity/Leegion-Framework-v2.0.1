@@ -713,8 +713,6 @@ class WPScanIntegration(BaseModule):
 
     def _export_json(self, output_dir: str, timestamp: str):
         """Export results to JSON format"""
-        import os
-
         os.makedirs(output_dir, exist_ok=True)
 
         filename = f"wpscan_results_{timestamp}.json"
@@ -727,9 +725,6 @@ class WPScanIntegration(BaseModule):
 
     def _export_csv(self, output_dir: str, timestamp: str):
         """Export results to CSV format"""
-        import csv
-        import os
-
         os.makedirs(output_dir, exist_ok=True)
         filename = f"wpscan_results_{timestamp}.csv"
         filepath = os.path.join(output_dir, filename)
@@ -770,8 +765,6 @@ class WPScanIntegration(BaseModule):
 
     def _export_text_report(self, output_dir: str, timestamp: str):
         """Export results as formatted text report"""
-        import os
-
         os.makedirs(output_dir, exist_ok=True)
         filename = f"wpscan_report_{timestamp}.txt"
         filepath = os.path.join(output_dir, filename)
