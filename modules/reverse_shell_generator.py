@@ -12,7 +12,7 @@ import os
 import socket
 import subprocess
 import base64
-from typing import Dict, List, Any, Optional, Tuple
+from typing import Dict, List, Any, Optional, Tuple, Set
 from datetime import datetime
 from core.base_module import BaseModule
 from core.banner import print_module_header
@@ -23,9 +23,9 @@ class ReverseShellGenerator(BaseModule):
 
     def __init__(self, config: Dict[str, Any]):
         super().__init__(config, "Reverse_Shell_Generator")
-        self.payloads = {}
-        self.favorites = set()
-        self.history = []
+        self.payloads: Dict[str, Dict[str, str]] = {}
+        self.favorites: Set[Tuple[str, str, str, str, int]] = set()
+        self.history: List[Tuple[str, str, str, str, int, str]] = []
         self.load_payloads()
 
     def load_payloads(self):
@@ -719,7 +719,7 @@ class ReverseShellGenerator(BaseModule):
             self._remove_favorite()
         elif choice == "2":
             confirm = self.get_user_input("Clear all favorites? (y/N): ")
-            if confirm.lower() == "y":
+            if confirm and confirm.lower() == "y":
                 self.favorites.clear()
                 self.print_success("All favorites cleared!")
 

@@ -513,7 +513,7 @@ class FileDownloader(BaseModule):
         )
 
         try:
-            file_idx = int(choice) - 1
+            file_idx = int(choice or "0") - 1
             if 0 <= file_idx < len(partial_files):
                 partial_file = partial_files[file_idx]
                 url = self.get_user_input("Enter original URL: ", "url")
