@@ -604,7 +604,7 @@ class ReverseShellGenerator(BaseModule):
         if "custom" not in self.payloads:
             self.payloads["custom"] = {}
 
-        self.payloads["custom"][name] = {
+        self.payloads["custom"][name] = {  # type: ignore
             "language": language or "",
             "payload": payload or "",
             "description": description or "",
@@ -619,11 +619,11 @@ class ReverseShellGenerator(BaseModule):
             return
 
         print("\n\033[93mCustom Payloads:\033[0m")
-        for name, data in self.payloads["custom"].items():
+        for name, data in self.payloads["custom"].items():  # type: ignore
             print(f"\n\033[96m{name}:\033[0m")
-            print(f"  Language: {data['language']}")
-            print(f"  Description: {data['description']}")
-            print(f"  Template: \033[92m{data['payload']}\033[0m")
+            print(f"  Language: {data['language']}")  # type: ignore
+            print(f"  Description: {data['description']}")  # type: ignore
+            print(f"  Template: \033[92m{data['payload']}\033[0m")  # type: ignore
 
     def _edit_custom_payload(self):
         """Edit a custom payload"""
@@ -649,23 +649,23 @@ class ReverseShellGenerator(BaseModule):
 
     def _edit_payload_details(self, name: str):
         """Edit specific payload details"""
-        payload = self.payloads["custom"][name]
+        payload = self.payloads["custom"][name]  # type: ignore
 
         print(f"\nEditing payload: {name}")
-        print(f"Current language: {payload['language']}")
+        print(f"Current language: {payload['language']}")  # type: ignore
         new_lang = self.get_user_input("New language (or Enter to keep current): ")
         if new_lang:
-            payload["language"] = new_lang
+            payload["language"] = new_lang  # type: ignore
 
-        print(f"Current description: {payload['description']}")
+        print(f"Current description: {payload['description']}")  # type: ignore
         new_desc = self.get_user_input("New description (or Enter to keep current): ")
         if new_desc:
-            payload["description"] = new_desc
+            payload["description"] = new_desc  # type: ignore
 
-        print(f"Current template: {payload['payload']}")
+        print(f"Current template: {payload['payload']}")  # type: ignore
         new_template = self.get_user_input("New template (or Enter to keep current): ")
         if new_template:
-            payload["payload"] = new_template
+            payload["payload"] = new_template  # type: ignore
 
         self.print_success(f"Payload '{name}' updated successfully!")
 
