@@ -274,11 +274,9 @@ class ReverseShellGenerator(BaseModule):
             self._add_to_history(language, payload_type, formatted_payload, ip, port)
 
             # Ask if user wants to save to favorites
-            save = self.get_user_input("Add to favorites? (y/N): ")
-            if save.lower() == "y":
-                self.favorites.add(
-                    (language, payload_type, formatted_payload, ip, port)
-                )
+            save = self.get_user_input("\nAdd to favorites? (y/N): ")
+            if save and save.lower() == "y":
+                self.favorites.add((language, payload_type, formatted_payload, ip, port))
                 self.print_success("Added to favorites!")
 
         # Show listener command
@@ -554,7 +552,7 @@ class ReverseShellGenerator(BaseModule):
 
         # Ask if user wants to save to favorites
         save = self.get_user_input("\nAdd to favorites? (y/N): ")
-        if save.lower() == "y":
+        if save and save.lower() == "y":
             self.favorites.add((language, payload_type, formatted_payload, ip, port))
             self.print_success("Added to favorites!")
 

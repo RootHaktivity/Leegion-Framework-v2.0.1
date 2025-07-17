@@ -379,7 +379,7 @@ class FileDownloader(BaseModule):
         """Advanced requests download with retry logic"""
         try:
             from requests.adapters import HTTPAdapter
-            from requests.packages.urllib3.util.retry import Retry
+            from urllib3.util.retry import Retry
 
             session = requests.Session()
 
@@ -453,7 +453,7 @@ class FileDownloader(BaseModule):
             if head_response.status_code != 200:
                 return False
 
-            file_size = int(head_response.headers.get("Content-Length", 0))
+            file_size = int(head_response.headers.get("Content-Length", 0) or 0)
             if file_size == 0:
                 # Fall back to regular download
                 return self._download_with_requests_advanced(url, filepath)
@@ -468,7 +468,12 @@ class FileDownloader(BaseModule):
                     end = min(start + chunk_size - 1, file_size - 1)
 
                     headers = {"Range": f"bytes={start}-{end}"}
-                    headers.update(session.headers)
+                    # Add session headers individually to avoid type issues
+                    for key, value in session.headers.items():
+                        if isinstance(value, bytes):
+                            headers[key] = value.decode('utf-8')
+                        else:
+                            headers[key] = str(value)
 
                     chunk_response = session.get(url, headers=headers, timeout=60)
                     if chunk_response.status_code not in [200, 206]:
@@ -613,8 +618,9 @@ class FileDownloader(BaseModule):
 
     def _format_file_size(self, size_bytes: int) -> str:
         """Format file size in human readable format"""
+        value = float(size_bytes)
         for unit in ["B", "KB", "MB", "GB", "TB"]:
-            if size_bytes < 1024.0:
-                return f"{size_bytes:.1f} {unit}"
-            size_bytes /= 1024.0
-        return f"{size_bytes:.1f} PB"
+            if value < 1024.0:
+                return f"{value:.1f} {unit}"
+            value /= 1024.0
+        return f"{value:.1f} PB"

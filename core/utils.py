@@ -342,11 +342,12 @@ def format_bytes(bytes_value: int) -> str:
     Returns:
         Formatted string (e.g., "1.5 MB")
     """
+    value = float(bytes_value)
     for unit in ["B", "KB", "MB", "GB", "TB"]:
-        if bytes_value < 1024.0:
-            return f"{bytes_value:.1f} {unit}"
-        bytes_value /= 1024.0
-    return f"{bytes_value:.1f} PB"
+        if value < 1024.0:
+            return f"{value:.1f} {unit}"
+        value /= 1024.0
+    return f"{value:.1f} PB"
 
 
 def format_duration(seconds: float) -> str:
@@ -466,7 +467,7 @@ def run_command_with_timeout(command: List[str], timeout: int = 30) -> Dict[str,
 class ProgressBar:
     """Simple progress bar for long-running operations"""
 
-    def __init__(self, total, prefix: str = "Progress", length: int = 40):
+    def __init__(self, total: float, prefix: str = "Progress", length: int = 40):
         self.total = int(total)
         self.prefix = prefix
         self.length = length
