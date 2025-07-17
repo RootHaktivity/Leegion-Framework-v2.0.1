@@ -599,9 +599,9 @@ class WPScanIntegration(BaseModule):
 
     def _display_scan_summary(self, scan_result: Dict[str, Any]):
         """Display summary of WPScan results"""
-        print("\n\033[93m" + "="*60 + "\033[0m")
+        print("\n\033[93m" + "=" * 60 + "\033[0m")
         print("\033[93m" + "WPSCAN SUMMARY".center(60) + "\033[0m")
-        print("\033[93m" + "="*60 + "\033[0m")
+        print("\033[93m" + "=" * 60 + "\033[0m")
 
         print(f"\033[96mTarget:\033[0m {scan_result['target']}")
         print(f"\033[96mScan Type:\033[0m {scan_result['scan_type']}")
@@ -664,7 +664,7 @@ class WPScanIntegration(BaseModule):
             return
 
         print("\n\033[93m" + "WPSCAN RESULTS HISTORY".center(60) + "\033[0m")
-        print("\033[93m" + "-"*60 + "\033[0m")
+        print("\033[93m" + "-" * 60 + "\033[0m")
 
         for i, scan in enumerate(self.scan_results, 1):
             timestamp = scan["timestamp"][:19].replace("T", " ")
