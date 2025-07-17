@@ -1,18 +1,21 @@
 """
-Base module class for all Leegion Framework modules
+Base module for Leegion Framework
+Provides common functionality for all modules
 
 Author: Leegion
 Project: Leegion Framework v2.0
 Copyright (c) 2025 Leegion. All rights reserved.
 """
 
-import abc
+import json
 import time
-from typing import Dict, Any, List, Optional
+from abc import ABC, abstractmethod
+from typing import Any, Dict, List, Optional
+
 from core.logger import setup_logger
 
 
-class BaseModule(abc.ABC):
+class BaseModule(ABC):
     """Abstract base class for all framework modules"""
 
     def __init__(self, config: Dict[str, Any], module_name: str):
@@ -22,7 +25,7 @@ class BaseModule(abc.ABC):
         self.results = []
         self.session_data = {}
 
-    @abc.abstractmethod
+    @abstractmethod
     def run(self) -> None:
         """Main execution method - must be implemented by subclasses"""
         pass
@@ -256,7 +259,7 @@ class BaseModule(abc.ABC):
             except KeyboardInterrupt:
                 return None
 
-    def save_results(self, results: Dict[str, Any], filename: str = None) -> bool:
+    def save_results(self, results: Dict[str, Any], filename: Optional[str] = None) -> bool:
         """
         Save scan results to file
 

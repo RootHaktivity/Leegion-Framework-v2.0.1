@@ -6,18 +6,18 @@ Project: Leegion Framework v2.0
 Copyright (c) 2025 Leegion. All rights reserved.
 """
 
+import base64
+import hashlib
 import os
 import re
-import hashlib
 import secrets
-from pathlib import Path
-from typing import List, Dict, Any, Optional
-from cryptography.fernet import Fernet
-from cryptography.hazmat.primitives import hashes
-from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
-import base64
 import threading
 import time
+from pathlib import Path
+from typing import List, Dict, Any
+from cryptography.fernet import Fernet
+
+from core.logger import setup_logger
 
 
 class SecurityManager:

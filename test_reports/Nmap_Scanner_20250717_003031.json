@@ -1,0 +1,47 @@
+{
+  "results": [
+    {
+      "timestamp": 1752726631.0815954,
+      "target": "127.0.0.1",
+      "scan_type": "Test Scan",
+      "duration": 0.14548683166503906,
+      "command": "nmap -p 80 127.0.0.1 -oX /tmp/nmap_test_scan_20250717_003030.xml -oN /tmp/nmap_test_scan_20250717_003030.txt",
+      "hosts": [
+        {
+          "addresses": [
+            {
+              "addr": "127.0.0.1",
+              "addrtype": "ipv4"
+            }
+          ],
+          "hostnames": [
+            {
+              "name": "localhost",
+              "type": "PTR"
+            }
+          ],
+          "status": "up",
+          "ports": [
+            {
+              "portid": "80",
+              "protocol": "tcp",
+              "state": "closed",
+              "service": {
+                "name": "http",
+                "product": "",
+                "version": "",
+                "extrainfo": "",
+                "tunnel": "",
+                "method": "table"
+              },
+              "reason": "reset"
+            }
+          ],
+          "os": {},
+          "scripts": []
+        }
+      ],
+      "module": "Nmap_Scanner"
+    }
+  ]
+}

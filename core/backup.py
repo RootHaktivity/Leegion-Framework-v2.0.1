@@ -12,7 +12,7 @@ import shutil
 import zipfile
 import tempfile
 from pathlib import Path
-from typing import Dict, List, Any, Optional, Tuple
+from typing import Dict, List, Any, Optional
 from datetime import datetime
 import hashlib
 from core.security import SecurityManager
@@ -154,7 +154,7 @@ class BackupManager:
             with open(file_path, "r") as f:
                 content = f.read()
                 return content.startswith("enc:")
-        except:
+        except Exception:
             return False
 
     def _calculate_file_checksum(self, file_path: Path) -> str:
@@ -229,7 +229,7 @@ class BackupManager:
 
             return True
 
-        except Exception as e:
+        except Exception:
             return False
 
     def _restore_component(self, component: str, component_dir: Path):

@@ -8,11 +8,9 @@ Copyright (c) 2025 Leegion. All rights reserved.
 
 import logging
 import logging.handlers
-import os
 import sys
 from datetime import datetime
 from pathlib import Path
-from typing import Optional
 
 
 class ColoredFormatter(logging.Formatter):

@@ -6,14 +6,17 @@ Project: Leegion Framework v2.0
 Copyright (c) 2025 Leegion. All rights reserved.
 """
 
-import subprocess
-import sys
 import os
-import signal
+import sys
+import subprocess
+import platform
+import random
+import string
 import time
-import threading
-from typing import List, Dict, Any, Optional
 from pathlib import Path
+from typing import Any, Dict, List, Optional
+
+from core.logger import setup_logger
 
 # Required packages for the framework
 REQUIRED_PACKAGES = ["python-nmap", "requests", "colorama", "tabulate", "pyyaml"]
@@ -463,8 +466,8 @@ def run_command_with_timeout(command: List[str], timeout: int = 30) -> Dict[str,
 class ProgressBar:
     """Simple progress bar for long-running operations"""
 
-    def __init__(self, total: int, prefix: str = "Progress", length: int = 40):
-        self.total = total
+    def __init__(self, total, prefix: str = "Progress", length: int = 40):
+        self.total = int(total)
         self.prefix = prefix
         self.length = length
         self.current = 0

@@ -1,14 +1,20 @@
 """
-Signature and ownership verification for Leegion Framework
+Digital signature and verification system for Leegion Framework
 
 Author: Leegion
 Project: Leegion Framework v2.0
 Copyright (c) 2025 Leegion. All rights reserved.
 """
 
-import hashlib
 import base64
+import hashlib
+import hmac
+import os
+import time
 from datetime import datetime
+from typing import Dict, List, Optional
+
+from core.logger import setup_logger
 
 # Leegion's unique identifier for code ownership verification
 LEEGION_SIGNATURE = "4c656567696f6e2d4672616d65776f726b2d4c6565675661756c74"

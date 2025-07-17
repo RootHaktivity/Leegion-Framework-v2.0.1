@@ -1,20 +1,21 @@
 """
-Monitoring and alerting system for Leegion Framework
+System monitoring and performance tracking for Leegion Framework
 
 Author: Leegion
 Project: Leegion Framework v2.0
 Copyright (c) 2025 Leegion. All rights reserved.
 """
 
-import time
+import psutil
 import threading
+import time
+from datetime import datetime
 import json
-import os
-from pathlib import Path
-from typing import Dict, List, Any, Optional, Callable
-from datetime import datetime, timedelta
 from dataclasses import dataclass, asdict
 from enum import Enum
+from typing import Dict, List, Any, Optional, Callable
+
+from core.logger import setup_logger
 
 # Try to import psutil, provide fallback if not available
 try:
@@ -133,9 +134,9 @@ class MonitoringSystem:
                 self._collect_metrics()
                 self._check_thresholds()
                 time.sleep(self.monitor_interval)
-            except Exception as e:
+            except Exception:
                 self._create_alert(
-                    AlertLevel.ERROR, f"Monitoring error: {e}", "monitoring_system"
+                    AlertLevel.ERROR, f"Monitoring error", "monitoring_system"
                 )
 
     def _collect_metrics(self):
