@@ -752,15 +752,9 @@ class VPNManager(BaseModule):
             # Look for VPN-like routes (not through main interface)
             if route_result.returncode == 0:
                 route_lines = route_result.stdout.strip().split("\n")
-                main_interface = None
-                # Find main network interface
+                # Find main network interface (not used in current logic)
                 for line in route_lines:
                     if "default via" in line:
-                        parts = line.split()
-                        if "dev" in parts:
-                            dev_idx = parts.index("dev")
-                            if dev_idx + 1 < len(parts):
-                                main_interface = parts[dev_idx + 1]
                         break
                 # Look for routes through tun/tap interfaces
                 for line in route_lines:
@@ -898,14 +892,18 @@ class VPNManager(BaseModule):
                 "url": "https://ipapi.co/json/",
                 "parser": lambda data: {
                     "ip": data.get("ip", "Unknown"),
-                    "location": f"{data.get('city', 'Unknown')}, {data.get('country_name', 'Unknown')}",
+                    "location": (
+                    f"{data.get('city', 'Unknown')}, {data.get('country_name', 'Unknown')}"
+                ),
                 },
             },
             {
                 "url": "https://ipinfo.io/json",
                 "parser": lambda data: {
                     "ip": data.get("ip", "Unknown"),
-                    "location": f"{data.get('city', 'Unknown')}, {data.get('country', 'Unknown')}",
+                    "location": (
+                    f"{data.get('city', 'Unknown')}, {data.get('country', 'Unknown')}"
+                ),
                 },
             },
             {
@@ -1051,7 +1049,7 @@ class VPNManager(BaseModule):
                 session_formatted = self._format_uptime(session_time)
                 print(f"\033[96mFramework Session:\033[0m {session_formatted}")
             else:
-                print(f"\033[96mFramework Session:\033[0m Not connected")
+                print("\033[96mFramework Session:\033[0m Not connected")
 
             # External VPN session info
             if stats.get("external_vpn_start_time"):
@@ -1059,13 +1057,13 @@ class VPNManager(BaseModule):
                 ext_session_formatted = self._format_uptime(ext_session_time)
                 print(f"\033[96mExternal VPN Session:\033[0m {ext_session_formatted}")
             else:
-                print(f"\033[96mExternal VPN Session:\033[0m Not detected")
+                print("\033[96mExternal VPN Session:\033[0m Not detected")
 
             # System VPN info with enhanced detection and tracking
             try:
                 system_status = self._get_connection_status()
                 if system_status["connected"]:
-                    print(f"\033[96mExternal VPN Detected:\033[0m \033[92mYes\033[0m")
+                    print("\033[96mExternal VPN Detected:\033[0m \033[92mYes\033[0m")
                     print(f"\033[96mVPN Type:\033[0m {system_status['config']}")
                     if system_status.get("vpn_ip"):
                         print(
@@ -1075,7 +1073,7 @@ class VPNManager(BaseModule):
                     # Track external VPN connections in statistics
                     self._track_external_vpn_connection(True)
                 else:
-                    print(f"\033[96mExternal VPN Detected:\033[0m \033[91mNo\033[0m")
+                    print("\033[96mExternal VPN Detected:\033[0m \033[91mNo\033[0m")
                     self._track_external_vpn_connection(False)
             except Exception as e:
                 print(
@@ -1179,7 +1177,7 @@ class VPNManager(BaseModule):
                     ("Protocol specified", "proto " in content_lower),
                 ]
 
-            print(f"\033[96mConfiguration validation:\033[0m")
+            print("\033[96mConfiguration validation:\033[0m")
             all_passed = True
 
             for check_name, passed in checks:
@@ -1293,7 +1291,7 @@ class VPNManager(BaseModule):
                 return f"{size_bytes / 1024:.1f} KB"
             else:
                 return f"{size_bytes / (1024 * 1024):.1f} MB"
-        except:
+        except Exception:
             return "Unknown"
 
     def _get_file_modified_date(self, filepath: str) -> str:
@@ -1301,7 +1299,7 @@ class VPNManager(BaseModule):
         try:
             mtime = os.path.getmtime(filepath)
             return datetime.fromtimestamp(mtime).strftime("%Y-%m-%d %H:%M")
-        except:
+        except Exception:
             return "Unknown"
 
     def _get_external_session_info(self) -> str:
@@ -1313,7 +1311,7 @@ class VPNManager(BaseModule):
                 return self._format_uptime(ext_session_time)
             else:
                 return "Not detected"
-        except:
+        except Exception:
             return "Not detected"
 
     def _is_external_vpn_active(self) -> bool:
@@ -1321,7 +1319,7 @@ class VPNManager(BaseModule):
         try:
             status = self._get_connection_status()
             return status["connected"] and "External" in status.get("config", "")
-        except:
+        except Exception:
             return False
 
     def _get_vpn_interface_info(self) -> Dict[str, str]:
@@ -1361,12 +1359,12 @@ class VPNManager(BaseModule):
                                                         "interface": interface,
                                                         "vpn_ip": vpn_ip,
                                                     }
-                            except:
+                            except Exception:
                                 pass
 
                             return {"interface": interface, "vpn_ip": "Connected"}
 
-        except Exception as e:
+        except Exception:
             pass
 
         return {"interface": "Not detected", "vpn_ip": "Not available"}
