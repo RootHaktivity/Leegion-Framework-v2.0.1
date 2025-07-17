@@ -9,7 +9,7 @@ import tempfile
 import os
 import time
 import threading
-from unittest.mock import patch, MagicMock
+from unittest.mock import patch
 
 
 # Import modules to test

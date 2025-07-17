@@ -8,12 +8,7 @@ Copyright (c) 2025 Leegion. All rights reserved.
 
 import unittest
 import sys
-import os
 from pathlib import Path
-
-# Add project root to path
-sys.path.insert(0, str(Path(__file__).parent.parent))
-
 from core.utils import (
     validate_ip_address,
     validate_url,
@@ -21,6 +16,9 @@ from core.utils import (
     sanitize_filename,
 )
 from core.signature import verify_leegion_ownership, generate_leegion_watermark
+
+# Add project root to path
+sys.path.insert(0, str(Path(__file__).parent.parent))
 
 
 class TestCoreUtils(unittest.TestCase):
