@@ -77,7 +77,7 @@ class FileDownloader(BaseModule):
                     input("\nPress Enter to continue...")
 
             except KeyboardInterrupt:
-                print(f"\n\033[93mReturning to main menu...\033[0m")
+                print("\n\033[93mReturning to main menu...\033[0m")
                 break
             except Exception as e:
                 self.print_error(f"Menu error: {e}")
@@ -89,13 +89,13 @@ class FileDownloader(BaseModule):
             "FILE DOWNLOADER", "Advanced Download Manager with Rate Limit Handling"
         )
 
-        print(f"\033[96m📚 WHY USE ADVANCED DOWNLOADING?\033[0m")
+        print("\033[96m📚 WHY USE ADVANCED DOWNLOADING?\033[0m")
         print("File downloading is essential for cybersecurity work because it:")
         print("• Downloads security tools, wordlists, and payloads for testing")
         print("• Bypasses rate limits that block automated tool downloads")
         print("• Provides resumable downloads for large security databases")
         print("• Handles multiple concurrent downloads for efficiency")
-        print(f"\n\033[93m🎯 COMMON USE CASES:\033[0m")
+        print("\n\033[93m🎯 COMMON USE CASES:\033[0m")
         print("• Downloading SecLists wordlists for directory brute forcing")
         print("• Getting exploit databases and proof-of-concept code")
         print("• Fetching vulnerability scanners and security tools")
@@ -114,7 +114,7 @@ class FileDownloader(BaseModule):
 
     def _download_single_file(self):
         """Download a single file with rate limit handling"""
-        print(f"\n\033[96m📥 SINGLE FILE DOWNLOAD\033[0m")
+        print("\n\033[96m📥 SINGLE FILE DOWNLOAD\033[0m")
 
         url = self.get_user_input("Enter file URL: ", "url")
         if not url:
@@ -146,7 +146,7 @@ class FileDownloader(BaseModule):
 
     def _download_multiple_files(self):
         """Download multiple files from a list"""
-        print(f"\n\033[96m📥 BATCH FILE DOWNLOAD\033[0m")
+        print("\n\033[96m📥 BATCH FILE DOWNLOAD\033[0m")
 
         print("Enter URLs (one per line, empty line to finish):")
         urls = []
@@ -189,7 +189,7 @@ class FileDownloader(BaseModule):
 
     def _download_with_rate_limit_bypass(self):
         """Download with advanced rate limit bypass techniques"""
-        print(f"\n\033[96m🚀 RATE LIMIT BYPASS DOWNLOAD\033[0m")
+        print("\n\033[96m🚀 RATE LIMIT BYPASS DOWNLOAD\033[0m")
         print("This mode uses advanced techniques to bypass download restrictions:")
         print("• Randomized user agents and headers")
         print("• Automatic retry with exponential backoff")
@@ -486,7 +486,7 @@ class FileDownloader(BaseModule):
 
     def _resume_download(self):
         """Resume an interrupted download"""
-        print(f"\n\033[96m🔄 RESUME DOWNLOAD\033[0m")
+        print("\n\033[96m🔄 RESUME DOWNLOAD\033[0m")
 
         # List partial downloads
         partial_files = [
@@ -555,7 +555,7 @@ class FileDownloader(BaseModule):
 
     def _show_download_status(self):
         """Show current download status and history"""
-        print(f"\n\033[96m📊 DOWNLOAD STATUS\033[0m")
+        print("\n\033[96m📊 DOWNLOAD STATUS\033[0m")
 
         if not os.path.exists(self.download_dir):
             self.print_info("Download directory doesn't exist")
@@ -575,7 +575,7 @@ class FileDownloader(BaseModule):
         print(f"\033[96mPartial Downloads:\033[0m {len(partial_files)}")
 
         if completed_files:
-            print(f"\n\033[92m✅ Completed Files:\033[0m")
+            print("\n\033[92m✅ Completed Files:\033[0m")
             total_size = 0
             for filename in completed_files[:10]:  # Show first 10
                 filepath = os.path.join(self.download_dir, filename)
@@ -589,7 +589,7 @@ class FileDownloader(BaseModule):
             print(f"\n\033[96mTotal Size:\033[0m {self._format_file_size(total_size)}")
 
         if partial_files:
-            print(f"\n\033[93m⏳ Partial Downloads:\033[0m")
+            print("\n\033[93m⏳ Partial Downloads:\033[0m")
             for filename in partial_files:
                 filepath = os.path.join(self.download_dir, filename)
                 size = os.path.getsize(filepath)
@@ -597,7 +597,7 @@ class FileDownloader(BaseModule):
 
     def _configure_settings(self):
         """Configure download settings"""
-        print(f"\n\033[96m⚙️  DOWNLOAD SETTINGS\033[0m")
+        print("\n\033[96m⚙️  DOWNLOAD SETTINGS\033[0m")
 
         print(f"Current download directory: {self.download_dir}")
 
