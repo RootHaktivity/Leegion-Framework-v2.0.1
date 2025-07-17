@@ -110,25 +110,25 @@ class WPScanIntegration(BaseModule):
 
     def _basic_wordpress_scan(self):
         """Perform basic WordPress scan"""
-        print(f"\n\033[96m📚 WHAT IS WORDPRESS SCANNING?\033[0m")
+        print("\n\033[96m📚 WHAT IS WORDPRESS SCANNING?\033[0m")
         print(
             "WordPress scanning identifies security vulnerabilities in WordPress sites"
         )
         print("by checking for outdated plugins, themes, and core WordPress versions.")
-        print(f"\n\033[93m💡 WHAT YOU'LL DISCOVER:\033[0m")
+        print("\n\033[93m💡 WHAT YOU'LL DISCOVER:\033[0m")
         print("• Outdated WordPress core version with known vulnerabilities")
         print("• Vulnerable plugins (contact forms, e-commerce, SEO tools)")
         print("• Insecure themes with backdoors or XSS vulnerabilities")
         print("• Exposed sensitive files (wp-config.php backups)")
         print("• User enumeration possibilities (author archives)")
         print("• Weak admin credentials through brute force")
-        print(f"\n\033[93m🎯 REAL-WORLD SCENARIOS:\033[0m")
+        print("\n\033[93m🎯 REAL-WORLD SCENARIOS:\033[0m")
         print("• Bug bounty hunting: Finding vulnerable WordPress sites")
         print("• Security audits: Assessing client WordPress installations")
         print("• Red team exercises: Initial access through CMS vulnerabilities")
         print("• CTF competitions: WordPress-based web challenges")
         print(
-            f"\n\033[91m⚠️  IMPORTANT:\033[0m Only scan WordPress sites you own or have permission to test!"
+            "\n\033[91m⚠️  IMPORTANT:\033[0m Only scan WordPress sites you own or have permission to test!"
         )
 
         target = self.get_user_input(
@@ -149,12 +149,12 @@ class WPScanIntegration(BaseModule):
 
     def _enumerate_users(self):
         """Enumerate WordPress users"""
-        print(f"\n\033[96m📚 WHY ENUMERATE WORDPRESS USERS?\033[0m")
+        print("\n\033[96m📚 WHY ENUMERATE WORDPRESS USERS?\033[0m")
         print("User enumeration reveals WordPress usernames which can be used for:")
         print("• Password brute force attacks against wp-login.php")
         print("• Social engineering with discovered real names")
         print("• Privilege escalation (finding admin vs subscriber accounts)")
-        print(f"\n\033[93m💡 COMMON FINDINGS:\033[0m")
+        print("\n\033[93m💡 COMMON FINDINGS:\033[0m")
         print("• admin - Default administrator account (high-value target)")
         print("• editor, author - Content management accounts")
         print("• Real names as usernames - Easier to guess passwords")
