@@ -637,7 +637,7 @@ class ReverseShellGenerator(BaseModule):
 
         choice = self.get_user_input("Select payload to edit: ")
         try:
-            choice_idx = int(choice) - 1
+            choice_idx = int(choice or "0") - 1
             payload_names = list(self.payloads["custom"].keys())
             if 0 <= choice_idx < len(payload_names):
                 name = payload_names[choice_idx]
@@ -681,14 +681,14 @@ class ReverseShellGenerator(BaseModule):
 
         choice = self.get_user_input("Select payload to delete: ")
         try:
-            choice_idx = int(choice) - 1
+            choice_idx = int(choice or "0") - 1
             payload_names = list(self.payloads["custom"].keys())
             if 0 <= choice_idx < len(payload_names):
                 name = payload_names[choice_idx]
                 confirm = self.get_user_input(
                     f"Are you sure you want to delete '{name}'? (y/N): "
                 )
-                if confirm.lower() == "y":
+                if confirm and confirm.lower() == "y":
                     del self.payloads["custom"][name]
                     self.print_success(f"Payload '{name}' deleted successfully!")
             else:
@@ -730,7 +730,7 @@ class ReverseShellGenerator(BaseModule):
 
         choice = self.get_user_input("Enter favorite number to remove: ")
         try:
-            choice_idx = int(choice) - 1
+            choice_idx = int(choice or "0") - 1
             favorites_list = list(self.favorites)
             if 0 <= choice_idx < len(favorites_list):
                 removed = favorites_list[choice_idx]
