@@ -73,7 +73,7 @@ class TestPerformance:
         large_wordlist = [f"test{i:06d}" for i in range(10000)]
 
         # Test directory bruteforcer with large wordlist
-        bruteforcer = DirectoryBruteforcer(self.test_config)
+        DirectoryBruteforcer(self.test_config)
 
         # Simulate processing large dataset
         results = []
@@ -154,7 +154,7 @@ class TestPerformance:
 
     def test_security_manager_performance(self):
         """Test SecurityManager performance with high volume input validation"""
-        security_manager = SecurityManager()
+        SecurityManager()
 
         # Test high volume input validation
         start_time = time.time()

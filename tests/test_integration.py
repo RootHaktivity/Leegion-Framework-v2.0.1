@@ -10,7 +10,7 @@ import os
 import time
 import threading
 from unittest.mock import patch, MagicMock
-from pathlib import Path
+
 
 # Import modules to test
 from modules.vpn_manager import VPNManager
@@ -176,7 +176,7 @@ class TestPerformance:
 
         def run_module(module_class, name):
             try:
-                module = module_class(self.test_config)
+                module_class(self.test_config)
                 results.append(f"{name}: OK")
             except Exception as e:
                 results.append(f"{name}: ERROR - {e}")
