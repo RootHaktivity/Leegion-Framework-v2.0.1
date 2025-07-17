@@ -557,7 +557,8 @@ class WPScanIntegration(BaseModule):
     def _parse_plugin_line(self, line: str) -> Optional[Dict[str, str]]:
         """Parse plugin information from output line"""
         try:
-            # Example: " | Plugin Name | Version: 1.2.3 | Location: /wp-content/plugins/plugin-name/"
+            # Example: " | Plugin Name | Version: 1.2.3 | "
+            # "Location: /wp-content/plugins/plugin-name/"
             parts = [part.strip() for part in line.split("|") if part.strip()]
 
             if len(parts) >= 2:
@@ -598,9 +599,9 @@ class WPScanIntegration(BaseModule):
 
     def _display_scan_summary(self, scan_result: Dict[str, Any]):
         """Display summary of WPScan results"""
-        print(f"\n\033[93m{'='*60}\033[0m")
-        print(f"\033[93m{'WPSCAN SUMMARY'.center(60)}\033[0m")
-        print(f"\033[93m{'='*60}\033[0m")
+        print("\n\033[93m" + "="*60 + "\033[0m")
+        print("\033[93m" + "WPSCAN SUMMARY".center(60) + "\033[0m")
+        print("\033[93m" + "="*60 + "\033[0m")
 
         print(f"\033[96mTarget:\033[0m {scan_result['target']}")
         print(f"\033[96mScan Type:\033[0m {scan_result['scan_type']}")
@@ -662,8 +663,8 @@ class WPScanIntegration(BaseModule):
             self.print_warning("No scan results available")
             return
 
-        print(f"\n\033[93m{'WPSCAN RESULTS HISTORY'.center(60)}\033[0m")
-        print(f"\033[93m{'-'*60}\033[0m")
+        print("\n\033[93m" + "WPSCAN RESULTS HISTORY".center(60) + "\033[0m")
+        print("\033[93m" + "-"*60 + "\033[0m")
 
         for i, scan in enumerate(self.scan_results, 1):
             timestamp = scan["timestamp"][:19].replace("T", " ")
