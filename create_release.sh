@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Leegion Framework Release Script
-# This script automates the GitHub release process
+# This script automates the GitHub release process with interactive prompts
 
 set -e  # Exit on any error
 
@@ -10,6 +10,8 @@ RED='\033[0;31m'
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 BLUE='\033[0;34m'
+PURPLE='\033[0;35m'
+CYAN='\033[0;36m'
 NC='\033[0m' # No Color
 
 # Function to print colored output
@@ -27,6 +29,61 @@ print_warning() {
 
 print_error() {
     echo -e "${RED}[ERROR]${NC} $1"
+}
+
+print_prompt() {
+    echo -e "${PURPLE}[PROMPT]${NC} $1"
+}
+
+print_header() {
+    echo -e "${CYAN}$1${NC}"
+}
+
+# Function to get user input with default value
+get_user_input() {
+    local prompt="$1"
+    local default="$2"
+    local var_name="$3"
+    
+    if [ -n "$default" ]; then
+        print_prompt "$prompt (default: $default): "
+        read -r input
+        if [ -z "$input" ]; then
+            input="$default"
+        fi
+    else
+        print_prompt "$prompt: "
+        read -r input
+    fi
+    
+    eval "$var_name=\"$input\""
+}
+
+# Function to get multiline input
+get_multiline_input() {
+    local prompt="$1"
+    local var_name="$2"
+    local temp_file=$(mktemp)
+    
+    print_prompt "$prompt (press Enter twice to finish):"
+    echo "Enter your text (press Enter twice to finish):"
+    
+    while IFS= read -r line; do
+        if [ -z "$line" ] && [ -s "$temp_file" ]; then
+            # Check if last line was empty
+            last_line=$(tail -c 2 "$temp_file" 2>/dev/null || echo "")
+            if [ "$last_line" = "" ]; then
+                break
+            fi
+        fi
+        echo "$line" >> "$temp_file"
+    done
+    
+    # Remove the last empty line
+    sed -i '$ d' "$temp_file" 2>/dev/null || true
+    
+    eval "$var_name=\$(cat \"$temp_file\")"
+    rm -f "$temp_file"
 }
 
 # Check prerequisites
@@ -71,6 +128,47 @@ get_version() {
     print_success "Version: $VERSION"
 }
 
+# Get user input for release details
+get_release_details() {
+    print_header "=== Release Configuration ==="
+    echo
+    
+    # Get release title
+    get_user_input "Enter release title" "Leegion Framework v$VERSION" RELEASE_TITLE
+    
+    # Get release description
+    print_prompt "Enter release description (optional):"
+    get_multiline_input "Release description" RELEASE_DESCRIPTION
+    
+    # Get release type
+    echo
+    print_prompt "Select release type:"
+    echo "1) Release (production ready)"
+    echo "2) Pre-release (beta/alpha)"
+    echo "3) Draft (not published)"
+    read -p "Enter choice (1-3, default: 1): " -r release_type_choice
+    
+    case $release_type_choice in
+        2)
+            RELEASE_TYPE="prerelease"
+            print_status "Selected: Pre-release"
+            ;;
+        3)
+            RELEASE_TYPE="draft"
+            print_status "Selected: Draft"
+            ;;
+        *)
+            RELEASE_TYPE="release"
+            print_status "Selected: Release"
+            ;;
+    esac
+    
+    # Get commit message for tag
+    get_user_input "Enter commit message for tag" "Release v$VERSION" COMMIT_MESSAGE
+    
+    echo
+}
+
 # Check if tag already exists
 check_tag_exists() {
     print_status "Checking if tag v$VERSION already exists..."
@@ -96,8 +194,8 @@ check_tag_exists() {
 create_tag() {
     print_status "Creating tag v$VERSION..."
     
-    # Create annotated tag
-    git tag -a "v$VERSION" -m "Release v$VERSION"
+    # Create annotated tag with custom message
+    git tag -a "v$VERSION" -m "$COMMIT_MESSAGE"
     
     # Push tag to remote
     print_status "Pushing tag to remote..."
@@ -115,7 +213,9 @@ generate_release_notes() {
     
     if [ -z "$PREVIOUS_TAG" ]; then
         print_warning "No previous tag found, generating initial release notes"
-        RELEASE_NOTES="## Initial Release v$VERSION
+        
+        if [ -n "$RELEASE_DESCRIPTION" ]; then
+            RELEASE_NOTES="$RELEASE_DESCRIPTION
 
 ### Features
 - Complete Leegion Framework v2.0 implementation
@@ -136,13 +236,37 @@ generate_release_notes() {
 - API documentation
 - Installation guides
 - Security best practices"
+        else
+            RELEASE_NOTES="## Initial Release v$VERSION
+
+### Features
+- Complete Leegion Framework v2.0 implementation
+- Network scanning and enumeration tools
+- Web application security testing
+- VPN management capabilities
+- Comprehensive reporting system
+
+### Technical Improvements
+- Type-safe codebase with full mypy compliance
+- Modern Python packaging with pyproject.toml
+- Automated CI/CD pipeline
+- Comprehensive error handling
+- Security-focused design
+
+### Documentation
+- Complete user manual
+- API documentation
+- Installation guides
+- Security best practices"
+        fi
     else
         print_status "Generating release notes from $PREVIOUS_TAG to v$VERSION"
         
         # Get commit messages since last tag
         COMMITS=$(git log --pretty=format:"- %s" $PREVIOUS_TAG..HEAD)
         
-        RELEASE_NOTES="## Release v$VERSION
+        if [ -n "$RELEASE_DESCRIPTION" ]; then
+            RELEASE_NOTES="$RELEASE_DESCRIPTION
 
 ### Changes since $PREVIOUS_TAG
 
@@ -152,6 +276,18 @@ $COMMITS
 - Framework version: $VERSION
 - Python compatibility: 3.8+
 - Dependencies: See requirements.txt"
+        else
+            RELEASE_NOTES="## Release v$VERSION
+
+### Changes since $PREVIOUS_TAG
+
+$COMMITS
+
+### Technical Details
+- Framework version: $VERSION
+- Python compatibility: 3.8+
+- Dependencies: See requirements.txt"
+        fi
     fi
     
     # Save to file
@@ -177,14 +313,44 @@ create_github_release() {
         fi
     fi
     
+    # Build gh release command based on release type
+    RELEASE_CMD="gh release create \"v$VERSION\" --title \"$RELEASE_TITLE\" --notes-file \"RELEASE_NOTES_v$VERSION.md\""
+    
+    if [ "$RELEASE_TYPE" = "prerelease" ]; then
+        RELEASE_CMD="$RELEASE_CMD --prerelease"
+    elif [ "$RELEASE_TYPE" = "draft" ]; then
+        RELEASE_CMD="$RELEASE_CMD --draft"
+    fi
+    
     # Create release
-    gh release create "v$VERSION" \
-        --title "Leegion Framework v$VERSION" \
-        --notes-file "RELEASE_NOTES_v$VERSION.md" \
-        --draft=false \
-        --prerelease=false
+    eval "$RELEASE_CMD"
     
     print_success "GitHub release created successfully"
+}
+
+# Show release summary
+show_summary() {
+    echo
+    print_header "=== Release Summary ==="
+    echo
+    print_status "Version: $VERSION"
+    print_status "Title: $RELEASE_TITLE"
+    print_status "Type: $RELEASE_TYPE"
+    print_status "Tag: v$VERSION"
+    print_status "Commit Message: $COMMIT_MESSAGE"
+    
+    if [ -n "$RELEASE_DESCRIPTION" ]; then
+        echo
+        print_status "Description:"
+        echo "$RELEASE_DESCRIPTION"
+    fi
+    
+    echo
+    print_success "Release process completed successfully!"
+    echo
+    print_status "Release URL: https://github.com/$(gh repo view --json nameWithOwner -q .nameWithOwner)/releases/tag/v$VERSION"
+    print_status "Release notes: RELEASE_NOTES_v$VERSION.md"
+    echo
 }
 
 # Main execution
@@ -196,6 +362,7 @@ main() {
     
     check_prerequisites
     get_version
+    get_release_details
     
     # Check if tag exists and handle accordingly
     if check_tag_exists; then
@@ -206,15 +373,7 @@ main() {
     
     generate_release_notes
     create_github_release
-    
-    echo
-    echo "=========================================="
-    print_success "Release process completed successfully!"
-    echo "=========================================="
-    echo
-    print_status "Release URL: https://github.com/$(gh repo view --json nameWithOwner -q .nameWithOwner)/releases/tag/v$VERSION"
-    print_status "Release notes: RELEASE_NOTES_v$VERSION.md"
-    echo
+    show_summary
 }
 
 # Run main function
