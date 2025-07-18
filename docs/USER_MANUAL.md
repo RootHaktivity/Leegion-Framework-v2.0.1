@@ -22,8 +22,8 @@
 ### Quick Installation
 ```bash
 # Download and install
-git clone https://github.com/Leegion/leegion-framework.git
-cd leegion-framework
+git clone https://github.com/RootHaktivity/Leegion-Framework-2.0.1.git
+cd Leegion-Framework-2.0.1
 sudo python3 leegion_manager.py install
 
 # Run the framework

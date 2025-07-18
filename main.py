@@ -5,7 +5,7 @@ Main entry point for the application
 
 Author: Leegion
 Project: Leegion Framework v2.0
-GitHub: https://github.com/Leegion/leegion-framework
+GitHub: https://github.com/RootHaktivity/Leegion-Framework-2.0.1
 License: MIT License
 
 Copyright (c) 2025 Leegion. All rights reserved.

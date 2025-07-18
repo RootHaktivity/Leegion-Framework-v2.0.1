@@ -20,7 +20,7 @@ This project is the original work and intellectual property of **Leegion**.
 - **Unique Marker:** `LeeG10n-AuthoriT7-Verified`
 
 ### Project Repository:
-- **Intended GitHub:** `https://github.com/Leegion/leegion-framework`
+- **Intended GitHub:** `https://github.com/RootHaktivity/Leegion-Framework-2.0.1`
 - **Original Creator:** Leegion
 - **Development Platform:** Linux-based development environment
 

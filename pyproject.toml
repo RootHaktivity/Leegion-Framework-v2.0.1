@@ -43,10 +43,10 @@ dev = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/RootHaktivity/Leegion-Framework-v2.0"
-Repository = "https://github.com/RootHaktivity/Leegion-Framework-v2.0"
-Documentation = "https://github.com/RootHaktivity/Leegion-Framework-v2.0#readme"
-Issues = "https://github.com/RootHaktivity/Leegion-Framework-v2.0/issues"
+Homepage = "https://github.com/RootHaktivity/Leegion-Framework-2.0.1"
+Repository = "https://github.com/RootHaktivity/Leegion-Framework-2.0.1"
+Documentation = "https://github.com/RootHaktivity/Leegion-Framework-2.0.1#readme"
+Issues = "https://github.com/RootHaktivity/Leegion-Framework-2.0.1/issues"
 
 [build-system]
 requires = ["setuptools>=61.0", "wheel"]

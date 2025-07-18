@@ -43,7 +43,7 @@ def verify_leegion_ownership() -> dict:
         "copyright": "Copyright (c) 2025 Leegion. All rights reserved.",
         "framework_id": "LEEGION-CYBER-FRAMEWORK-2025",
         "unique_marker": "LeeG10n-AuthoriT7-Verified",
-        "github_intended": "https://github.com/Leegion/leegion-framework",
+        "github_intended": "https://github.com/RootHaktivity/Leegion-Framework-2.0.1",
     }
 
     return verification_data
