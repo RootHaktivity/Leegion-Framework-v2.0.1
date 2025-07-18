@@ -765,7 +765,9 @@ class CommandHelper(BaseModule):
     def _generate_sql_payloads(self):
         """Generate SQL injection payloads with educational descriptions"""
         print(
-            f"\n\033[93m{'SQL INJECTION PAYLOADS & EDUCATIONAL GUIDE'.center(80)}\033[0m"
+            f"\n\033[93m"
+            f"{'SQL INJECTION PAYLOADS & EDUCATIONAL GUIDE'.center(80)}"
+            f"\033[0m"
         )
         print(f"\033[93m{'='*80}\033[0m")
 
@@ -793,7 +795,8 @@ class CommandHelper(BaseModule):
                     "' OR 1=1--",
                     (
                         "Same as above but uses SQL comment (--) to ignore rest\n"
-                        "   Use: When there's additional SQL code after injection point\n"
+                        "   Use: When there's additional SQL code after injection "
+                        "point\n"
                         "   How: Comments out password check or other conditions\n"
                         "   Example: Login query becomes: WHERE user='admin' OR 1=1-- "
                         "AND pass='...\n"
