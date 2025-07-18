@@ -23,8 +23,6 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent))  # noqa: E402
 
 # Local imports
-import core.backup  # noqa: E402
-import core.banner  # noqa: E402
 from config.settings import (  # noqa: E402
     create_directories_from_config,
     load_config,
@@ -285,7 +283,8 @@ class LeegionFramework:
             print(f"  \033[92msudo {os.path.join(os.getcwd(), 'install.sh')}\033[0m")
             print()
             print(
-                "\033[96mAfter installation, you can run 'leegion' from anywhere!\033[0m"
+                "\033[96mAfter installation, you can run 'leegion' "
+                "from anywhere!\033[0m"
             )
             input("\n\033[93mPress Enter to continue...\033[0m")
             return

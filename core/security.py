@@ -228,9 +228,11 @@ def validate_input_security(
             r"(\'|\").*\b(OR|AND)\b.*(\'|\")",  # ' OR '1'='1'
             r";",  # Any semicolon
             r"--",  # Any double dash
-            r"\b(SELECT|INSERT|UPDATE|DELETE|DROP|UNION|ALTER|CREATE|REPLACE|TRUNCATE)\b",
+            r"\b(SELECT|INSERT|UPDATE|DELETE|DROP|UNION|ALTER|CREATE|"
+            r"REPLACE|TRUNCATE)\b",
             # ; followed by SQL keyword
-            r";\s*(SELECT|INSERT|UPDATE|DELETE|DROP|UNION|ALTER|CREATE|REPLACE|TRUNCATE)\b",
+            r";\s*(SELECT|INSERT|UPDATE|DELETE|DROP|UNION|ALTER|CREATE|"
+            r"REPLACE|TRUNCATE)\b",
         ]
 
     for pattern in dangerous_patterns:
