@@ -35,17 +35,19 @@ def install_package(package: str) -> bool:
 
     # Try different installation methods
     install_methods: List[List[str]] = []
-    
+
     # Method 1: pip install with --user flag
     install_methods.append([sys.executable, "-m", "pip", "install", "--user", package])
-    
+
     # Method 2: pip3 install with --user flag
     install_methods.append(["pip3", "install", "--user", package])
-    
+
     # Method 3: apt install for common packages on Debian/Ubuntu/Kali
     if package in ["python-nmap", "requests", "pyyaml"]:
-        install_methods.append(["apt", "install", "-y", "python3-" + package.replace("-", "")])
-    
+        install_methods.append(
+            ["apt", "install", "-y", "python3-" + package.replace("-", "")]
+        )
+
     # Method 4: regular pip install
     install_methods.append([sys.executable, "-m", "pip", "install", package])
 
