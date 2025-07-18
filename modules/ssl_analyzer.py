@@ -107,8 +107,16 @@ class SSLAnalyzer(BaseModule):
             return
 
         # Parse hostname and port
-        hostname, port = self._parse_target(target)
-        if not hostname:
+        parsed = self._parse_target(target)
+        if parsed[0] is None:
+            self.print_error("Invalid target format")
+            return
+        hostname, port = parsed
+        assert isinstance(hostname, str)
+        hostname = str(hostname)
+
+        if hostname is None:
+            self.print_error("Invalid hostname (None)")
             return
 
         self.print_info(f"Starting comprehensive SSL analysis for {hostname}:{port}")
@@ -157,7 +165,14 @@ class SSLAnalyzer(BaseModule):
         if not target:
             return
 
-        hostname, port = self._parse_target(target)
+        # Parse hostname and port
+        parsed = self._parse_target(target)
+        if parsed[0] is None:
+            self.print_error("Invalid target format")
+            return
+        hostname, port = parsed
+        assert isinstance(hostname, str)
+        hostname = str(hostname)
 
         self.print_info(f"Analyzing certificate chain for {hostname}:{port}")
 
@@ -187,7 +202,14 @@ class SSLAnalyzer(BaseModule):
         if not target:
             return
 
-        hostname, port = self._parse_target(target)
+        # Parse hostname and port
+        parsed = self._parse_target(target)
+        if parsed[0] is None:
+            self.print_error("Invalid target format")
+            return
+        hostname, port = parsed
+        assert isinstance(hostname, str)
+        hostname = str(hostname)
 
         self.print_info(f"Scanning SSL configuration for {hostname}:{port}")
 
@@ -222,7 +244,14 @@ class SSLAnalyzer(BaseModule):
         if not target:
             return
 
-        hostname, port = self._parse_target(target)
+        # Parse hostname and port
+        parsed = self._parse_target(target)
+        if parsed[0] is None:
+            self.print_error("Invalid target format")
+            return
+        hostname, port = parsed
+        assert isinstance(hostname, str)
+        hostname = str(hostname)
 
         self.print_info(f"Assessing SSL vulnerabilities for {hostname}:{port}")
 
@@ -264,7 +293,14 @@ class SSLAnalyzer(BaseModule):
         expiry_results = []
 
         for target in targets:
-            hostname, port = self._parse_target(target)
+            # Parse hostname and port
+            parsed = self._parse_target(target)
+            if parsed[0] is None:
+                self.print_error("Invalid target format")
+                continue
+            hostname, port = parsed
+            assert isinstance(hostname, str)
+            hostname = str(hostname)
 
             try:
                 cert_info = self._get_certificate_info(hostname, port)
@@ -331,7 +367,12 @@ class SSLAnalyzer(BaseModule):
             self.print_info(f"Scanning {i}/{len(hostnames)}: {hostname}")
 
             try:
-                host, port = self._parse_target(hostname)
+                # Parse hostname and port
+                parsed = self._parse_target(hostname)
+                if parsed[0] is None:
+                    self.print_error("Invalid target format")
+                    continue
+                host, port = parsed
                 cert_info = self._get_certificate_info(host, port)
 
                 if cert_info:
@@ -384,7 +425,14 @@ class SSLAnalyzer(BaseModule):
         if not target:
             return
 
-        hostname, port = self._parse_target(target)
+        # Parse hostname and port
+        parsed = self._parse_target(target)
+        if parsed[0] is None:
+            self.print_error("Invalid target format")
+            return
+        hostname, port = parsed
+        assert isinstance(hostname, str)
+        hostname = str(hostname)
 
         self.print_info(f"Analyzing cipher suites for {hostname}:{port}")
 
@@ -429,7 +477,7 @@ class SSLAnalyzer(BaseModule):
         except Exception as e:
             self.print_error(f"SSL Labs integration failed: {e}")
 
-    def _parse_target(self, target: str) -> Tuple[str, int]:
+    def _parse_target(self, target: str) -> Tuple[Optional[str], int]:
         """Parse target hostname and port"""
         if "://" in target:
             parsed = urlparse(target)
@@ -464,23 +512,71 @@ class SSLAnalyzer(BaseModule):
                     cert_dict = ssock.getpeercert()
 
                     # Parse certificate details
-                    cert_info = {
-                        "subject": dict(x[0] for x in cert_dict.get("subject", [])),
-                        "issuer": dict(x[0] for x in cert_dict.get("issuer", [])),
-                        "version": cert_dict.get("version"),
-                        "serial_number": cert_dict.get("serialNumber"),
-                        "not_before": datetime.strptime(
-                            cert_dict.get("notBefore"), "%b %d %H:%M:%S %Y %Z"
+                    subject = {}
+                    issuer = {}
+                    if cert_dict is not None:
+                        subject = {
+                            k: v
+                            for x in cert_dict.get("subject", [])
+                            if isinstance(x, (list, tuple))
+                            and len(x) == 1
+                            and isinstance(x[0], tuple)
+                            and len(x[0]) == 2
+                            for k, v in [x[0]]
+                        }
+                        issuer = {
+                            k: v
+                            for x in cert_dict.get("issuer", [])
+                            if isinstance(x, (list, tuple))
+                            and len(x) == 1
+                            and isinstance(x[0], tuple)
+                            and len(x[0]) == 2
+                            for k, v in [x[0]]
+                        }
+                    not_before = None
+                    not_after = None
+                    not_before_str = cert_dict.get("notBefore") if cert_dict else None
+                    not_after_str = cert_dict.get("notAfter") if cert_dict else None
+
+                    if isinstance(not_before_str, str):
+                        try:
+                            not_before = datetime.strptime(
+                                not_before_str, "%b %d %H:%M:%S %Y %Z"
+                            )
+                        except Exception:
+                            not_before = None
+                    if isinstance(not_after_str, str):
+                        try:
+                            not_after = datetime.strptime(
+                                not_after_str, "%b %d %H:%M:%S %Y %Z"
+                            )
+                        except Exception:
+                            not_after = None
+                    cert_bytes = cert if isinstance(cert, bytes) else b""
+                    key_size = None
+                    try:
+                        key_size = self._get_key_size(cert_bytes)
+                    except Exception:
+                        key_size = None
+                    cert_info: Dict[str, Any] = {
+                        "subject": subject,
+                        "issuer": issuer,
+                        "version": cert_dict.get("version") if cert_dict else None,
+                        "serial_number": (
+                            cert_dict.get("serialNumber") if cert_dict else None
                         ),
-                        "not_after": datetime.strptime(
-                            cert_dict.get("notAfter"), "%b %d %H:%M:%S %Y %Z"
+                        "not_before": not_before,
+                        "not_after": not_after,
+                        "signature_algorithm": (
+                            cert_dict.get("signatureAlgorithm") if cert_dict else None
                         ),
-                        "signature_algorithm": cert_dict.get("signatureAlgorithm"),
-                        "san": cert_dict.get("subjectAltName", []),
-                        "key_size": self._get_key_size(cert),
-                        "fingerprint_sha1": self._get_cert_fingerprint(cert, "sha1"),
+                        "san": cert_dict.get("subjectAltName", []) if cert_dict else [],
+                        "key_size": key_size,
+                        "fingerprint_sha1": self._get_cert_fingerprint(
+                            cert_bytes, "sha1"
+                        ),
                         "fingerprint_sha256": self._get_cert_fingerprint(
-                            cert, "sha256"
+                            cert_bytes, "sha256"
                         ),
                     }
 
@@ -495,9 +591,7 @@ class SSLAnalyzer(BaseModule):
         try:
             cert = cryptography.x509.load_der_x509_certificate(cert_binary)
             public_key = cert.public_key()
-
-            if hasattr(public_key, "key_size"):
-                return public_key.key_size
+            return getattr(public_key, "key_size", None)
         except Exception:
             pass
         return None
@@ -578,10 +672,9 @@ class SSLAnalyzer(BaseModule):
             "TLSv1.1": ssl.PROTOCOL_TLSv1_1,
             "TLSv1.2": ssl.PROTOCOL_TLSv1_2,
         }
-
-        # Add TLS 1.3 if available
-        if hasattr(ssl, "PROTOCOL_TLSv1_3"):
-            protocols["TLSv1.3"] = ssl.PROTOCOL_TLSv1_3
+        tls13 = getattr(ssl, "PROTOCOL_TLSv1_3", None)
+        if tls13 is not None:
+            protocols["TLSv1.3"] = tls13
 
         supported = {}
 
@@ -945,7 +1038,7 @@ class SSLAnalyzer(BaseModule):
                     elif "Server public key is" in line:
                         key_bits = line.split("is")[1].strip().split()[0]
                         cipher_info["key_bits"] = (
-                            int(key_bits) if key_bits.isdigit() else None
+                            str(int(key_bits)) if key_bits.isdigit() else "Unknown"
                         )
 
                 return cipher_info
@@ -977,7 +1070,12 @@ class SSLAnalyzer(BaseModule):
 
     def _test_cipher_suites(self, hostname: str, port: int) -> Dict[str, List[str]]:
         """Test multiple cipher suites"""
-        cipher_categories = {"strong": [], "medium": [], "weak": [], "all": []}
+        cipher_categories: Dict[str, List[str]] = {
+            "strong": [],
+            "medium": [],
+            "weak": [],
+            "all": [],
+        }
 
         # Define cipher suites to test
         test_ciphers = {
@@ -1067,7 +1165,7 @@ class SSLAnalyzer(BaseModule):
                 else:
                     break
 
-            return result
+            return result if isinstance(result, dict) else None
 
         except Exception as e:
             self.print_error(f"SSL Labs API query failed: {e}")

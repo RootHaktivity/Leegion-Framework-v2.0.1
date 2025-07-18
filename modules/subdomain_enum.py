@@ -731,13 +731,13 @@ class SubdomainEnumerator(BaseModule):
             response = requests.get(
                 f"http://{subdomain}", timeout=5, allow_redirects=False
             )
-            return response.status_code
+            return int(response.status_code)
         except Exception:
             try:
                 response = requests.get(
                     f"https://{subdomain}", timeout=5, allow_redirects=False
                 )
-                return response.status_code
+                return int(response.status_code)
             except Exception:
                 return None
 

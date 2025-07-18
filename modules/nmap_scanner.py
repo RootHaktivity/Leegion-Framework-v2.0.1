@@ -329,7 +329,7 @@ class NmapScanner(BaseModule):
             tree = ET.parse(xml_file)
             root = tree.getroot()
 
-            scan_result = {
+            scan_result: Dict[str, Any] = {
                 "timestamp": datetime.now().isoformat(),
                 "target": target,
                 "scan_type": scan_type,

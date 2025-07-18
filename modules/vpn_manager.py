@@ -777,7 +777,7 @@ class VPNManager(BaseModule):
     def _get_file_size(self, filepath: str) -> str:
         """Get human readable file size"""
         try:
-            size = os.path.getsize(filepath)
+            size = float(os.path.getsize(filepath))
             for unit in ["B", "KB", "MB", "GB"]:
                 if size < 1024.0:
                     return f"{size:.1f} {unit}"

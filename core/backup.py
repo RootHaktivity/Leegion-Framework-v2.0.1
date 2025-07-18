@@ -215,6 +215,9 @@ class BackupManager:
                 if manifest_path.exists():
                     with open(manifest_path, "r") as f:
                         manifest = json.load(f)
+                        if not isinstance(manifest, dict):
+                            return False
+                        manifest = cast(Dict[str, Any], manifest)
 
                     backup_components = manifest.get("components", [])
                     if components is None:
@@ -317,7 +320,7 @@ class BackupManager:
         export_filename = f"leegion_export_{timestamp}.{output_format}"
         export_path = self.backup_dir / export_filename
 
-        export_data = {
+        export_data: Dict[str, Any] = {
             "export_timestamp": timestamp,
             "framework_version": "2.0.0",
             "components": {},

@@ -23,7 +23,7 @@ class ReverseShellGenerator(BaseModule):
 
     def __init__(self, config: Dict[str, Any]):
         super().__init__(config, "Reverse_Shell_Generator")
-        self.payloads: Dict[str, Dict[str, str]] = {}
+        self.payloads: Dict[str, Any] = {}
         self.favorites: Set[Tuple[str, str, str, str, int]] = set()
         self.history: List[Tuple[str, str, str, str, int, str]] = []
         self.load_payloads()
@@ -550,13 +550,13 @@ class ReverseShellGenerator(BaseModule):
                 port_int = int(port)
                 if not (1 <= port_int <= 65535):
                     raise ValueError("Port out of range")
-                port = port_int
+                port_str = str(port_int)
             except ValueError:
                 self.print_error("Invalid port number")
                 return True
 
             # Generate payloads for the selected language
-            self._display_language_payloads(choice_lower, ip, port)
+            self._display_language_payloads(choice_lower, ip, port_int)
             return True
 
         return False
@@ -686,7 +686,6 @@ class ReverseShellGenerator(BaseModule):
             port_int = int(port)
             if not (1 <= port_int <= 65535):
                 raise ValueError("Port out of range")
-            port = port_int
         except ValueError:
             self.print_error("Invalid port number")
             return
@@ -727,7 +726,7 @@ class ReverseShellGenerator(BaseModule):
                     )
                     for lang in selected_langs:
                         if lang in self.payloads:
-                            self._display_language_payloads(lang, ip, port)
+                            self._display_language_payloads(lang, ip, port_int)
                     break
 
                 elif choice_num == option_num + 1:
@@ -740,7 +739,9 @@ class ReverseShellGenerator(BaseModule):
                     print(
                         f"\n\033[93m🎯 Generating {selected_type.upper()} payload for {selected_lang.upper()}\033[0m"
                     )
-                    self._display_single_payload(selected_lang, selected_type, ip, port)
+                    self._display_single_payload(
+                        selected_lang, selected_type, ip, port_int
+                    )
                     break
 
                 else:
@@ -849,7 +850,7 @@ class ReverseShellGenerator(BaseModule):
         if "custom" not in self.payloads:
             self.payloads["custom"] = {}
 
-        self.payloads["custom"][name] = {  # type: ignore
+        self.payloads["custom"][name] = {
             "language": language or "",
             "payload": payload or "",
             "description": description or "",
@@ -864,11 +865,11 @@ class ReverseShellGenerator(BaseModule):
             return
 
         print("\n\033[93mCustom Payloads:\033[0m")
-        for name, data in self.payloads["custom"].items():  # type: ignore
+        for name, data in self.payloads["custom"].items():
             print(f"\n\033[96m{name}:\033[0m")
-            print(f"  Language: {data['language']}")  # type: ignore
-            print(f"  Description: {data['description']}")  # type: ignore
-            print(f"  Template: \033[92m{data['payload']}\033[0m")  # type: ignore
+            print(f"  Language: {data['language']}")
+            print(f"  Description: {data['description']}")
+            print(f"  Template: \033[92m{data['payload']}\033[0m")
 
     def _edit_custom_payload(self):
         """Edit a custom payload"""
@@ -894,23 +895,23 @@ class ReverseShellGenerator(BaseModule):
 
     def _edit_payload_details(self, name: str):
         """Edit specific payload details"""
-        payload = self.payloads["custom"][name]  # type: ignore
+        payload = self.payloads["custom"][name]
 
         print(f"\nEditing payload: {name}")
-        print(f"Current language: {payload['language']}")  # type: ignore
+        print(f"Current language: {payload['language']}")
         new_lang = self.get_user_input("New language (or Enter to keep current): ")
         if new_lang:
-            payload["language"] = new_lang  # type: ignore
+            payload["language"] = new_lang
 
-        print(f"Current description: {payload['description']}")  # type: ignore
+        print(f"Current description: {payload['description']}")
         new_desc = self.get_user_input("New description (or Enter to keep current): ")
         if new_desc:
-            payload["description"] = new_desc  # type: ignore
+            payload["description"] = new_desc
 
-        print(f"Current template: {payload['payload']}")  # type: ignore
+        print(f"Current template: {payload['payload']}")
         new_template = self.get_user_input("New template (or Enter to keep current): ")
         if new_template:
-            payload["payload"] = new_template  # type: ignore
+            payload["payload"] = new_template
 
         self.print_success(f"Payload '{name}' updated successfully!")
 
