@@ -358,7 +358,7 @@ class NmapScanner(BaseModule):
     def _parse_host_info(self, host_element) -> Optional[Dict[str, Any]]:
         """Parse individual host information from XML"""
         try:
-            host_info = {
+            host_info: Dict[str, Any] = {
                 "addresses": [],
                 "hostnames": [],
                 "status": "unknown",
@@ -447,7 +447,7 @@ class NmapScanner(BaseModule):
 
     def _parse_os_info(self, os_element) -> Dict[str, Any]:
         """Parse OS information from XML"""
-        os_info = {"matches": [], "fingerprints": []}
+        os_info: Dict[str, Any] = {"matches": [], "fingerprints": []}
 
         try:
             # Parse OS matches

@@ -33,7 +33,7 @@ class VPNManager(BaseModule):
             "total_connections": 0,
             "successful_connections": 0,
             "failed_connections": 0,
-            "total_uptime": 0,
+            "total_uptime": 0.0,
             "external_vpn_detected": False,
             "external_vpn_start_time": None,
             "last_external_check": None,

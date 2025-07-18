@@ -12,7 +12,7 @@ import shutil
 import zipfile
 import tempfile
 from pathlib import Path
-from typing import Dict, List, Any, Optional
+from typing import Dict, List, Any, Optional, cast
 from datetime import datetime
 import hashlib
 from core.security import SecurityManager
@@ -255,7 +255,10 @@ class BackupManager:
         for info_file in self.backup_dir.glob("*.info"):
             try:
                 with open(info_file, "r") as f:
-                    backup_info: Dict[str, Any] = json.load(f)
+                    backup_info = json.load(f)
+                    if not isinstance(backup_info, dict):
+                        continue
+                    backup_info = cast(Dict[str, Any], backup_info)
 
                 # Check if backup file still exists
                 backup_file = self.backup_dir / backup_info["filename"]
