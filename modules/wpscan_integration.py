@@ -456,7 +456,7 @@ class WPScanIntegration(BaseModule):
     ):
         """Parse WPScan output and store results"""
         try:
-            scan_result = {
+            scan_result: Dict[str, Any] = {
                 "timestamp": datetime.now().isoformat(),
                 "target": target,
                 "scan_type": scan_type,

@@ -29,7 +29,7 @@ class VPNManager(BaseModule):
         self.monitoring_thread: Optional[threading.Thread] = None
         self.current_config: Optional[Dict[str, str]] = None
         self.connection_start_time: Optional[float] = None
-        self.connection_stats = {
+        self.connection_stats: Dict[str, Any] = {
             "total_connections": 0,
             "successful_connections": 0,
             "failed_connections": 0,

@@ -28,7 +28,7 @@ class BackupManager:
         self.security_manager = SecurityManager()
 
         # Backup components
-        self.backup_components = {
+        self.backup_components: Dict[str, Dict[str, Any]] = {
             "config": {
                 "paths": ["~/.config/leegion"],
                 "description": "User configuration and settings",

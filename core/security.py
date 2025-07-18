@@ -55,7 +55,7 @@ class SecurityManager:
         fernet = self._get_fernet()
         encrypted = base64.b64decode(encrypted_data.encode())
         decrypted = fernet.decrypt(encrypted)
-        return decrypted.decode()
+        return str(decrypted.decode())
 
     def secure_file_path(self, file_path: str) -> bool:
         """
