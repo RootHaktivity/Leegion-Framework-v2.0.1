@@ -330,7 +330,7 @@ class SubdomainEnumerator(BaseModule):
 
         base_subdomains = self.get_user_input(
             "Enter known subdomains (comma-separated) or press enter for common ones: ",
-            required=False
+            required=False,
         )
 
         if base_subdomains:
@@ -949,7 +949,9 @@ class SubdomainEnumerator(BaseModule):
 
             # Show in batches
             if i % 20 == 0 and i < len(sorted_subdomains):
-                more = self.get_user_input("Press Enter to continue or 'q' to stop: ", required=False)
+                more = self.get_user_input(
+                    "Press Enter to continue or 'q' to stop: ", required=False
+                )
                 if more and more.lower() == "q":
                     break
 

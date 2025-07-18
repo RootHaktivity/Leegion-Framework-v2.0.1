@@ -136,17 +136,17 @@ def install_python_packages():
         subprocess.run([sys.executable, "-m", "venv", str(venv_path)], check=True)
 
     pip_executable = venv_path / "bin" / "pip"
-    
+
     # Install from pyproject.toml to ensure all dependencies are included
     print_step("Installing Python packages from pyproject.toml...")
     subprocess.run([str(pip_executable), "install", "--upgrade", "pip"], check=True)
-    
+
     # Install the project in editable mode with all dependencies
     subprocess.run([str(pip_executable), "install", "-e", "."], check=True)
-    
+
     # Also install dev dependencies for testing
     subprocess.run([str(pip_executable), "install", "-e", ".[dev]"], check=True)
-    
+
     print_success("Python packages installed successfully in venv")
 
 

@@ -1650,24 +1650,51 @@ class CommandHelper(BaseModule):
                 ("john --format=md5crypt hash.txt", "MD5 crypt (Linux)"),
             ],
             "Wordlist Strategies": [
-                ("john --wordlist=/usr/share/wordlists/rockyou.txt hash.txt", "Use RockYou wordlist"),
-                ("john --wordlist=wordlist.txt --rules hash.txt", "Apply mangling rules"),
-                ("john --wordlist=wordlist.txt --incremental hash.txt", "Incremental mode"),
+                (
+                    "john --wordlist=/usr/share/wordlists/rockyou.txt hash.txt",
+                    "Use RockYou wordlist",
+                ),
+                (
+                    "john --wordlist=wordlist.txt --rules hash.txt",
+                    "Apply mangling rules",
+                ),
+                (
+                    "john --wordlist=wordlist.txt --incremental hash.txt",
+                    "Incremental mode",
+                ),
                 ("john --wordlist=wordlist.txt --single hash.txt", "Single crack mode"),
-                ("john --wordlist=wordlist.txt --external=filter hash.txt", "Custom external filter"),
+                (
+                    "john --wordlist=wordlist.txt --external=filter hash.txt",
+                    "Custom external filter",
+                ),
             ],
             "Advanced Options": [
                 ("john --fork=4 hash.txt", "Use 4 CPU cores"),
                 ("john --session=my_session hash.txt", "Save/restore session"),
                 ("john --restore=my_session", "Restore previous session"),
                 ("john --pot=john.pot hash.txt", "Use custom pot file"),
-                ("john --show --format=raw-md5 hash.txt", "Show specific format results"),
+                (
+                    "john --show --format=raw-md5 hash.txt",
+                    "Show specific format results",
+                ),
             ],
             "Rule Files": [
-                ("john --wordlist=wordlist.txt --rules=All hash.txt", "Apply all rules"),
-                ("john --wordlist=wordlist.txt --rules=Extra hash.txt", "Extra mangling rules"),
-                ("john --wordlist=wordlist.txt --rules=Jumbo hash.txt", "Jumbo rule set"),
-                ("john --wordlist=wordlist.txt --rules=KoreLogic hash.txt", "KoreLogic rules"),
+                (
+                    "john --wordlist=wordlist.txt --rules=All hash.txt",
+                    "Apply all rules",
+                ),
+                (
+                    "john --wordlist=wordlist.txt --rules=Extra hash.txt",
+                    "Extra mangling rules",
+                ),
+                (
+                    "john --wordlist=wordlist.txt --rules=Jumbo hash.txt",
+                    "Jumbo rule set",
+                ),
+                (
+                    "john --wordlist=wordlist.txt --rules=KoreLogic hash.txt",
+                    "KoreLogic rules",
+                ),
             ],
             "Performance Tuning": [
                 ("john --memory=4096 hash.txt", "Set memory limit to 4GB"),
@@ -1676,9 +1703,18 @@ class CommandHelper(BaseModule):
                 ("john --log=john.log hash.txt", "Log output to file"),
             ],
             "Popular Hash Types": [
-                ("john --format=raw-md5 hash.txt", "MD5 (32 chars: 5f4dcc3b5aa765d61d8327deb882cf99)"),
-                ("john --format=raw-sha1 hash.txt", "SHA1 (40 chars: 5baa61e4c9b93f3f0682250b6cf8331b7ee68fd8)"),
-                ("john --format=nt hash.txt", "Windows NT (32 chars: 32ed87bdb5fdc5e9cba88547376818d4)"),
+                (
+                    "john --format=raw-md5 hash.txt",
+                    "MD5 (32 chars: 5f4dcc3b5aa765d61d8327deb882cf99)",
+                ),
+                (
+                    "john --format=raw-sha1 hash.txt",
+                    "SHA1 (40 chars: 5baa61e4c9b93f3f0682250b6cf8331b7ee68fd8)",
+                ),
+                (
+                    "john --format=nt hash.txt",
+                    "Windows NT (32 chars: 32ed87bdb5fdc5e9cba88547376818d4)",
+                ),
                 ("john --format=sha512crypt hash.txt", "Linux SHA512 ($6$...)"),
                 ("john --format=bcrypt hash.txt", "BCrypt ($2a$... or $2b$...)"),
             ],
@@ -1707,11 +1743,23 @@ class CommandHelper(BaseModule):
                 ("hashcat -m 7400 hash.txt wordlist.txt", "SHA256 Crypt (Linux)"),
             ],
             "Attack Modes (-a)": [
-                ("hashcat -a 0 -m 0 hash.txt wordlist.txt", "Dictionary attack (wordlist)"),
-                ("hashcat -a 1 -m 0 hash.txt wordlist1.txt wordlist2.txt", "Combinator attack (word1+word2)"),
+                (
+                    "hashcat -a 0 -m 0 hash.txt wordlist.txt",
+                    "Dictionary attack (wordlist)",
+                ),
+                (
+                    "hashcat -a 1 -m 0 hash.txt wordlist1.txt wordlist2.txt",
+                    "Combinator attack (word1+word2)",
+                ),
                 ("hashcat -a 3 -m 0 hash.txt ?a?a?a?a", "Mask attack (4 chars)"),
-                ("hashcat -a 6 -m 0 hash.txt wordlist.txt ?a?a", "Hybrid dict+mask (word+2chars)"),
-                ("hashcat -a 7 -m 0 hash.txt ?a?a wordlist.txt", "Hybrid mask+dict (2chars+word)"),
+                (
+                    "hashcat -a 6 -m 0 hash.txt wordlist.txt ?a?a",
+                    "Hybrid dict+mask (word+2chars)",
+                ),
+                (
+                    "hashcat -a 7 -m 0 hash.txt ?a?a wordlist.txt",
+                    "Hybrid mask+dict (2chars+word)",
+                ),
             ],
             "Mask Characters": [
                 ("hashcat -a 3 -m 0 hash.txt ?l?l?l?l?l?l", "6 lowercase letters"),
@@ -1724,33 +1772,75 @@ class CommandHelper(BaseModule):
             "GPU Optimization": [
                 ("hashcat -d 0,1,2 -m 0 hash.txt wordlist.txt", "Use GPUs 0,1,2"),
                 ("hashcat -w 3 -m 0 hash.txt wordlist.txt", "Workload profile (1-4)"),
-                ("hashcat --opencl-device-types 1,2 -m 0 hash.txt wordlist.txt", "Use CPU and GPU"),
+                (
+                    "hashcat --opencl-device-types 1,2 -m 0 hash.txt wordlist.txt",
+                    "Use CPU and GPU",
+                ),
                 ("hashcat -n 80 -m 0 hash.txt wordlist.txt", "Limit to 80% GPU usage"),
             ],
             "Rule Files": [
-                ("hashcat -r /usr/share/hashcat/rules/best64.rule -m 0 hash.txt wordlist.txt", "Best64 rules"),
-                ("hashcat -r /usr/share/hashcat/rules/d3ad0ne.rule -m 0 hash.txt wordlist.txt", "D3ad0ne rules"),
-                ("hashcat -r /usr/share/hashcat/rules/rockyou-30000.rule -m 0 hash.txt wordlist.txt", "RockYou rules"),
-                ("hashcat -r /usr/share/hashcat/rules/OneRuleToRuleThemAll.rule -m 0 hash.txt wordlist.txt", "OneRuleToRuleThemAll"),
+                (
+                    "hashcat -r /usr/share/hashcat/rules/best64.rule -m 0 hash.txt wordlist.txt",
+                    "Best64 rules",
+                ),
+                (
+                    "hashcat -r /usr/share/hashcat/rules/d3ad0ne.rule -m 0 hash.txt wordlist.txt",
+                    "D3ad0ne rules",
+                ),
+                (
+                    "hashcat -r /usr/share/hashcat/rules/rockyou-30000.rule -m 0 hash.txt wordlist.txt",
+                    "RockYou rules",
+                ),
+                (
+                    "hashcat -r /usr/share/hashcat/rules/OneRuleToRuleThemAll.rule -m 0 hash.txt wordlist.txt",
+                    "OneRuleToRuleThemAll",
+                ),
             ],
             "Performance & Output": [
-                ("hashcat -o cracked.txt -m 0 hash.txt wordlist.txt", "Save cracked passwords"),
-                ("hashcat --potfile-disable -m 0 hash.txt wordlist.txt", "Disable potfile"),
-                ("hashcat --session=my_session -m 0 hash.txt wordlist.txt", "Save/restore session"),
+                (
+                    "hashcat -o cracked.txt -m 0 hash.txt wordlist.txt",
+                    "Save cracked passwords",
+                ),
+                (
+                    "hashcat --potfile-disable -m 0 hash.txt wordlist.txt",
+                    "Disable potfile",
+                ),
+                (
+                    "hashcat --session=my_session -m 0 hash.txt wordlist.txt",
+                    "Save/restore session",
+                ),
                 ("hashcat --restore my_session", "Restore previous session"),
                 ("hashcat --status -m 0 hash.txt wordlist.txt", "Show progress"),
             ],
             "Advanced Options": [
-                ("hashcat --increment -m 0 hash.txt ?a?a?a?a", "Incremental mask (1-4 chars)"),
-                ("hashcat --increment-min=3 --increment-max=6 -m 0 hash.txt ?a?a?a?a?a?a", "Incremental 3-6 chars"),
-                ("hashcat --loopback -m 0 hash.txt wordlist.txt", "Use cracked passwords as wordlist"),
+                (
+                    "hashcat --increment -m 0 hash.txt ?a?a?a?a",
+                    "Incremental mask (1-4 chars)",
+                ),
+                (
+                    "hashcat --increment-min=3 --increment-max=6 -m 0 hash.txt ?a?a?a?a?a?a",
+                    "Incremental 3-6 chars",
+                ),
+                (
+                    "hashcat --loopback -m 0 hash.txt wordlist.txt",
+                    "Use cracked passwords as wordlist",
+                ),
                 ("hashcat --left -m 0 hash.txt wordlist.txt", "Show uncracked hashes"),
                 ("hashcat --show -m 0 hash.txt", "Show cracked hashes"),
             ],
             "Popular Wordlists": [
-                ("hashcat -m 0 hash.txt /usr/share/wordlists/rockyou.txt", "RockYou wordlist"),
-                ("hashcat -m 0 hash.txt /usr/share/wordlists/metasploit/unix_passwords.txt", "Unix passwords"),
-                ("hashcat -m 0 hash.txt /usr/share/wordlists/SecLists/Passwords/Common-Credentials/10-million-password-list-top-1000000.txt", "10M password list"),
+                (
+                    "hashcat -m 0 hash.txt /usr/share/wordlists/rockyou.txt",
+                    "RockYou wordlist",
+                ),
+                (
+                    "hashcat -m 0 hash.txt /usr/share/wordlists/metasploit/unix_passwords.txt",
+                    "Unix passwords",
+                ),
+                (
+                    "hashcat -m 0 hash.txt /usr/share/wordlists/SecLists/Passwords/Common-Credentials/10-million-password-list-top-1000000.txt",
+                    "10M password list",
+                ),
             ],
         }
 
@@ -1762,40 +1852,85 @@ class CommandHelper(BaseModule):
             "Interface Management": [
                 ("airmon-ng start wlan0", "Start monitor mode on wlan0"),
                 ("airmon-ng stop wlan0mon", "Stop monitor mode"),
-                ("airmon-ng check kill", "Kill processes that interfere with monitor mode"),
+                (
+                    "airmon-ng check kill",
+                    "Kill processes that interfere with monitor mode",
+                ),
                 ("iwconfig", "List wireless interfaces"),
                 ("ifconfig wlan0mon up", "Bring monitor interface up"),
             ],
             "Network Discovery": [
                 ("airodump-ng wlan0mon", "Scan for all networks"),
                 ("airodump-ng -c 6 wlan0mon", "Scan on specific channel"),
-                ("airodump-ng --bssid 00:11:22:33:44:55 wlan0mon", "Focus on specific network"),
-                ("airodump-ng --essid 'NetworkName' wlan0mon", "Focus on network by name"),
-                ("airodump-ng --manufacturer wlan0mon", "Show manufacturer information"),
+                (
+                    "airodump-ng --bssid 00:11:22:33:44:55 wlan0mon",
+                    "Focus on specific network",
+                ),
+                (
+                    "airodump-ng --essid 'NetworkName' wlan0mon",
+                    "Focus on network by name",
+                ),
+                (
+                    "airodump-ng --manufacturer wlan0mon",
+                    "Show manufacturer information",
+                ),
             ],
             "Packet Capture": [
                 ("airodump-ng -c 6 -w capture wlan0mon", "Capture on channel 6"),
-                ("airodump-ng -c 6 --bssid 00:11:22:33:44:55 -w capture wlan0mon", "Capture specific network"),
-                ("airodump-ng -c 6 --bssid 00:11:22:33:44:55 --channel 6 -w capture wlan0mon", "Capture with channel lock"),
+                (
+                    "airodump-ng -c 6 --bssid 00:11:22:33:44:55 -w capture wlan0mon",
+                    "Capture specific network",
+                ),
+                (
+                    "airodump-ng -c 6 --bssid 00:11:22:33:44:55 --channel 6 -w capture wlan0mon",
+                    "Capture with channel lock",
+                ),
                 ("airodump-ng --ivs -w capture wlan0mon", "Capture only IVs (WEP)"),
                 ("airodump-ng --wps wlan0mon", "Scan for WPS-enabled networks"),
             ],
             "WEP Attacks": [
-                ("aireplay-ng --deauth 1 -a 00:11:22:33:44:55 wlan0mon", "Deauthentication attack"),
-                ("aireplay-ng --fakeauth 0 -a 00:11:22:33:44:55 -h 00:11:22:33:44:66 wlan0mon", "Fake authentication"),
-                ("aireplay-ng --arp -r replay_arp-0123-456789.cap wlan0mon", "ARP replay attack"),
+                (
+                    "aireplay-ng --deauth 1 -a 00:11:22:33:44:55 wlan0mon",
+                    "Deauthentication attack",
+                ),
+                (
+                    "aireplay-ng --fakeauth 0 -a 00:11:22:33:44:55 -h 00:11:22:33:44:66 wlan0mon",
+                    "Fake authentication",
+                ),
+                (
+                    "aireplay-ng --arp -r replay_arp-0123-456789.cap wlan0mon",
+                    "ARP replay attack",
+                ),
                 ("aircrack-ng capture-01.cap", "Crack WEP with captured packets"),
-                ("aircrack-ng -b 00:11:22:33:44:55 capture-01.cap", "Crack specific network"),
+                (
+                    "aircrack-ng -b 00:11:22:33:44:55 capture-01.cap",
+                    "Crack specific network",
+                ),
             ],
             "WPA/WPA2 Attacks": [
-                ("aireplay-ng --deauth 10 -a 00:11:22:33:44:55 -c FF:FF:FF:FF:FF:FF wlan0mon", "Deauth to capture handshake"),
-                ("aircrack-ng -w wordlist.txt capture-01.cap", "Dictionary attack on WPA"),
-                ("aircrack-ng -w wordlist.txt -e 'NetworkName' capture-01.cap", "Crack specific network"),
-                ("aircrack-ng -w wordlist.txt -b 00:11:22:33:44:55 capture-01.cap", "Crack by BSSID"),
+                (
+                    "aireplay-ng --deauth 10 -a 00:11:22:33:44:55 -c FF:FF:FF:FF:FF:FF wlan0mon",
+                    "Deauth to capture handshake",
+                ),
+                (
+                    "aircrack-ng -w wordlist.txt capture-01.cap",
+                    "Dictionary attack on WPA",
+                ),
+                (
+                    "aircrack-ng -w wordlist.txt -e 'NetworkName' capture-01.cap",
+                    "Crack specific network",
+                ),
+                (
+                    "aircrack-ng -w wordlist.txt -b 00:11:22:33:44:55 capture-01.cap",
+                    "Crack by BSSID",
+                ),
             ],
             "WPS Attacks": [
                 ("reaver -i wlan0mon -b 00:11:22:33:44:55", "Reaver WPS attack"),
-                ("reaver -i wlan0mon -b 00:11:22:33:44:55 -vv", "Verbose Reaver attack"),
+                (
+                    "reaver -i wlan0mon -b 00:11:22:33:44:55 -vv",
+                    "Verbose Reaver attack",
+                ),
                 ("reaver -i wlan0mon -b 00:11:22:33:44:55 -K 1", "KoreK attack method"),
                 ("bully wlan0mon -b 00:11:22:33:44:55", "Bully WPS attack"),
             ],
@@ -1807,13 +1942,28 @@ class CommandHelper(BaseModule):
             ],
             "Analysis Tools": [
                 ("airdecap-ng -w password capture-01.cap", "Decrypt WEP/WPA traffic"),
-                ("airdecloak-ng -i capture-01.cap -o decloaked.cap", "Remove WEP cloaking"),
-                ("packetforge-ng --arp -a 00:11:22:33:44:55 -h 00:11:22:33:44:66 -k 192.168.1.1 -l 192.168.1.100 -y fragment-0123-456789.xor -w arp-request", "Forge ARP packet"),
+                (
+                    "airdecloak-ng -i capture-01.cap -o decloaked.cap",
+                    "Remove WEP cloaking",
+                ),
+                (
+                    "packetforge-ng --arp -a 00:11:22:33:44:55 -h 00:11:22:33:44:66 -k 192.168.1.1 -l 192.168.1.100 -y fragment-0123-456789.xor -w arp-request",
+                    "Forge ARP packet",
+                ),
             ],
             "Wordlists for WPA": [
-                ("aircrack-ng -w /usr/share/wordlists/rockyou.txt capture-01.cap", "RockYou wordlist"),
-                ("aircrack-ng -w /usr/share/wordlists/metasploit/unix_passwords.txt capture-01.cap", "Unix passwords"),
-                ("aircrack-ng -w /usr/share/wordlists/SecLists/Passwords/Common-Credentials/10-million-password-list-top-1000000.txt capture-01.cap", "10M password list"),
+                (
+                    "aircrack-ng -w /usr/share/wordlists/rockyou.txt capture-01.cap",
+                    "RockYou wordlist",
+                ),
+                (
+                    "aircrack-ng -w /usr/share/wordlists/metasploit/unix_passwords.txt capture-01.cap",
+                    "Unix passwords",
+                ),
+                (
+                    "aircrack-ng -w /usr/share/wordlists/SecLists/Passwords/Common-Credentials/10-million-password-list-top-1000000.txt capture-01.cap",
+                    "10M password list",
+                ),
             ],
         }
 
@@ -1829,16 +1979,40 @@ class CommandHelper(BaseModule):
                 ("ettercap -D -i eth0", "Daemon mode"),
             ],
             "Target Selection": [
-                ("ettercap -T -q -i eth0 -M arp:remote /192.168.1.1/ /192.168.1.2/", "ARP spoofing between hosts"),
-                ("ettercap -T -q -i eth0 -M arp:remote /192.168.1.1/ //", "ARP spoofing to gateway"),
-                ("ettercap -T -q -i eth0 -M arp:remote // /192.168.1.2/", "ARP spoofing from gateway"),
-                ("ettercap -T -q -i eth0 -M arp:remote /192.168.1.0/24/", "ARP spoofing entire subnet"),
+                (
+                    "ettercap -T -q -i eth0 -M arp:remote /192.168.1.1/ /192.168.1.2/",
+                    "ARP spoofing between hosts",
+                ),
+                (
+                    "ettercap -T -q -i eth0 -M arp:remote /192.168.1.1/ //",
+                    "ARP spoofing to gateway",
+                ),
+                (
+                    "ettercap -T -q -i eth0 -M arp:remote // /192.168.1.2/",
+                    "ARP spoofing from gateway",
+                ),
+                (
+                    "ettercap -T -q -i eth0 -M arp:remote /192.168.1.0/24/",
+                    "ARP spoofing entire subnet",
+                ),
             ],
             "Attack Methods": [
-                ("ettercap -T -q -i eth0 -M arp:remote /192.168.1.1/ /192.168.1.2/", "ARP spoofing"),
-                ("ettercap -T -q -i eth0 -M icmp:remote /192.168.1.1/ /192.168.1.2/", "ICMP redirect"),
-                ("ettercap -T -q -i eth0 -M dhcp:remote /192.168.1.1/ /192.168.1.2/", "DHCP spoofing"),
-                ("ettercap -T -q -i eth0 -M port:remote /192.168.1.1/ /192.168.1.2/", "Port stealing"),
+                (
+                    "ettercap -T -q -i eth0 -M arp:remote /192.168.1.1/ /192.168.1.2/",
+                    "ARP spoofing",
+                ),
+                (
+                    "ettercap -T -q -i eth0 -M icmp:remote /192.168.1.1/ /192.168.1.2/",
+                    "ICMP redirect",
+                ),
+                (
+                    "ettercap -T -q -i eth0 -M dhcp:remote /192.168.1.1/ /192.168.1.2/",
+                    "DHCP spoofing",
+                ),
+                (
+                    "ettercap -T -q -i eth0 -M port:remote /192.168.1.1/ /192.168.1.2/",
+                    "Port stealing",
+                ),
             ],
             "Sniffing Options": [
                 ("ettercap -T -q -i eth0 -s", "Sniff only (no attack)"),
@@ -1848,7 +2022,10 @@ class CommandHelper(BaseModule):
             ],
             "Filtering": [
                 ("ettercap -T -q -i eth0 -F filter.ef", "Load filter file"),
-                ("ettercap -T -q -i eth0 -f filter.ef", "Load filter file (alternative)"),
+                (
+                    "ettercap -T -q -i eth0 -f filter.ef",
+                    "Load filter file (alternative)",
+                ),
                 ("ettercap -T -q -i eth0 -L logfile", "Log to file"),
                 ("ettercap -T -q -i eth0 -l logdir", "Log to directory"),
             ],
@@ -1901,16 +2078,34 @@ class CommandHelper(BaseModule):
                 ("tcpdump -i eth0 dst port 80", "Filter destination port 80"),
             ],
             "Advanced Filters": [
-                ("tcpdump -i eth0 'tcp[tcpflags] & tcp-syn != 0'", "Capture SYN packets"),
-                ("tcpdump -i eth0 'tcp[tcpflags] & tcp-rst != 0'", "Capture RST packets"),
-                ("tcpdump -i eth0 'tcp[tcpflags] & tcp-fin != 0'", "Capture FIN packets"),
-                ("tcpdump -i eth0 'tcp[tcpflags] & tcp-ack != 0'", "Capture ACK packets"),
-                ("tcpdump -i eth0 'tcp[13] & 2 != 0'", "Capture SYN packets (alternative)"),
+                (
+                    "tcpdump -i eth0 'tcp[tcpflags] & tcp-syn != 0'",
+                    "Capture SYN packets",
+                ),
+                (
+                    "tcpdump -i eth0 'tcp[tcpflags] & tcp-rst != 0'",
+                    "Capture RST packets",
+                ),
+                (
+                    "tcpdump -i eth0 'tcp[tcpflags] & tcp-fin != 0'",
+                    "Capture FIN packets",
+                ),
+                (
+                    "tcpdump -i eth0 'tcp[tcpflags] & tcp-ack != 0'",
+                    "Capture ACK packets",
+                ),
+                (
+                    "tcpdump -i eth0 'tcp[13] & 2 != 0'",
+                    "Capture SYN packets (alternative)",
+                ),
             ],
             "Content Analysis": [
                 ("tcpdump -i eth0 -A", "Print packet contents in ASCII"),
                 ("tcpdump -i eth0 -X", "Print packet contents in hex and ASCII"),
-                ("tcpdump -i eth0 -XX", "Print packet contents in hex and ASCII (with ethernet header)"),
+                (
+                    "tcpdump -i eth0 -XX",
+                    "Print packet contents in hex and ASCII (with ethernet header)",
+                ),
                 ("tcpdump -i eth0 -s 0 -X port 80", "Full HTTP packet analysis"),
                 ("tcpdump -i eth0 -s 0 -A port 80", "HTTP content in ASCII"),
             ],
@@ -1922,10 +2117,16 @@ class CommandHelper(BaseModule):
                 ("tcpdump -i eth0 -tttt", "Print timestamp in readable format"),
             ],
             "Security Analysis": [
-                ("tcpdump -i eth0 'tcp[tcpflags] & tcp-syn != 0 and tcp[tcpflags] & tcp-ack == 0'", "SYN scan detection"),
+                (
+                    "tcpdump -i eth0 'tcp[tcpflags] & tcp-syn != 0 and tcp[tcpflags] & tcp-ack == 0'",
+                    "SYN scan detection",
+                ),
                 ("tcpdump -i eth0 'icmp[icmptype] == icmp-echo'", "Ping requests"),
                 ("tcpdump -i eth0 'icmp[icmptype] == icmp-echoreply'", "Ping replies"),
-                ("tcpdump -i eth0 'tcp port 80 and (((ip[2:2] - ((ip[0]&0xf)<<2)) - ((tcp[12]&0xf0)>>2)) != 0)'", "HTTP POST requests"),
+                (
+                    "tcpdump -i eth0 'tcp port 80 and (((ip[2:2] - ((ip[0]&0xf)<<2)) - ((tcp[12]&0xf0)>>2)) != 0)'",
+                    "HTTP POST requests",
+                ),
             ],
             "Network Troubleshooting": [
                 ("tcpdump -i eth0 -n", "Don't resolve hostnames"),
@@ -1935,11 +2136,23 @@ class CommandHelper(BaseModule):
                 ("tcpdump -i eth0 -U", "Unbuffered output"),
             ],
             "Complex Filters": [
-                ("tcpdump -i eth0 'host 192.168.1.1 and port 80'", "Host AND port filter"),
-                ("tcpdump -i eth0 'host 192.168.1.1 or host 192.168.1.2'", "Multiple hosts"),
+                (
+                    "tcpdump -i eth0 'host 192.168.1.1 and port 80'",
+                    "Host AND port filter",
+                ),
+                (
+                    "tcpdump -i eth0 'host 192.168.1.1 or host 192.168.1.2'",
+                    "Multiple hosts",
+                ),
                 ("tcpdump -i eth0 'not port 22'", "Exclude SSH traffic"),
-                ("tcpdump -i eth0 'tcp and not port 22 and not port 80'", "TCP but not SSH/HTTP"),
-                ("tcpdump -i eth0 'src host 192.168.1.1 and dst port 80'", "Source host to HTTP"),
+                (
+                    "tcpdump -i eth0 'tcp and not port 22 and not port 80'",
+                    "TCP but not SSH/HTTP",
+                ),
+                (
+                    "tcpdump -i eth0 'src host 192.168.1.1 and dst port 80'",
+                    "Source host to HTTP",
+                ),
             ],
         }
 
@@ -1951,26 +2164,65 @@ class CommandHelper(BaseModule):
             "Certificate Analysis": [
                 ("openssl s_client -connect example.com:443", "Connect to SSL service"),
                 ("openssl x509 -in cert.pem -text -noout", "View certificate details"),
-                ("openssl s_client -connect example.com:443 -servername example.com", "SNI connection"),
-                ("openssl s_client -connect example.com:443 -showcerts", "Show all certificates in chain"),
-                ("openssl x509 -in cert.pem -noout -dates", "Show certificate validity dates"),
-                ("openssl x509 -in cert.pem -noout -subject", "Show certificate subject"),
+                (
+                    "openssl s_client -connect example.com:443 -servername example.com",
+                    "SNI connection",
+                ),
+                (
+                    "openssl s_client -connect example.com:443 -showcerts",
+                    "Show all certificates in chain",
+                ),
+                (
+                    "openssl x509 -in cert.pem -noout -dates",
+                    "Show certificate validity dates",
+                ),
+                (
+                    "openssl x509 -in cert.pem -noout -subject",
+                    "Show certificate subject",
+                ),
                 ("openssl x509 -in cert.pem -noout -issuer", "Show certificate issuer"),
-                ("openssl x509 -in cert.pem -noout -fingerprint", "Show certificate fingerprint"),
+                (
+                    "openssl x509 -in cert.pem -noout -fingerprint",
+                    "Show certificate fingerprint",
+                ),
             ],
             "Key Generation": [
                 ("openssl genrsa -out private.key 2048", "Generate RSA private key"),
-                ("openssl genrsa -out private.key 4096 -aes256", "Generate encrypted RSA key"),
-                ("openssl genpkey -algorithm RSA -out private.key -pkeyopt rsa_keygen_bits:2048", "Generate RSA key (new syntax)"),
-                ("openssl genpkey -algorithm EC -out ec.key -pkeyopt ec_paramgen_curve:P-256", "Generate EC key"),
-                ("openssl genpkey -algorithm Ed25519 -out ed25519.key", "Generate Ed25519 key"),
+                (
+                    "openssl genrsa -out private.key 4096 -aes256",
+                    "Generate encrypted RSA key",
+                ),
+                (
+                    "openssl genpkey -algorithm RSA -out private.key -pkeyopt rsa_keygen_bits:2048",
+                    "Generate RSA key (new syntax)",
+                ),
+                (
+                    "openssl genpkey -algorithm EC -out ec.key -pkeyopt ec_paramgen_curve:P-256",
+                    "Generate EC key",
+                ),
+                (
+                    "openssl genpkey -algorithm Ed25519 -out ed25519.key",
+                    "Generate Ed25519 key",
+                ),
             ],
             "Certificate Signing": [
                 ("openssl req -new -key private.key -out request.csr", "Generate CSR"),
-                ("openssl req -new -key private.key -out request.csr -subj '/CN=example.com'", "Generate CSR with subject"),
-                ("openssl x509 -req -in request.csr -signkey private.key -out cert.pem", "Self-sign certificate"),
-                ("openssl x509 -req -in request.csr -CA ca.crt -CAkey ca.key -out cert.pem", "Sign with CA"),
-                ("openssl x509 -req -in request.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out cert.pem", "Sign with CA and create serial"),
+                (
+                    "openssl req -new -key private.key -out request.csr -subj '/CN=example.com'",
+                    "Generate CSR with subject",
+                ),
+                (
+                    "openssl x509 -req -in request.csr -signkey private.key -out cert.pem",
+                    "Self-sign certificate",
+                ),
+                (
+                    "openssl x509 -req -in request.csr -CA ca.crt -CAkey ca.key -out cert.pem",
+                    "Sign with CA",
+                ),
+                (
+                    "openssl x509 -req -in request.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out cert.pem",
+                    "Sign with CA and create serial",
+                ),
             ],
             "Hash Functions": [
                 ("openssl dgst -md5 file.txt", "Calculate MD5 hash"),
@@ -1980,10 +2232,22 @@ class CommandHelper(BaseModule):
                 ("echo -n 'password' | openssl dgst -sha256", "Hash a string"),
             ],
             "Encryption/Decryption": [
-                ("openssl enc -aes-256-cbc -salt -in file.txt -out file.enc", "Encrypt file with AES"),
-                ("openssl enc -aes-256-cbc -d -in file.enc -out file.txt", "Decrypt AES encrypted file"),
-                ("openssl enc -des3 -salt -in file.txt -out file.enc", "Encrypt with 3DES"),
-                ("openssl enc -bf -salt -in file.txt -out file.enc", "Encrypt with Blowfish"),
+                (
+                    "openssl enc -aes-256-cbc -salt -in file.txt -out file.enc",
+                    "Encrypt file with AES",
+                ),
+                (
+                    "openssl enc -aes-256-cbc -d -in file.enc -out file.txt",
+                    "Decrypt AES encrypted file",
+                ),
+                (
+                    "openssl enc -des3 -salt -in file.txt -out file.enc",
+                    "Encrypt with 3DES",
+                ),
+                (
+                    "openssl enc -bf -salt -in file.txt -out file.enc",
+                    "Encrypt with Blowfish",
+                ),
                 ("openssl enc -rc4 -in file.txt -out file.enc", "Encrypt with RC4"),
             ],
             "Base64 Encoding": [
@@ -2002,15 +2266,36 @@ class CommandHelper(BaseModule):
             "SSL/TLS Testing": [
                 ("openssl s_client -connect example.com:443 -tls1_2", "Force TLS 1.2"),
                 ("openssl s_client -connect example.com:443 -tls1_3", "Force TLS 1.3"),
-                ("openssl s_client -connect example.com:443 -cipher 'HIGH:!aNULL'", "Test specific ciphers"),
-                ("openssl s_client -connect example.com:443 -verify_return_error", "Verify certificate"),
-                ("openssl s_client -connect example.com:443 -prexit", "Print session info"),
+                (
+                    "openssl s_client -connect example.com:443 -cipher 'HIGH:!aNULL'",
+                    "Test specific ciphers",
+                ),
+                (
+                    "openssl s_client -connect example.com:443 -verify_return_error",
+                    "Verify certificate",
+                ),
+                (
+                    "openssl s_client -connect example.com:443 -prexit",
+                    "Print session info",
+                ),
             ],
             "Certificate Conversion": [
-                ("openssl x509 -in cert.pem -outform DER -out cert.der", "Convert PEM to DER"),
-                ("openssl x509 -in cert.der -inform DER -out cert.pem", "Convert DER to PEM"),
-                ("openssl pkcs12 -export -in cert.pem -inkey private.key -out cert.p12", "Convert to PKCS12"),
-                ("openssl pkcs12 -in cert.p12 -out cert.pem -nodes", "Extract from PKCS12"),
+                (
+                    "openssl x509 -in cert.pem -outform DER -out cert.der",
+                    "Convert PEM to DER",
+                ),
+                (
+                    "openssl x509 -in cert.der -inform DER -out cert.pem",
+                    "Convert DER to PEM",
+                ),
+                (
+                    "openssl pkcs12 -export -in cert.pem -inkey private.key -out cert.p12",
+                    "Convert to PKCS12",
+                ),
+                (
+                    "openssl pkcs12 -in cert.p12 -out cert.pem -nodes",
+                    "Extract from PKCS12",
+                ),
             ],
         }
 
