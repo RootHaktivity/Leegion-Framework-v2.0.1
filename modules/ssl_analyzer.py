@@ -1399,10 +1399,12 @@ class SSLAnalyzer(BaseModule):
                 if cert:
                     f.write("\nCertificate:\n")
                     f.write(
-                        f"  Subject: {cert.get('subject', {}).get('commonName', 'N/A')}\n"
+                        f"  Subject: "
+                        f"{cert.get('subject', {}).get('commonName', 'N/A')}\n"
                     )
                     f.write(
-                        f"  Issuer: {cert.get('issuer', {}).get('organizationName', 'N/A')}\n"
+                        f"  Issuer: "
+                        f"{cert.get('issuer', {}).get('organizationName', 'N/A')}\n"
                     )
                     f.write(f"  Expires: {cert.get('not_after', 'N/A')}\n")
                     f.write(f"  Key Size: {cert.get('key_size', 'N/A')} bits\n")
@@ -1413,7 +1415,8 @@ class SSLAnalyzer(BaseModule):
                     f.write(f"\nVulnerabilities ({len(vulnerabilities)}):\n")
                     for vuln in vulnerabilities:
                         f.write(
-                            f"  [{vuln['severity']}] {vuln['name']}: {vuln['description']}\n"
+                            f"  [{vuln['severity']}] {vuln['name']}: "
+                            f"{vuln['description']}\n"
                         )
                 else:
                     f.write("\nNo vulnerabilities detected.\n")

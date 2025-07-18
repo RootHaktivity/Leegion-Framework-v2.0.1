@@ -643,8 +643,8 @@ class SubdomainEnumerator(BaseModule):
         try:
             # Wayback Machine API
             url = (
-                f"http://web.archive.org/cdx/search/cdx?url=*.{domain}&output=json&fl=original"
-                f"&collapse=urlkey"
+                f"http://web.archive.org/cdx/search/cdx?url=*.{domain}"
+                f"&output=json&fl=original&collapse=urlkey"
             )
             response = requests.get(url, timeout=30)
 
@@ -689,8 +689,8 @@ class SubdomainEnumerator(BaseModule):
         ]
 
         self.print_info(
-            f"Testing {len(historical_subs)} common historical subdomain "
-            f"patterns..."
+            f"Testing {len(historical_subs)} common historical "
+            f"subdomain patterns..."
         )
 
         for sub in historical_subs:
