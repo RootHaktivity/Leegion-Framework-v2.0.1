@@ -75,13 +75,15 @@ def load_config(config_path: str = "config/config.json") -> Dict[str, Any]:
 
         except (json.JSONDecodeError, IOError) as e:
             print(f"\033[91m[!]\033[0m Error loading config file: {e}")
-            print(f"\033[93m[!]\033[0m Using default configuration")
+            print("\033[93m[!]\033[0m Using default configuration")
             save_config(DEFAULT_CONFIG, config_path)
             return DEFAULT_CONFIG.copy()
     else:
         # Create default config file
         save_config(DEFAULT_CONFIG, config_path)
-        print(f"\033[92m[+]\033[0m Created default configuration at {config_path}")
+        print(
+            f"\033[92m[+]\033[0m Created default configuration at {config_path}"
+        )
         return DEFAULT_CONFIG.copy()
 
 
@@ -190,11 +192,16 @@ def validate_config(config: Dict[str, Any]) -> bool:
 
     # Validate numeric values
     if not isinstance(config["max_threads"], int) or config["max_threads"] <= 0:
-        print(f"\033[91m[!]\033[0m Invalid max_threads value: {config['max_threads']}")
+        print(
+            f"\033[91m[!]\033[0m Invalid max_threads value: "
+            f"{config['max_threads']}"
+        )
         return False
 
     if not isinstance(config["timeout"], (int, float)) or config["timeout"] <= 0:
-        print(f"\033[91m[!]\033[0m Invalid timeout value: {config['timeout']}")
+        print(
+            f"\033[91m[!]\033[0m Invalid timeout value: {config['timeout']}"
+        )
         return False
 
     return True
@@ -242,7 +249,8 @@ def get_wordlist_path(config_key: str, config: Dict[str, Any]) -> str:
         "subdomain_wordlist": [
             "./wordlists/subdomains.txt",
             "/usr/share/wordlists/subdomains.txt",
-            "/usr/share/wordlists/SecLists/Discovery/DNS/subdomains-top1million-5000.txt",
+            "/usr/share/wordlists/SecLists/Discovery/DNS/"
+            "subdomains-top1million-5000.txt",
         ],
         "directory_wordlist": [
             "./wordlists/dirb/common.txt",

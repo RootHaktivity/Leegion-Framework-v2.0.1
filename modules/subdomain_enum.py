@@ -1,20 +1,18 @@
 """
-Subdomain Enumeration module for Leegion Framework
-Advanced subdomain discovery using multiple techniques and tools
+Subdomain Enumerator Module for Leegion Framework
 
-Author: Leegion
-Project: Leegion Framework v2.0
-Copyright (c) 2025 Leegion. All rights reserved.
+This module provides comprehensive subdomain enumeration capabilities
+using various techniques and tools.
 """
 
-import subprocess
-import dns.resolver
-import requests
-import time
 import json
 import os
-from typing import Dict, List, Any, Set, Optional
+import time
 from datetime import datetime
+from typing import Any, Dict, List, Optional
+
+import dns.resolver
+import requests
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from core.base_module import BaseModule
 from core.banner import print_module_header
@@ -32,7 +30,9 @@ class SubdomainEnumerator(BaseModule):
 
     def run(self):
         """Main subdomain enumeration interface"""
-        print_module_header("Subdomain Enumerator", "Advanced Subdomain Discovery")
+        print_module_header(
+            "Subdomain Enumerator", "Advanced Subdomain Discovery"
+        )
 
         while True:
             self._display_enum_menu()
@@ -124,30 +124,19 @@ class SubdomainEnumerator(BaseModule):
             self.print_error("No wordlist available")
             return
 
-        self.print_info(f"Starting wordlist enumeration with {len(wordlist)} entries")
+        self.print_info(
+            f"Starting wordlist enumeration with {len(wordlist)} entries"
+        )
         self._enumerate_with_wordlist(domain, wordlist)
 
     def _dns_bruteforce(self):
         """Perform DNS bruteforce enumeration"""
-        print(f"\n\033[96m📚 WHAT IS SUBDOMAIN ENUMERATION?\033[0m")
-        print("Subdomain enumeration discovers hidden subdomains of a target domain")
+        print("\n\033[96m📚 WHAT IS SUBDOMAIN ENUMERATION?\033[0m")
+        print("\n\033[93m💡 WHAT YOU MIGHT DISCOVER:\033[0m")
+        print("\n\033[93m🎯 REAL-WORLD USE CASES:\033[0m")
         print(
-            "by testing common subdomain names and checking if they resolve to IP addresses."
-        )
-        print(f"\n\033[93m💡 WHAT YOU MIGHT DISCOVER:\033[0m")
-        print("• admin.example.com - Administrative interfaces and control panels")
-        print("• dev.example.com - Development servers with debugging enabled")
-        print("• staging.example.com - Staging environments with test data")
-        print("• api.example.com - API endpoints for applications")
-        print("• mail.example.com - Email servers and webmail interfaces")
-        print("• ftp.example.com - File transfer servers")
-        print(f"\n\033[93m🎯 REAL-WORLD USE CASES:\033[0m")
-        print("• Bug bounty hunting: Finding forgotten subdomains with vulnerabilities")
-        print("• Penetration testing: Expanding attack surface beyond main domain")
-        print("• CTF competitions: Discovering hidden challenge servers")
-        print("• Asset discovery: Mapping organization's complete web presence")
-        print(
-            f"\n\033[91m⚠️  REMEMBER:\033[0m Only test domains you own or have permission to test!"
+            "\n\033[91m⚠️  REMEMBER:\033[0m Only test domains you own or "
+            "have permission to test!"
         )
 
         domain = self.get_user_input("\nEnter target domain: ", "domain")
@@ -165,7 +154,8 @@ class SubdomainEnumerator(BaseModule):
             f"Starting DNS bruteforce with {len(wordlist)} common subdomains"
         )
         self.print_info(
-            "Looking for: Admin panels, dev servers, APIs, mail servers, staging environments"
+            "Looking for: Admin panels, dev servers, APIs, mail servers, "
+            "staging environments"
         )
         self._dns_bruteforce_with_wordlist(domain, wordlist, dns_servers)
 
@@ -180,7 +170,9 @@ class SubdomainEnumerator(BaseModule):
         # Multiple CT log sources
         ct_sources = [
             f"https://crt.sh/?q=%.{domain}&output=json",
-            f"https://api.certspotter.com/v1/issuances?domain={domain}&include_subdomains=true&expand=dns_names",
+            (
+                f"https://certspotter.com/api/v0/certs?domain={domain}"
+            ),
         ]
 
         for source in ct_sources:
@@ -215,11 +207,14 @@ class SubdomainEnumerator(BaseModule):
     def _subdomain_takeover_check(self):
         """Check discovered subdomains for takeover vulnerabilities"""
         if not self.discovered_subdomains:
-            self.print_warning("No subdomains discovered yet. Run enumeration first.")
+            self.print_warning(
+                "No subdomains discovered yet. Run enumeration first."
+            )
             return
 
         self.print_info(
-            f"Checking {len(self.discovered_subdomains)} subdomains for takeover vulnerabilities"
+            f"Checking {len(self.discovered_subdomains)} subdomains for "
+            f"takeover vulnerabilities"
         )
 
         vulnerable_subdomains = []
@@ -259,7 +254,9 @@ class SubdomainEnumerator(BaseModule):
                 # Check HTTP status
                 http_status = self._check_http_status(subdomain)
                 if http_status in [404, 403, 502, 503]:
-                    self.print_info(f"Interesting status {http_status}: {subdomain}")
+                    self.print_info(
+                        f"Interesting status {http_status}: {subdomain}"
+                    )
 
             except Exception as e:
                 self.logger.debug(f"Takeover check failed for {subdomain}: {e}")
@@ -310,7 +307,9 @@ class SubdomainEnumerator(BaseModule):
         self._subdomain_takeover_check()
 
         duration = time.time() - start_time
-        self.print_success(f"Comprehensive scan completed in {duration:.2f} seconds")
+        self.print_success(
+            f"Comprehensive scan completed in {duration:.2f} seconds"
+        )
         self.print_success(
             f"Total unique subdomains found: {len(self.discovered_subdomains)}"
         )
@@ -378,7 +377,9 @@ class SubdomainEnumerator(BaseModule):
 
         # Use thread pool for concurrent checks
         with ThreadPoolExecutor(max_workers=self.max_threads) as executor:
-            futures = [executor.submit(check_subdomain, sub) for sub in wordlist]
+            futures = [
+                executor.submit(check_subdomain, sub) for sub in wordlist
+            ]
 
             for future in as_completed(futures):
                 try:
@@ -387,7 +388,9 @@ class SubdomainEnumerator(BaseModule):
                     self.logger.debug(f"Subdomain check error: {e}")
 
         print()  # New line after progress
-        self.print_success(f"Wordlist enumeration completed. Found {found} subdomains.")
+        self.print_success(
+            f"Wordlist enumeration completed. Found {found} subdomains."
+        )
 
     def _dns_bruteforce_with_wordlist(
         self, domain: str, wordlist: List[str], dns_servers: List[str]
@@ -434,7 +437,9 @@ class SubdomainEnumerator(BaseModule):
         """Query certificate transparency logs"""
         try:
             headers = {
-                "User-Agent": self.config.get("user_agent", "Leegion-Framework/2.0")
+                "User-Agent": self.config.get(
+                    "user_agent", "Leegion-Framework/2.0"
+                )
             }
             response = requests.get(url, headers=headers, timeout=30)
 
@@ -481,7 +486,9 @@ class SubdomainEnumerator(BaseModule):
         try:
             url = f"https://crt.sh/?q=%.{domain}&output=json"
             headers = {
-                "User-Agent": self.config.get("user_agent", "Leegion-Framework/2.0")
+                "User-Agent": self.config.get(
+                    "user_agent", "Leegion-Framework/2.0"
+                )
             }
             response = requests.get(url, headers=headers, timeout=30)
 
@@ -489,14 +496,18 @@ class SubdomainEnumerator(BaseModule):
                 self._parse_crtsh_response(response.json(), domain)
 
         except Exception as e:
-            self.print_warning(f"Certificate transparency scan failed: {e}")
+            self.print_warning(
+                f"Certificate transparency scan failed: {e}"
+            )
 
     def _perform_permutation_scan(
         self, domain: str, base_subs: Optional[List[str]] = None
     ):
         """Generate and test subdomain permutations"""
         if not base_subs:
-            base_subs = ["www", "mail", "ftp", "admin", "api", "dev", "test", "staging"]
+            base_subs = [
+                "www", "mail", "ftp", "admin", "api", "dev", "test", "staging"
+            ]
 
         # Permutation patterns
         patterns = [
@@ -543,7 +554,8 @@ class SubdomainEnumerator(BaseModule):
 
         # Combine all results
         all_found = (
-            google_subdomains + bing_subdomains + ct_subdomains + pattern_subdomains
+            google_subdomains + bing_subdomains + ct_subdomains + 
+            pattern_subdomains
         )
 
         for subdomain in set(all_found):
@@ -557,7 +569,10 @@ class SubdomainEnumerator(BaseModule):
         try:
             # Use requests to search for subdomains
             headers = {
-                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
+                "User-Agent": (
+                    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+                    "AppleWebKit/537.36"
+                )
             }
 
             # Search for site:*.domain.com
@@ -582,7 +597,10 @@ class SubdomainEnumerator(BaseModule):
         subdomains = []
         try:
             headers = {
-                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
+                "User-Agent": (
+                    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+                    "AppleWebKit/537.36"
+                )
             }
 
             search_url = f"https://www.bing.com/search?q=site%3A{domain}"
@@ -607,7 +625,8 @@ class SubdomainEnumerator(BaseModule):
             # Use multiple CT log sources
             ct_sources = [
                 f"https://crt.sh/?q=%.{domain}&output=json",
-                f"https://certspotter.com/api/v0/certs?domain={domain}",
+                (f"https://certspotter.com/api/v0/certs?domain={domain}" 
+                 ),
             ]
 
             for source in ct_sources:
@@ -651,7 +670,10 @@ class SubdomainEnumerator(BaseModule):
         """Check web archives for historical subdomains"""
         try:
             # Wayback Machine API
-            url = f"http://web.archive.org/cdx/search/cdx?url=*.{domain}&output=json&fl=original&collapse=urlkey"
+            url = (
+                f"http://web.archive.org/cdx/search/cdx?url=*.{domain}&output=json&fl=original"
+                f"&collapse=urlkey"
+            )
             response = requests.get(url, timeout=30)
 
             if response.status_code == 200:
@@ -695,7 +717,8 @@ class SubdomainEnumerator(BaseModule):
         ]
 
         self.print_info(
-            f"Testing {len(historical_subs)} common historical subdomain patterns..."
+            f"Testing {len(historical_subs)} common historical subdomain "
+            f"patterns..."
         )
 
         for sub in historical_subs:
@@ -706,7 +729,8 @@ class SubdomainEnumerator(BaseModule):
 
         # Enhanced functionality available with commercial APIs
         self.print_info(
-            "Enhanced: Full DNS history available with APIs (SecurityTrails, PassiveTotal)"
+            "Enhanced: Full DNS history available with APIs (SecurityTrails, "
+            "PassiveTotal)"
         )
 
     def _resolve_subdomain(self, subdomain: str) -> bool:
@@ -716,7 +740,7 @@ class SubdomainEnumerator(BaseModule):
             resolver.timeout = self.timeout
             resolver.resolve(subdomain, "A")
             return True
-        except:
+        except Exception:
             return False
 
     def _get_cname_records(self, subdomain: str) -> List[str]:
@@ -726,7 +750,7 @@ class SubdomainEnumerator(BaseModule):
             resolver.timeout = self.timeout
             answers = resolver.resolve(subdomain, "CNAME")
             return [str(answer) for answer in answers]
-        except:
+        except Exception:
             return []
 
     def _check_http_status(self, subdomain: str) -> Optional[int]:
@@ -736,13 +760,13 @@ class SubdomainEnumerator(BaseModule):
                 f"http://{subdomain}", timeout=5, allow_redirects=False
             )
             return response.status_code
-        except:
+        except Exception:
             try:
                 response = requests.get(
                     f"https://{subdomain}", timeout=5, allow_redirects=False
                 )
                 return response.status_code
-            except:
+            except Exception:
                 return None
 
     def _validate_all_subdomains(self):
@@ -945,7 +969,7 @@ class SubdomainEnumerator(BaseModule):
                 resolver.timeout = 2
                 answers = resolver.resolve(subdomain, "A")
                 ip = str(answers[0])
-            except:
+            except Exception:
                 ip = "N/A"
 
             print(f"\033[96m{i:3d}.\033[0m {subdomain:30} \033[94m{ip}\033[0m")
@@ -953,7 +977,7 @@ class SubdomainEnumerator(BaseModule):
             # Show in batches
             if i % 20 == 0 and i < len(sorted_subdomains):
                 more = self.get_user_input("Press Enter to continue or 'q' to stop: ")
-                if more.lower() == "q":
+                if more and more.lower() == "q":
                     break
 
     def _export_results(self):
@@ -1028,14 +1052,14 @@ class SubdomainEnumerator(BaseModule):
                     try:
                         a_answers = resolver.resolve(subdomain, "A")
                         ip = str(a_answers[0])
-                    except:
+                    except Exception:
                         ip = ""
 
                     # Get CNAME record
                     try:
                         cname_answers = resolver.resolve(subdomain, "CNAME")
                         cname = str(cname_answers[0])
-                    except:
+                    except Exception:
                         cname = ""
 
                     writer.writerow([subdomain, ip, cname])
@@ -1075,7 +1099,7 @@ class SubdomainEnumerator(BaseModule):
             for subdomain in sorted(self.discovered_subdomains):
                 f.write(f"{subdomain}\n")
 
-            f.write(f"\nENUMERATION SUMMARY\n")
+            f.write("\nENUMERATION SUMMARY\n")
             f.write("-" * 20 + "\n")
 
             for result in self.enumeration_results:

@@ -1,19 +1,17 @@
 """
-Report Generator module for Leegion Framework
-Comprehensive reporting system with multiple output formats
+Report Generator Module for Leegion Framework
 
-Author: Leegion
-Project: Leegion Framework v2.0
-Copyright (c) 2025 Leegion. All rights reserved.
+This module provides comprehensive report generation capabilities
+for various security assessment results.
 """
 
 import json
+import os
+from datetime import datetime
+from typing import Any, Dict, List
+
 import csv
 import xml.etree.ElementTree as ET
-import os
-from typing import Dict, List, Any, Optional
-from datetime import datetime
-from pathlib import Path
 import sqlite3
 from core.logger import setup_logger
 
@@ -25,7 +23,7 @@ class ReportGenerator:
         try:
             with open(config_path, "r") as f:
                 self.config = json.load(f)
-        except:
+        except Exception:
             self.config = {"output_dir": "./reports/output"}
 
         self.logger = setup_logger(self.config.get("log_level", "INFO"))
@@ -89,7 +87,9 @@ class ReportGenerator:
             conn.close()
 
         except Exception as e:
-            print(f"\033[91m[!]\033[0m Database initialization failed: {e}")
+            print(
+                f"\033[91m[!]\033[0m Database initialization failed: {e}"
+            )
 
     def store_scan_result(
         self, module_name: str, target: str, scan_type: str, results: Dict[str, Any]
@@ -100,10 +100,10 @@ class ReportGenerator:
             cursor = conn.cursor()
 
             cursor.execute(
-                """
-                INSERT INTO scan_results (timestamp, module_name, target, scan_type, results_json)
-                VALUES (?, ?, ?, ?, ?)
-            """,
+                (
+                    "INSERT INTO scan_results (timestamp, module_name, target, "
+                    "scan_type, results_json) VALUES (?, ?, ?, ?, ?)"
+                ),
                 (
                     datetime.now().isoformat(),
                     module_name,
@@ -119,10 +119,10 @@ class ReportGenerator:
             if "vulnerabilities" in results:
                 for vuln in results["vulnerabilities"]:
                     cursor.execute(
-                        """
-                        INSERT INTO vulnerabilities (scan_id, vulnerability_type, severity, description, target)
-                        VALUES (?, ?, ?, ?, ?)
-                    """,
+                        (
+                            "INSERT INTO vulnerabilities (scan_id, vulnerability_type, "
+                            "severity, description, target) VALUES (?, ?, ?, ?, ?)"
+                        ),
                         (
                             scan_id,
                             vuln.get("type", "Unknown"),
@@ -136,20 +136,20 @@ class ReportGenerator:
             if "discovered_hosts" in results:
                 for host in results["discovered_hosts"]:
                     cursor.execute(
-                        """
-                        INSERT INTO discovered_assets (asset_type, asset_value, source_scan_id)
-                        VALUES (?, ?, ?)
-                    """,
+                        (
+                            "INSERT INTO discovered_assets (asset_type, asset_value, "
+                            "source_scan_id) VALUES (?, ?, ?)"
+                        ),
                         ("host", host, scan_id),
                     )
 
             if "discovered_subdomains" in results:
                 for subdomain in results["discovered_subdomains"]:
                     cursor.execute(
-                        """
-                        INSERT INTO discovered_assets (asset_type, asset_value, source_scan_id)
-                        VALUES (?, ?, ?)
-                    """,
+                        (
+                            "INSERT INTO discovered_assets (asset_type, asset_value, "
+                            "source_scan_id) VALUES (?, ?, ?)"
+                        ),
                         ("subdomain", subdomain, scan_id),
                     )
 
@@ -208,12 +208,17 @@ class ReportGenerator:
             scan_data = self._get_all_scan_data()
 
             if not scan_data:
-                print("\033[91m[!]\033[0m No scan data available for report generation")
+                print(
+                    "\033[91m[!]\033[0m No scan data available for "
+                    "report generation"
+                )
                 return
 
             # Generate in multiple formats
             formats = (
-                input("Select formats (json,html,pdf,csv - comma separated): ")
+                input(
+                    "Select formats (json,html,pdf,csv - comma separated): "
+                )
                 .strip()
                 .lower()
             )
@@ -236,11 +241,16 @@ class ReportGenerator:
                 else:
                     print(f"\033[93m[!]\033[0m Unsupported format: {fmt}")
 
-            print(f"\033[92m[+]\033[0m Comprehensive report generated: {report_name}")
+            print(
+                f"\033[92m[+]\033[0m Comprehensive report generated: "
+                f"{report_name}"
+            )
 
         except Exception as e:
             print(f"\033[91m[!]\033[0m Report generation failed: {e}")
-            self.logger.error(f"Comprehensive report generation error: {e}")
+            self.logger.error(
+                f"Comprehensive report generation error: {e}"
+            )
 
     def generate_vulnerability_report(self):
         """Generate focused vulnerability report"""
@@ -251,7 +261,9 @@ class ReportGenerator:
             vulnerabilities = self._get_all_vulnerabilities()
 
             if not vulnerabilities:
-                print("\033[91m[!]\033[0m No vulnerabilities found in database")
+                print(
+                    "\033[91m[!]\033[0m No vulnerabilities found in database"
+                )
                 return
 
             # Group vulnerabilities by severity
@@ -321,7 +333,8 @@ class ReportGenerator:
                     "total_assets": len(assets),
                     "asset_types": list(assets_by_type.keys()),
                     "assets_by_type_count": {
-                        k: len(v) for k, v in assets_by_type.items()
+                        k: len(v)
+                        for k, v in assets_by_type.items()
                     },
                 },
                 "assets_by_type": assets_by_type,
@@ -448,23 +461,27 @@ class ReportGenerator:
             print(f"\033[96mTotal Scans:\033[0m {stats.get('total_scans', 0)}")
             print(f"\033[96mUnique Targets:\033[0m {stats.get('unique_targets', 0)}")
             print(
-                f"\033[96mTotal Vulnerabilities:\033[0m {stats.get('total_vulnerabilities', 0)}"
+                f"\033[96mTotal Vulnerabilities:\033[0m "
+                f"{stats.get('total_vulnerabilities', 0)}"
             )
             print(
-                f"\033[96mCritical Vulnerabilities:\033[0m {stats.get('critical_vulnerabilities', 0)}"
+                f"\033[96mCritical Vulnerabilities:\033[0m "
+                f"{stats.get('critical_vulnerabilities', 0)}"
             )
             print(f"\033[96mTotal Assets:\033[0m {stats.get('total_assets', 0)}")
             print(
-                f"\033[96mScan Types Used:\033[0m {', '.join(stats.get('scan_types', []))}"
+                f"\033[96mScan Types Used:\033[0m "
+                f"{', '.join(stats.get('scan_types', []))}"
             )
             print(
-                f"\033[96mModules Used:\033[0m {', '.join(stats.get('modules_used', []))}"
+                f"\033[96mModules Used:\033[0m "
+                f"{', '.join(stats.get('modules_used', []))}"
             )
 
             # Recent activity
             recent_scans = self._get_recent_scans(limit=5)
             if recent_scans:
-                print(f"\n\033[93mRecent Scans:\033[0m")
+                print("\n\033[93mRecent Scans:\033[0m")
                 for scan in recent_scans:
                     timestamp = scan.get("timestamp", "")[:19].replace("T", " ")
                     print(
@@ -1217,12 +1234,9 @@ class ReportGenerator:
                 raise FileNotFoundError("wkhtmltopdf not found")
 
         except (FileNotFoundError, subprocess.CalledProcessError):
-            print(f"\033[93m[!]\033[0m PDF generation requires wkhtmltopdf")
-            print(f"\033[96m[i]\033[0m Install with: sudo apt-get install wkhtmltopdf")
-            print(f"\033[96m[i]\033[0m HTML report available at: {html_filepath}")
-            print(
-                f"\033[96m[i]\033[0m You can manually convert HTML to PDF using browser print function"
-            )
+            print("\033[93m[!]\033[0m PDF generation requires wkhtmltopdf")
+            print("\033[96m[i]\033[0m Install with: sudo apt-get install wkhtmltopdf")
+            print("\033[96m[i]\033[0m You can manually convert HTML to PDF using browser print function")
 
     def _format_html_summary(self, data: Any) -> str:
         """Format data for HTML summary section"""

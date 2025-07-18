@@ -110,13 +110,13 @@ def print_learning_resources():
     print("\033[96m" + "🎓 LEARNING RESOURCES FOR BEGINNERS".center(65) + "\033[0m")
     print("\033[96m" + "=" * 65 + "\033[0m")
     print(
-        f"\033[92m🌟 TryHackMe.com\033[0m - Interactive cybersecurity learning platform"
+        "🌟 TryHackMe.com - Interactive cybersecurity learning platform"
     )
     print("   • Hands-on labs and guided learning paths")
     print("   • Practice the tools and techniques in this framework")
     print("   • Build skills from beginner to advanced levels")
     print(
-        f"\n\033[93m💡 PRO TIP:\033[0m Start with TryHackMe's 'Complete Beginner' path"
+        "\n💡 PRO TIP: Start with TryHackMe's 'Complete Beginner' path"
     )
     print("   then use this framework to practice what you learn!")
     print("\033[96m" + "=" * 65 + "\033[0m")

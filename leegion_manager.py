@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 """
 Leegion Framework Manager
-Comprehensive installation, uninstallation, and management tool
+
+This module provides the main management interface for the Leegion Framework,
+handling module initialization, configuration, and execution.
 
 Author: Leegion
 Project: Leegion Framework v2.0
@@ -16,8 +18,9 @@ import argparse
 import json
 import time
 from pathlib import Path
-from typing import List, Dict, Any, Optional
-import getpass
+from typing import Any, Dict
+
+
 
 # Installation configuration
 INSTALL_DIR = Path("/opt/leegion-framework")
@@ -75,7 +78,10 @@ def check_root():
     if os.geteuid() != 0:
         print_error("This operation requires root privileges.")
         print_info("Please run with sudo:")
-        print(f"sudo python3 {sys.argv[0]} {sys.argv[1] if len(sys.argv) > 1 else ''}")
+        print(
+            f"sudo python3 {sys.argv[0]} "
+            f"{sys.argv[1] if len(sys.argv) > 1 else ''}"
+        )
         sys.exit(1)
 
 
@@ -83,7 +89,8 @@ def check_apt():
     """Check if apt is available"""
     if not shutil.which("apt"):
         print_error(
-            "'apt' package manager not found. This manager currently supports Debian-based systems."
+            "'apt' package manager not found. "
+            "This manager currently supports Debian-based systems."
         )
         sys.exit(1)
 
@@ -96,7 +103,10 @@ def check_python():
         try:
             subprocess.run(["apt", "update"], check=True, capture_output=True)
             subprocess.run(
-                ["apt", "install", "-y", "python3", "python3-pip", "python3-venv"],
+                [
+                    "apt", "install", "-y", "python3", "python3-pip", 
+                    "python3-venv"
+                ],
                 check=True,
             )
             print_success("Python 3 installed successfully")
@@ -109,14 +119,18 @@ def install_dependencies():
     """Install required system dependencies"""
     print_step("Installing system dependencies...")
 
-    dependencies = ["python3", "python3-venv", "python3-pip", "nmap", "curl", "git"]
+    dependencies = [
+        "python3", "python3-venv", "python3-pip", "nmap", "curl", "git"
+    ]
 
     try:
         # Update package list
         subprocess.run(["apt", "update"], check=True, capture_output=True)
 
         # Install dependencies
-        subprocess.run(["apt", "install", "-y"] + dependencies, check=True)
+        subprocess.run(
+            ["apt", "install", "-y"] + dependencies, check=True
+        )
         print_success("System dependencies installed successfully")
     except subprocess.CalledProcessError as e:
         print_warning(f"Could not install some system dependencies: {e}")
@@ -128,7 +142,9 @@ def install_python_packages():
     print_step("Setting up Python virtual environment...")
     venv_path = INSTALL_DIR / "venv"
     if not venv_path.exists():
-        subprocess.run([sys.executable, "-m", "venv", str(venv_path)], check=True)
+        subprocess.run(
+            [sys.executable, "-m", "venv", str(venv_path)], check=True
+        )
 
     pip_executable = venv_path / "bin" / "pip"
     packages = [
@@ -145,8 +161,12 @@ def install_python_packages():
     ]
 
     print_step("Installing Python packages in virtual environment...")
-    subprocess.run([str(pip_executable), "install", "--upgrade", "pip"], check=True)
-    subprocess.run([str(pip_executable), "install"] + packages, check=True)
+    subprocess.run(
+        [str(pip_executable), "install", "--upgrade", "pip"], check=True
+    )
+    subprocess.run(
+        [str(pip_executable), "install"] + packages, check=True
+    )
     print_success("Python packages installed successfully in venv")
 
 
@@ -332,7 +352,8 @@ def stop_running_processes():
     try:
         # Check for running processes - be more specific to avoid killing the manager
         result = subprocess.run(
-            ["pgrep", "-f", "leegion main.py"], capture_output=True, text=True
+            ["pgrep", "-f", "leegion main.py"], 
+            capture_output=True, text=True
         )
         if result.returncode == 0:
             print_warning("Found running Leegion processes. Stopping them...")
@@ -341,11 +362,14 @@ def stop_running_processes():
 
             # Force kill if still running
             result = subprocess.run(
-                ["pgrep", "-f", "leegion main.py"], capture_output=True, text=True
+                ["pgrep", "-f", "leegion main.py"], 
+                capture_output=True, text=True
             )
             if result.returncode == 0:
                 print_warning("Force stopping remaining processes...")
-                subprocess.run(["pkill", "-9", "-f", "leegion main.py"], check=False)
+                subprocess.run(
+                    ["pkill", "-9", "-f", "leegion main.py"], check=False
+                )
 
             print_success("All Leegion processes stopped")
         else:
@@ -403,7 +427,8 @@ def run_tests():
             [
                 sys.executable,
                 "-c",
-                "import sys; sys.path.append('.'); import main; print('✅ Framework imports successfully')",
+                "import sys; sys.path.append('.'); import main; "
+                "print('✅ Framework imports successfully')",
             ],
             check=True,
         )
@@ -412,17 +437,26 @@ def run_tests():
         if INSTALL_DIR.exists():
             venv_python = INSTALL_DIR / "venv" / "bin" / "python"
             if venv_python.exists():
-                print("🧪 Running unit tests using framework's virtual environment...")
+                print(
+                    "🧪 Running unit tests using framework's virtual environment..."
+                )
                 subprocess.run(
-                    [str(venv_python), "-m", "pytest", "tests/", "-v", "--tb=short"],
+                    [
+                        str(venv_python), "-m", "pytest", "tests/", "-v", 
+                        "--tb=short"
+                    ],
                     check=True,
                 )
             else:
                 print_warning(
-                    "Framework virtual environment not found, trying system pytest..."
+                    "Framework virtual environment not found, "
+                    "trying system pytest..."
                 )
                 subprocess.run(
-                    [sys.executable, "-m", "pytest", "tests/", "-v", "--tb=short"],
+                    [
+                        sys.executable, "-m", "pytest", "tests/", "-v", 
+                        "--tb=short"
+                    ],
                     check=True,
                 )
         else:
@@ -430,7 +464,10 @@ def run_tests():
             # Try to install pytest if not available
             try:
                 subprocess.run(
-                    [sys.executable, "-m", "pip", "install", "--user", "pytest"],
+                    [
+                        sys.executable, "-m", "pip", "install", "--user", 
+                        "pytest"
+                    ],
                     check=True,
                 )
             except subprocess.CalledProcessError:
@@ -438,7 +475,10 @@ def run_tests():
                 return
 
             subprocess.run(
-                [sys.executable, "-m", "pytest", "tests/", "-v", "--tb=short"],
+                [
+                    sys.executable, "-m", "pytest", "tests/", "-v", 
+                    "--tb=short"
+                ],
                 check=True,
             )
 
@@ -473,7 +513,9 @@ def install_framework():
         create_user_config()
 
         print_success("Installation completed!")
-        print_info("You can now run 'leegion' from anywhere on your system")
+        print_info(
+            "You can now run 'leegion' from anywhere on your system"
+        )
 
     except Exception as e:
         print_error(f"Installation failed: {e}")
@@ -503,7 +545,9 @@ def uninstall_framework():
 
         # Remove user config (ask first)
         if USER_CONFIG_DIR.exists():
-            response = input(f"Remove user configuration ({USER_CONFIG_DIR})? (y/N): ")
+            response = input(
+                f"Remove user configuration ({USER_CONFIG_DIR})? (y/N): "
+            )
             if response.lower() in ["y", "yes"]:
                 print_info(f"Removing {USER_CONFIG_DIR}...")
                 shutil.rmtree(USER_CONFIG_DIR)
@@ -568,7 +612,9 @@ def show_interactive_menu():
         elif status_info["status"] == "not_installed":
             print(f"{Colors.RED}✗ Framework Status: NOT INSTALLED{Colors.NC}")
         else:
-            print(f"{Colors.YELLOW}⚠ Framework Status: PARTIALLY INSTALLED{Colors.NC}")
+            print(
+                f"{Colors.YELLOW}⚠ Framework Status: PARTIALLY INSTALLED{Colors.NC}"
+            )
         print()
 
         print("Available Actions:")

@@ -8,17 +8,15 @@ Copyright (c) 2025 Leegion. All rights reserved.
 """
 
 import json
-import os
-import sys
 import time
 from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional, Union
-from pathlib import Path
+from datetime import datetime
+from typing import Any, Dict, List, Optional
 
-from core.logger import setup_logger
-from core.banner import print_module_header, print_status_message
-from core.security import validate_input_security
-from core.utils import sanitize_filename
+import core.logger
+import core.monitoring
+import core.security
+import core.utils
 
 
 class BaseModule(ABC):
@@ -27,7 +25,7 @@ class BaseModule(ABC):
     def __init__(self, config: Dict[str, Any], module_name: str):
         self.config = config
         self.module_name = module_name
-        self.logger = setup_logger(config.get("log_level", "INFO"))
+        self.logger = core.logger.setup_logger(config.get("log_level", "INFO"))
         self.results = []
         self.session_data = {}
 
@@ -49,7 +47,7 @@ class BaseModule(ABC):
         """
         try:
             # Use enhanced security validation
-            result = validate_input_security(input_value, input_type)
+            result = core.security.validate_input_security(input_value, input_type)
 
             if not result["valid"]:
                 self.print_error(f"Security validation failed: {result['reason']}")
@@ -286,7 +284,6 @@ class BaseModule(ABC):
             True if successful, False otherwise
         """
         import os
-        from datetime import datetime
 
         try:
             output_dir = self.config.get("output_dir", "./reports/output")

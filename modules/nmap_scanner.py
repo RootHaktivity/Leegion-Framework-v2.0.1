@@ -10,7 +10,7 @@ Copyright (c) 2025 Leegion. All rights reserved.
 import subprocess
 import json
 import xml.etree.ElementTree as ET
-from typing import Dict, List, Any, Optional
+from typing import Any, Dict, Optional
 from datetime import datetime
 import time
 from core.base_module import BaseModule
@@ -102,24 +102,25 @@ class NmapScanner(BaseModule):
 
     def _quick_scan(self):
         """Perform quick scan on top 1000 ports"""
-        print(f"\n\033[96m📚 WHAT IS A QUICK NETWORK SCAN?\033[0m")
-        print("A quick scan rapidly identifies open ports and running services")
-        print("on a target system using Nmap's top 1000 most common ports.")
-        print(f"\n\033[93m💡 WHAT YOU'LL DISCOVER:\033[0m")
+        print("\n\033[96m📚 WHAT IS A QUICK NETWORK SCAN?\033[0m")
+        print("\n\033[93m💡 WHAT YOU'LL DISCOVER:\033[0m")
+        print("\n\033[93m🎯 WHEN TO USE QUICK SCANS:\033[0m")
+        print("\n\033[96m⚡ SPEED vs ACCURACY:\033[0m")
         print("• Port 22 (SSH) - Remote terminal access")
         print("• Port 80/443 (HTTP/HTTPS) - Web servers and applications")
         print("• Port 21 (FTP) - File transfer services")
         print("• Port 25 (SMTP) - Email servers")
         print("• Port 3389 (RDP) - Windows remote desktop")
         print("• Port 445 (SMB) - Windows file sharing")
-        print(f"\n\033[93m🎯 WHEN TO USE QUICK SCANS:\033[0m")
+        print("\n\033[93m🎯 WHEN TO USE QUICK SCANS:\033[0m")
         print("• CTF competitions: Fast initial reconnaissance")
         print("• Time-constrained pentests: Rapid service discovery")
         print("• Network inventory: Quick asset identification")
         print("• Bug bounty: Initial target assessment")
-        print(f"\n\033[96m⚡ SPEED vs ACCURACY:\033[0m")
+        print("\n\033[96m⚡ SPEED vs ACCURACY:\033[0m")
         print(
-            "Quick scans prioritize speed over stealth - use for time-sensitive scenarios"
+            "Quick scans prioritize speed over stealth - "
+            "use for time-sensitive scenarios"
         )
 
         target = self.get_user_input("\nEnter target IP or hostname: ", "general")
@@ -127,8 +128,12 @@ class NmapScanner(BaseModule):
             return
 
         args = "-F -T4"  # Fast scan, aggressive timing
-        self.print_info("Starting aggressive quick scan (top 1000 ports, high speed)")
-        self.print_info("Scanning for: Web servers, SSH, FTP, email, database services")
+        self.print_info(
+            "Starting aggressive quick scan (top 1000 ports, high speed)"
+        )
+        self.print_info(
+            "Scanning for: Web servers, SSH, FTP, email, database services"
+        )
         self._execute_nmap_scan(target, args, "Quick Scan")
 
     def _full_tcp_scan(self):
@@ -139,7 +144,7 @@ class NmapScanner(BaseModule):
 
         self.print_warning("Full TCP scan may take a long time!")
         confirm = self.get_user_input("Continue? (y/N): ")
-        if confirm.lower() != "y":
+        if confirm and confirm.lower() != "y":
             return
 
         args = "-p- -T3"  # All ports, normal timing
@@ -153,7 +158,7 @@ class NmapScanner(BaseModule):
 
         self.print_warning("UDP scan requires root privileges and may be slow!")
         confirm = self.get_user_input("Continue? (y/N): ")
-        if confirm.lower() != "y":
+        if confirm and confirm.lower() != "y":
             return
 
         args = "-sU --top-ports 100"  # Top 100 UDP ports
@@ -211,7 +216,7 @@ class NmapScanner(BaseModule):
             "5": "--script ssh-*",
         }
 
-        args = script_args.get(category, "-sC -sV")
+        args = script_args.get(str(category), "-sC -sV")
         self._execute_nmap_scan(target, args, "Vulnerability Scan")
 
     def _custom_scan(self):
@@ -245,15 +250,19 @@ class NmapScanner(BaseModule):
             return
 
         # Host discovery first
-        discovery_scan = self.get_user_input("Perform host discovery first? (Y/n): ")
-        if discovery_scan.lower() != "n":
+        discovery_scan = self.get_user_input(
+            "Perform host discovery first? (Y/n): "
+        )
+        if discovery_scan and discovery_scan.lower() != "n":
             self.print_info("Performing host discovery...")
             args = "-sn"  # Ping scan only
             self._execute_nmap_scan(target, args, "Host Discovery")
 
         # Port scan on discovered hosts
-        scan_ports = self.get_user_input("Scan ports on discovered hosts? (Y/n): ")
-        if scan_ports.lower() != "n":
+        scan_ports = self.get_user_input(
+            "Scan ports on discovered hosts? (Y/n): "
+        )
+        if scan_ports and scan_ports.lower() != "n":
             args = "-F -T4"  # Fast scan
             self._execute_nmap_scan(target, args, "Network Range Scan")
 
@@ -265,7 +274,9 @@ class NmapScanner(BaseModule):
 
             # Add output format options
             timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-            output_file = f"nmap_{scan_type.lower().replace(' ', '_')}_{timestamp}"
+            output_file = (
+                f"nmap_{scan_type.lower().replace(' ', '_')}_{timestamp}"
+            )
 
             # Add XML output for parsing
             cmd.extend(["-oX", f"/tmp/{output_file}.xml"])
@@ -288,11 +299,12 @@ class NmapScanner(BaseModule):
 
             # Monitor output
             output_lines = []
-            for line in process.stdout:
-                line = line.strip()
-                if line:
-                    print(f"\033[94m[Nmap]\033[0m {line}")
-                    output_lines.append(line)
+            if process.stdout:
+                for line in process.stdout:
+                    line = line.strip()
+                    if line:
+                        print(f"\033[94m[Nmap]\033[0m {line}")
+                        output_lines.append(line)
 
             # Wait for completion
             return_code = process.wait()
@@ -312,14 +324,21 @@ class NmapScanner(BaseModule):
                 )
 
             else:
-                self.print_error(f"{scan_type} failed with return code: {return_code}")
+                self.print_error(
+                    f"{scan_type} failed with return code: {return_code}"
+                )
 
         except Exception as e:
             self.print_error(f"Scan execution failed: {e}")
             self.logger.error(f"Nmap scan error: {e}")
 
     def _parse_and_store_results(
-        self, xml_file: str, target: str, scan_type: str, duration: float, command: str
+        self, 
+        xml_file: str, 
+        target: str, 
+        scan_type: str, 
+        duration: float, 
+        command: str
     ):
         """Parse XML results and store them"""
         try:
@@ -368,7 +387,10 @@ class NmapScanner(BaseModule):
             # Parse addresses
             for addr in host_element.findall("address"):
                 host_info["addresses"].append(
-                    {"addr": addr.get("addr"), "addrtype": addr.get("addrtype")}
+                    {
+                        "addr": addr.get("addr") or "",
+                        "addrtype": addr.get("addrtype") or ""
+                    }
                 )
 
             # Parse hostnames
@@ -376,13 +398,16 @@ class NmapScanner(BaseModule):
             if hostnames is not None:
                 for hostname in hostnames.findall("hostname"):
                     host_info["hostnames"].append(
-                        {"name": hostname.get("name"), "type": hostname.get("type")}
+                        {
+                            "name": hostname.get("name") or "",
+                            "type": hostname.get("type") or ""
+                        }
                     )
 
             # Parse status
             status = host_element.find("status")
             if status is not None:
-                host_info["status"] = status.get("state")
+                host_info["status"] = status.get("state") or "unknown"
 
             # Parse ports
             ports = host_element.find("ports")
@@ -497,7 +522,7 @@ class NmapScanner(BaseModule):
             # Display open ports
             open_ports = [p for p in host["ports"] if p["state"] == "open"]
             if open_ports:
-                print(f"  \033[96mOpen Ports:\033[0m")
+                print("  \033[96mOpen Ports:\033[0m")
                 for port in open_ports[:10]:  # Limit to first 10
                     service_info = port["service"]
                     service_name = service_info.get("name", "unknown")
@@ -506,7 +531,9 @@ class NmapScanner(BaseModule):
 
                     port_desc = f"{port['portid']}/{port['protocol']}"
                     if product and version:
-                        service_desc = f"{service_name} ({product} {version})"
+                        service_desc = (
+                            f"{service_name} ({product} {version})"
+                        )
                     elif product:
                         service_desc = f"{service_name} ({product})"
                     else:
@@ -515,13 +542,16 @@ class NmapScanner(BaseModule):
                     print(f"    {port_desc:15} {service_desc}")
 
                 if len(open_ports) > 10:
-                    print(f"    ... and {len(open_ports) - 10} more ports")
+                    print(
+                        f"    ... and {len(open_ports) - 10} more ports"
+                    )
 
             # Display OS information if available
             if host["os"] and host["os"]["matches"]:
                 best_match = host["os"]["matches"][0]
                 print(
-                    f"  \033[96mOS Guess:\033[0m {best_match['name']} ({best_match['accuracy']}% accuracy)"
+                    f"  \033[96mOS Guess:\033[0m {best_match['name']} "
+                    f"({best_match['accuracy']}% accuracy)"
                 )
 
     def _view_scan_history(self):
@@ -535,9 +565,13 @@ class NmapScanner(BaseModule):
 
         for i, scan in enumerate(self.scan_results, 1):
             timestamp = scan["timestamp"][:19].replace("T", " ")
-            print(f"\033[96m{i:2d}.\033[0m {scan['scan_type']} on {scan['target']}")
             print(
-                f"     {timestamp} | Duration: {scan['duration']:.1f}s | Hosts: {len(scan['hosts'])}"
+                f"\033[96m{i:2d}.\033[0m {scan['scan_type']} on "
+                f"{scan['target']}"
+            )
+            print(
+                f"     {timestamp} | Duration: {scan['duration']:.1f}s | "
+                f"Hosts: {len(scan['hosts'])}"
             )
 
         # Allow viewing detailed results
@@ -775,7 +809,8 @@ class NmapScanner(BaseModule):
                     if host["os"] and host["os"]["matches"]:
                         best_match = host["os"]["matches"][0]
                         f.write(
-                            f"    OS: {best_match['name']} ({best_match['accuracy']}%)\n"
+                            f"    OS: {best_match['name']} "
+                            f"({best_match['accuracy']}%)\n"
                         )
 
                     f.write("\n")

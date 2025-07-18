@@ -1,31 +1,23 @@
 """
-Enhanced security module for Leegion Framework v2.0
+Security module for Leegion Framework.
 
-Author: Leegion
-Project: Leegion Framework v2.0
-Copyright (c) 2025 Leegion. All rights reserved.
+This module provides comprehensive security validation, input sanitization,
+and security utilities for the framework.
 """
 
-import re
+import base64
 import hashlib
-import hmac
+import os
+import re
 import secrets
 import time
 import threading
-from typing import Dict, Any, List, Optional, Union
-from urllib.parse import urlparse
-import ipaddress
-import socket
-import ssl
 from pathlib import Path
+from typing import Dict, Any, List
 
-from core.utils import sanitize_filename
-
-import base64
-import os
 from cryptography.fernet import Fernet
 
-from core.logger import setup_logger
+
 
 
 class SecurityManager:
@@ -68,7 +60,9 @@ class SecurityManager:
         return decrypted.decode()
 
     def secure_file_path(self, file_path: str) -> bool:
-        """Validate file path for security (prevent path traversal and symlink attacks)"""
+        """
+        Validate file path for security (prevent path traversal and symlink attacks)
+        """
         try:
             resolved_path = Path(file_path).expanduser().resolve()
             resolved_path_str = str(resolved_path)
@@ -237,37 +231,43 @@ def validate_input_security(
             r";",  # Any semicolon
             r"--",  # Any double dash
             r"\b(SELECT|INSERT|UPDATE|DELETE|DROP|UNION|ALTER|CREATE|REPLACE|TRUNCATE)\b",
-            r";\s*(SELECT|INSERT|UPDATE|DELETE|DROP|UNION|ALTER|CREATE|REPLACE|TRUNCATE)\b",  # ; followed by SQL keyword
+            # ; followed by SQL keyword
+            r";\s*(SELECT|INSERT|UPDATE|DELETE|DROP|UNION|ALTER|CREATE|REPLACE|TRUNCATE)\b",
         ]
 
     for pattern in dangerous_patterns:
         if re.search(pattern, input_value, re.IGNORECASE):
             result = {
                 "valid": False,
-                "reason": f"Potentially dangerous pattern detected: {pattern}",
+                "reason": (
+                    f"Potentially dangerous pattern detected: {pattern}"
+                ),
             }
             return result
 
     # Type-specific validation
     if input_type == "ip":
-        if not re.match(
-            r"^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$",
-            input_value,
-        ):
+        ip_pattern = (
+            r"^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}"
+            r"(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$"
+        )
+        if not re.match(ip_pattern, input_value):
             result = {"valid": False, "reason": "Invalid IP address format"}
 
     elif input_type == "url":
-        if not re.match(
-            r"^https?://(?:[-\w.])+(?:\:[0-9]+)?(?:/(?:[\w/_.])*)?(?:\?(?:[\w&=%.])*)?(?:\#(?:[\w.])*)?$",
-            input_value,
-        ):
+        url_pattern = (
+            r"^https?://(?:[-\w.])+(?:\:[0-9]+)?(?:/(?:[\w/_.])*)?"
+            r"(?:\?(?:[\w&=%.])*)?(?:\#(?:[\w.])*)?$"
+        )
+        if not re.match(url_pattern, input_value):
             result = {"valid": False, "reason": "Invalid URL format"}
 
     elif input_type == "domain":
-        if not re.match(
-            r"^(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\.)*[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?$",
-            input_value,
-        ):
+        domain_pattern = (
+            r"^(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\.)*"
+            r"[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?$"
+        )
+        if not re.match(domain_pattern, input_value):
             result = {"valid": False, "reason": "Invalid domain format"}
 
     elif input_type == "file_path":
@@ -285,7 +285,10 @@ def validate_input_security(
             if dangerous_path in input_value:
                 result = {
                     "valid": False,
-                    "reason": f"Access to system file/directory blocked: {dangerous_path}",
+                    "reason": (
+                        f"Access to system file/directory blocked: "
+                        f"{dangerous_path}"
+                    ),
                 }
                 return result
 
@@ -305,7 +308,9 @@ def validate_input_security(
             if dangerous_cmd in input_value:
                 result = {
                     "valid": False,
-                    "reason": f"Dangerous command blocked: {dangerous_cmd}",
+                    "reason": (
+                        f"Dangerous command blocked: {dangerous_cmd}"
+                    ),
                 }
                 return result
 

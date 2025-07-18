@@ -1,25 +1,23 @@
 """
-SSL/TLS Analyzer module for Leegion Framework
-Comprehensive SSL certificate and configuration analysis
+SSL/TLS Analyzer Module for Leegion Framework
 
-Author: Leegion
-Project: Leegion Framework v2.0
-Copyright (c) 2025 Leegion. All rights reserved.
+This module provides comprehensive SSL/TLS certificate analysis
+and security assessment capabilities.
 """
 
-import ssl
-import socket
-import requests
 import json
-import subprocess
-import time
 import os
+import socket
+import ssl
+import time
+from datetime import datetime
+from typing import Any, Dict, List, Optional, Tuple
+
+import requests
+import subprocess
 import csv
 import cryptography.x509
-from cryptography.hazmat.primitives import hashes
 import hashlib
-from typing import Dict, List, Any, Optional, Tuple
-from datetime import datetime
 from urllib.parse import urlparse
 from core.base_module import BaseModule
 from core.banner import print_module_header
@@ -97,21 +95,16 @@ class SSLAnalyzer(BaseModule):
 
     def _single_host_analysis(self):
         """Perform comprehensive SSL analysis for a single host"""
-        print(f"\n\033[96m📚 WHAT IS SSL/TLS ANALYSIS?\033[0m")
-        print(
-            "SSL/TLS analysis examines encryption protocols used by websites to secure"
-        )
-        print(
-            "communications. It checks certificate validity, encryption strength, and"
-        )
-        print("identifies potential security vulnerabilities in the SSL configuration.")
-        print(f"\n\033[93m💡 PRACTICAL EXAMPLES:\033[0m")
+        print("\n\033[96m📚 WHAT IS SSL/TLS ANALYSIS?\033[0m")
+        print("\n\033[93m💡 PRACTICAL EXAMPLES:\033[0m")
         print("• Banking sites: Should have strong encryption (A+ grade)")
         print("• Self-signed certificates: Often found on internal servers")
         print("• Expired certificates: Can indicate poor maintenance")
         print("• Weak ciphers: Make sites vulnerable to eavesdropping")
 
-        target = self.get_user_input("\nEnter hostname or URL (e.g., example.com): ")
+        target = self.get_user_input(
+            "\nEnter hostname or URL (e.g., example.com): "
+        )
         if not target:
             return
 
@@ -120,9 +113,11 @@ class SSLAnalyzer(BaseModule):
         if not hostname:
             return
 
-        self.print_info(f"Starting comprehensive SSL analysis for {hostname}:{port}")
         self.print_info(
-            "Checking: Certificate validity, cipher strength, protocol support, vulnerabilities"
+            f"Starting comprehensive SSL analysis for {hostname}:{port}"
+        )
+        self.print_info(
+            "Checking: Certificate validity, encryption strength, and"
         )
 
         try:
@@ -160,7 +155,9 @@ class SSLAnalyzer(BaseModule):
 
         except Exception as e:
             self.print_error(f"SSL analysis failed: {e}")
-            self.logger.error(f"SSL analysis error for {hostname}:{port}: {e}")
+            self.logger.error(
+                f"SSL analysis error for {hostname}:{port}: {e}"
+            )
 
     def _certificate_chain_analysis(self):
         """Analyze SSL certificate chain"""
@@ -246,7 +243,8 @@ class SSLAnalyzer(BaseModule):
             for vuln in vulnerabilities:
                 severity_color = self._get_severity_color(vuln["severity"])
                 self.print_warning(
-                    f"[{severity_color}{vuln['severity']}\033[0m] {vuln['name']}: {vuln['description']}"
+                    f"[{severity_color}{vuln['severity']}\033[0m] "
+                    f"{vuln['name']}: {vuln['description']}"
                 )
         else:
             self.print_success("No known SSL vulnerabilities detected")
@@ -263,13 +261,17 @@ class SSLAnalyzer(BaseModule):
 
     def _certificate_expiry_check(self):
         """Check certificate expiration dates"""
-        targets_input = self.get_user_input("Enter hostnames (comma-separated): ")
+        targets_input = self.get_user_input(
+            "Enter hostnames (comma-separated): "
+        )
         if not targets_input:
             return
 
         targets = [target.strip() for target in targets_input.split(",")]
 
-        self.print_info(f"Checking certificate expiry for {len(targets)} hosts")
+        self.print_info(
+            f"Checking certificate expiry for {len(targets)} hosts"
+        )
 
         expiry_results = []
 
@@ -281,7 +283,9 @@ class SSLAnalyzer(BaseModule):
                 if cert_info:
                     expiry_date = cert_info.get("not_after")
                     if expiry_date:
-                        days_until_expiry = (expiry_date - datetime.now()).days
+                        days_until_expiry = (
+                            expiry_date - datetime.now()
+                        ).days
 
                         expiry_results.append(
                             {
@@ -289,14 +293,19 @@ class SSLAnalyzer(BaseModule):
                                 "port": port,
                                 "expiry_date": expiry_date.isoformat(),
                                 "days_until_expiry": days_until_expiry,
-                                "status": self._get_expiry_status(days_until_expiry),
+                                "status": self._get_expiry_status(
+                                    days_until_expiry
+                                ),
                             }
                         )
 
                         # Display result
-                        status_color = self._get_expiry_color(days_until_expiry)
+                        status_color = self._get_expiry_color(
+                            days_until_expiry
+                        )
                         self.print_info(
-                            f"{hostname}:{port} - Expires in {status_color}{days_until_expiry}\033[0m days"
+                            f"{hostname}:{port} - Expires in "
+                            f"{status_color}{days_until_expiry}\033[0m days"
                         )
 
             except Exception as e:
@@ -324,7 +333,9 @@ class SSLAnalyzer(BaseModule):
             if filename:
                 hostnames = self._load_hostnames_from_file(filename)
         elif option == "2":
-            hosts_input = self.get_user_input("Enter hostnames (comma-separated): ")
+            hosts_input = self.get_user_input(
+                "Enter hostnames (comma-separated): "
+            )
             if hosts_input:
                 hostnames = [host.strip() for host in hosts_input.split(",")]
 
@@ -332,7 +343,9 @@ class SSLAnalyzer(BaseModule):
             self.print_error("No hostnames provided")
             return
 
-        self.print_info(f"Starting batch SSL scan for {len(hostnames)} hosts")
+        self.print_info(
+            f"Starting batch SSL scan for {len(hostnames)} hosts"
+        )
 
         # Perform batch analysis
         batch_results = []
@@ -350,7 +363,9 @@ class SSLAnalyzer(BaseModule):
                         "subject": cert_info.get("subject", {}),
                         "issuer": cert_info.get("issuer", {}),
                         "expiry_date": cert_info.get("not_after"),
-                        "signature_algorithm": cert_info.get("signature_algorithm"),
+                        "signature_algorithm": cert_info.get(
+                            "signature_algorithm"
+                        ),
                         "key_size": cert_info.get("key_size"),
                     }
                     batch_results.append(basic_analysis)
@@ -363,10 +378,11 @@ class SSLAnalyzer(BaseModule):
                     )
                     status_color = self._get_expiry_color(expiry_days)
                     self.print_success(
-                        f"  Certificate valid, expires in {status_color}{expiry_days}\033[0m days"
+                        f"  Certificate valid, expires in "
+                        f"{status_color}{expiry_days}\033[0m days"
                     )
                 else:
-                    self.print_error(f"  Failed to retrieve certificate")
+                    self.print_error("  Failed to retrieve certificate")
 
             except Exception as e:
                 self.print_error(f"  Error: {e}")
@@ -382,7 +398,8 @@ class SSLAnalyzer(BaseModule):
         self.add_result(result)
 
         self.print_success(
-            f"Batch scan completed: {len(batch_results)}/{len(hostnames)} hosts analyzed"
+            f"Batch scan completed: "
+            f"{len(batch_results)}/{len(hostnames)} hosts analyzed"
         )
 
     def _cipher_suite_analysis(self):
@@ -599,7 +616,7 @@ class SSLAnalyzer(BaseModule):
                 context.verify_mode = ssl.CERT_NONE
 
                 with socket.create_connection((hostname, port), timeout=5) as sock:
-                    with context.wrap_socket(sock) as ssock:
+                    with context.wrap_socket(sock):
                         supported[protocol_name] = True
             except Exception:
                 supported[protocol_name] = False
@@ -1020,7 +1037,7 @@ class SSLAnalyzer(BaseModule):
             context.verify_mode = ssl.CERT_NONE
 
             with socket.create_connection((hostname, port), timeout=5) as sock:
-                with context.wrap_socket(sock) as ssock:
+                with context.wrap_socket(sock):
                     return True
         except Exception:
             return False
@@ -1175,7 +1192,7 @@ class SSLAnalyzer(BaseModule):
         # Certificate info
         cert = analysis_result.get("certificate", {})
         if cert:
-            print(f"\n\033[92mCertificate Information:\033[0m")
+            print("\n\033[92mCertificate Information:\033[0m")
             print(
                 f"  \033[96mSubject:\033[0m {cert.get('subject', {}).get('commonName', 'N/A')}"
             )
@@ -1196,7 +1213,7 @@ class SSLAnalyzer(BaseModule):
         # Protocol support
         protocols = analysis_result.get("protocol_support", {})
         if protocols:
-            print(f"\n\033[92mProtocol Support:\033[0m")
+            print("\n\033[92mProtocol Support:\033[0m")
             for protocol, supported in protocols.items():
                 status = "\033[92m✓\033[0m" if supported else "\033[91m✗\033[0m"
                 print(f"  {protocol}: {status}")
@@ -1204,12 +1221,12 @@ class SSLAnalyzer(BaseModule):
         # Vulnerabilities
         vulnerabilities = analysis_result.get("vulnerabilities", [])
         if vulnerabilities:
-            print(f"\n\033[91mVulnerabilities Found:\033[0m")
+            print("\n\033[91mVulnerabilities Found:\033[0m")
             for vuln in vulnerabilities:
                 severity_color = self._get_severity_color(vuln["severity"])
                 print(f"  [{severity_color}{vuln['severity']}\033[0m] {vuln['name']}")
         else:
-            print(f"\n\033[92mNo vulnerabilities detected\033[0m")
+            print("\n\033[92mNo vulnerabilities detected\033[0m")
 
     def _display_certificate_chain(self, chain_info: List[Dict]):
         """Display certificate chain information"""
@@ -1404,7 +1421,7 @@ class SSLAnalyzer(BaseModule):
                 # Certificate information
                 cert = result.get("certificate", {})
                 if cert:
-                    f.write(f"\nCertificate:\n")
+                    f.write("\nCertificate:\n")
                     f.write(
                         f"  Subject: {cert.get('subject', {}).get('commonName', 'N/A')}\n"
                     )
@@ -1423,7 +1440,7 @@ class SSLAnalyzer(BaseModule):
                             f"  [{vuln['severity']}] {vuln['name']}: {vuln['description']}\n"
                         )
                 else:
-                    f.write(f"\nNo vulnerabilities detected.\n")
+                    f.write("\nNo vulnerabilities detected.\n")
 
                 f.write("\n")
 

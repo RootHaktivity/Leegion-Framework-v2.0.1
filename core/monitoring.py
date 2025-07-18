@@ -1,58 +1,22 @@
 """
-System monitoring and performance tracking for Leegion Framework
+System monitoring and performance tracking module.
 
-Author: Leegion
-Project: Leegion Framework v2.0
-Copyright (c) 2025 Leegion. All rights reserved.
+This module provides real-time monitoring of system resources,
+performance metrics, and health checks for the Leegion Framework.
 """
 
-import psutil
-import threading
-import time
 import json
+import time
+import threading
 from dataclasses import dataclass, asdict
 from enum import Enum
-from typing import Dict, List, Any, Optional, Callable
+from typing import Any, Callable, Dict, List, Optional
 
-from core.logger import setup_logger
+import psutil
 
-# Try to import psutil, provide fallback if not available
-try:
-    import psutil
 
-    PSUTIL_AVAILABLE = True
-except ImportError:
-    PSUTIL_AVAILABLE = False
 
-    # Mock psutil for basic functionality
-    class MockPsutil:
-        @staticmethod
-        def cpu_percent(interval=1):
-            return 0.0
-
-        @staticmethod
-        def virtual_memory():
-            class MockMemory:
-                percent = 0.0
-
-            return MockMemory()
-
-        @staticmethod
-        def disk_usage(path):
-            class MockDisk:
-                used = 0
-                total = 1
-
-            return MockDisk()
-
-        class Process:
-            def memory_info(self):
-                class MockMemoryInfo:
-                    rss = 0
-
-                return MockMemoryInfo()
-
-    psutil = MockPsutil()
+# psutil is already imported above
 
 
 class AlertLevel(Enum):

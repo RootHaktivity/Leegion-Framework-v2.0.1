@@ -1,22 +1,21 @@
 """
-Directory Bruteforce module for Leegion Framework
-Advanced web directory and file discovery using multiple techniques
+Directory Bruteforce Module for Leegion Framework
 
-Author: Leegion
-Project: Leegion Framework v2.0
-Copyright (c) 2025 Leegion. All rights reserved.
+This module provides directory and file enumeration capabilities
+using various bruteforce techniques.
 """
 
-import requests
-import time
 import json
 import os
+import time
+from datetime import datetime
+from typing import Any, Dict, List, Optional
+
+import requests
 import csv
 import random
-from typing import Dict, List, Any, Set, Optional
-from datetime import datetime
 from concurrent.futures import ThreadPoolExecutor, as_completed
-from urllib.parse import urljoin, urlparse
+from urllib.parse import urljoin
 from core.base_module import BaseModule
 from core.banner import print_module_header
 from core.security import network_rate_limiter
@@ -35,11 +34,15 @@ class DirectoryBruteforcer(BaseModule):
 
         # Response analysis
         self.baseline_responses = {}
-        self.interesting_status_codes = [200, 301, 302, 401, 403, 500, 501, 502, 503]
+        self.interesting_status_codes = [
+            200, 301, 302, 401, 403, 500, 501, 502, 503
+        ]
 
     def run(self):
         """Main directory bruteforce interface"""
-        print_module_header("Directory Bruteforcer", "Web Directory & File Discovery")
+        print_module_header(
+            "Directory Bruteforcer", "Web Directory & File Discovery"
+        )
 
         while True:
             self._display_bruteforce_menu()
@@ -97,19 +100,16 @@ class DirectoryBruteforcer(BaseModule):
 
     def _quick_directory_scan(self):
         """Perform quick directory scan with common directories"""
-        print(f"\n\033[96m📚 WHAT IS DIRECTORY BRUTEFORCING?\033[0m")
-        print(
-            "Directory bruteforcing discovers hidden files and folders on web servers"
-        )
-        print("by systematically testing common directory names and file paths.")
-        print(f"\n\033[93m💡 WHAT YOU MIGHT FIND:\033[0m")
+        print("\n\033[96m📚 WHAT IS DIRECTORY BRUTEFORCING?\033[0m")
+        print("\n\033[93m💡 WHAT YOU MIGHT FIND:\033[0m")
         print("• /admin/ - Administrative panels and login pages")
         print("• /backup/ - Database backups and sensitive files")
         print("• /.git/ - Source code repositories accidentally exposed")
         print("• /api/ - API endpoints for data access")
         print("• /config/ - Configuration files with passwords")
         print(
-            f"\n\033[91m⚠️  REMEMBER:\033[0m Only test sites you own or have permission to test!"
+            "\n\033[91m⚠️  REMEMBER:\033[0m Only test sites you own or "
+            "have permission to test!"
         )
 
         target_url = self.get_user_input(
@@ -173,7 +173,9 @@ class DirectoryBruteforcer(BaseModule):
         ]
 
         self.print_info(f"Testing {len(quick_wordlist)} common directories...")
-        self.print_info("Looking for: Admin panels, backups, APIs, configuration files")
+        self.print_info(
+            "Looking for: Admin panels, backups, APIs, configuration files"
+        )
         self._perform_directory_scan(target_url, quick_wordlist, "Quick Directory Scan")
 
     def _comprehensive_scan(self):
@@ -192,7 +194,7 @@ class DirectoryBruteforcer(BaseModule):
             "Comprehensive scan may take significant time and generate many requests!"
         )
         confirm = self.get_user_input("Continue? (y/N): ")
-        if confirm.lower() != "y":
+        if confirm and confirm.lower() != "y":
             return
 
         # Large comprehensive wordlist
@@ -262,7 +264,9 @@ class DirectoryBruteforcer(BaseModule):
         elif ext_choice == "5":
             extensions = ["zip", "tar", "gz", "rar", "7z", "tar.gz"]
         elif ext_choice == "6":
-            custom_exts = self.get_user_input("Enter extensions (comma-separated): ")
+            custom_exts = self.get_user_input(
+                "Enter extensions (comma-separated): "
+            )
             if custom_exts:
                 extensions = [ext.strip() for ext in custom_exts.split(",")]
 
@@ -473,7 +477,8 @@ class DirectoryBruteforcer(BaseModule):
                 self.discovered_paths.add(url)
                 status_color = self._get_status_color(result["status_code"])
                 self.print_success(
-                    f"Found [{status_color}{result['status_code']}\033[0m] {url} ({result['size']} bytes)"
+                    f"Found [{status_color}{result['status_code']}\033[0m] "
+                    f"{url} ({result['size']} bytes)"
                 )
                 found += 1
 
@@ -1077,15 +1082,18 @@ class DirectoryBruteforcer(BaseModule):
             if result:
                 status_color = self._get_status_color(result["status_code"])
                 print(
-                    f"\033[96m{i:3d}.\033[0m [{status_color}{result['status_code']}\033[0m] {path}"
+                    f"\033[96m{i:3d}.\033[0m [{status_color}{result['status_code']}\033[0m] "
+                    f"{path}"
                 )
             else:
                 print(f"\033[96m{i:3d}.\033[0m [   ] {path}")
 
             # Show in batches
             if i % 15 == 0 and i < len(sorted_paths):
-                more = self.get_user_input("Press Enter to continue or 'q' to stop: ")
-                if more.lower() == "q":
+                more = self.get_user_input(
+                    "Press Enter to continue or 'q' to stop: "
+                )
+                if more and more.lower() == "q":
                     break
 
     def _export_results(self):
@@ -1201,7 +1209,7 @@ class DirectoryBruteforcer(BaseModule):
                 else:
                     f.write(f"[N/A] {path}\n")
 
-            f.write(f"\nSCAN SUMMARY\n")
+            f.write("\nSCAN SUMMARY\n")
             f.write("-" * 15 + "\n")
 
             for scan in self.scan_results:

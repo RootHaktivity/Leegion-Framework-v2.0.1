@@ -12,33 +12,48 @@ Copyright (c) 2025 Leegion. All rights reserved.
 This project is the intellectual property of Leegion.
 """
 
-import sys
-import os
 import argparse
-import time
+import os
 import subprocess
+import sys
+import time
 from pathlib import Path
 
 # Add the project root to the Python path
-sys.path.insert(0, str(Path(__file__).parent))
+sys.path.insert(0, str(Path(__file__).parent))  # noqa: E402
 
-from core.logger import setup_logger
-from core.banner import print_banner, clear_screen, print_clean_menu_header
-from core.utils import check_and_install_packages, handle_keyboard_interrupt
-from config.settings import load_config, save_config, create_directories_from_config
-from modules.vpn_manager import VPNManager
-from modules.nmap_scanner import NmapScanner
-from modules.wpscan_integration import WPScanIntegration
-from modules.subdomain_enum import SubdomainEnumerator
-from modules.directory_bruteforce import DirectoryBruteforcer
-from modules.ssl_analyzer import SSLAnalyzer
-from modules.command_helper import CommandHelper
-from modules.file_downloader import FileDownloader
-from modules.reverse_shell_generator import ReverseShellGenerator
-from reports.report_generator import ReportGenerator
-from core.signature import verify_leegion_ownership, generate_leegion_watermark
-from core.monitoring import initialize_monitoring, get_monitoring_system
-from core.backup import initialize_backup_manager, get_backup_manager
+# Local imports
+import core.backup  # noqa: E402
+import core.banner  # noqa: E402
+import core.logger  # noqa: E402
+from config.settings import (  # noqa: E402
+    create_directories_from_config,
+    load_config,
+    save_config,
+)
+from core.backup import initialize_backup_manager  # noqa: E402
+from core.banner import (  # noqa: E402
+    clear_screen,
+    print_banner,
+    print_clean_menu_header,
+)
+from core.logger import setup_logger  # noqa: E402
+from core.monitoring import (  # noqa: E402
+    get_monitoring_system,
+    initialize_monitoring,
+)
+from core.signature import verify_leegion_ownership  # noqa: E402
+from core.utils import handle_keyboard_interrupt  # noqa: E402
+from modules.command_helper import CommandHelper  # noqa: E402
+from modules.directory_bruteforce import DirectoryBruteforcer  # noqa: E402
+from modules.file_downloader import FileDownloader  # noqa: E402
+from modules.nmap_scanner import NmapScanner  # noqa: E402
+from modules.reverse_shell_generator import ReverseShellGenerator  # noqa: E402
+from modules.ssl_analyzer import SSLAnalyzer  # noqa: E402
+from modules.subdomain_enum import SubdomainEnumerator  # noqa: E402
+from modules.vpn_manager import VPNManager  # noqa: E402
+from modules.wpscan_integration import WPScanIntegration  # noqa: E402
+from reports.report_generator import ReportGenerator  # noqa: E402
 
 
 class LeegionFramework:
@@ -59,13 +74,16 @@ class LeegionFramework:
                 # Running from source directory
                 config_path = "config/config.json"
         self.config = load_config(config_path)
-        self.logger = logger or setup_logger(self.config.get("log_level", "INFO"))
+        self.logger = logger or setup_logger(
+            self.config.get("log_level", "INFO")
+        )
         self.report_generator = ReportGenerator()
 
         # Leegion's ownership verification
         self.ownership = verify_leegion_ownership()
         self.logger.info(
-            f"Framework initialized by {self.ownership['author']} - {self.ownership['framework_id']}"
+            f"Framework initialized by {self.ownership['author']} - "  # noqa: E999
+            f"{self.ownership['framework_id']}"
         )
 
         # Initialize modules
@@ -89,7 +107,8 @@ class LeegionFramework:
             "LEEGION FRAMEWORK MENU", "Enhanced Cybersecurity Toolkit"
         )
         print(
-            "\033[93m💡 NEW TO CYBERSECURITY?\033[0m Visit \033[92mtryhackme.com\033[0m for hands-on learning!"
+            "\033[93m💡 NEW TO CYBERSECURITY?\033[0m "
+            "Visit \033[92mtryhackme.com\033[0m for hands-on learning!"
         )
         print(f"\033[93m{'-'*65}\033[0m")
         print("\033[96m1.\033[0m  VPN Manager")
@@ -167,7 +186,9 @@ class LeegionFramework:
         if os.path.exists(new_dir):
             self.config["vpn_config_dir"] = new_dir
             save_config(self.config)
-            print(f"\033[92m[+]\033[0m VPN config directory updated to {new_dir}")
+            print(
+                f"\033[92m[+]\033[0m VPN config directory updated to {new_dir}"
+            )
         else:
             print("\033[91m[!]\033[0m Directory does not exist.")
 
@@ -185,7 +206,9 @@ class LeegionFramework:
     def _reset_config(self):
         """Reset configuration to defaults"""
         confirm = (
-            input("Are you sure you want to reset to defaults? (y/N): ").strip().lower()
+            input(
+                "Are you sure you want to reset to defaults? (y/N): "
+            ).strip().lower()
         )
         if confirm == "y":
             from config.settings import DEFAULT_CONFIG
@@ -202,15 +225,16 @@ class LeegionFramework:
             )
 
             # Check if already installed
-            is_installed = os.path.exists("/opt/leegion-framework") and os.path.exists(
-                "/usr/local/bin/leegion"
+            is_installed = (
+                os.path.exists("/opt/leegion-framework") and
+                os.path.exists("/usr/local/bin/leegion")
             )
 
             if is_installed:
                 print("\033[92m✅ Leegion Framework is installed system-wide\033[0m")
-                print(f"\033[96mInstallation Path:\033[0m /opt/leegion-framework")
-                print(f"\033[96mExecutable:\033[0m /usr/local/bin/leegion")
-                print(f"\033[96mUser Config:\033[0m ~/.config/leegion")
+                print("\033[96mInstallation Path:\033[0m /opt/leegion-framework")
+                print("\033[96mExecutable:\033[0m /usr/local/bin/leegion")
+                print("\033[96mUser Config:\033[0m ~/.config/leegion")
                 print()
                 print("\033[96m1.\033[0m Reinstall Framework")
                 print("\033[96m2.\033[0m Uninstall Framework")
@@ -258,7 +282,9 @@ class LeegionFramework:
 
         # Check if running as root
         if os.geteuid() != 0:
-            print("\033[91m❌ Root privileges required for system installation\033[0m")
+            print(
+                "\033[91m❌ Root privileges required for system installation\033[0m"
+            )
             print()
             print("\033[96mTo install system-wide, please run:\033[0m")
             print(
@@ -281,9 +307,9 @@ class LeegionFramework:
         print("  • User config: ~/.config/leegion/")
         print()
 
-        confirm = (
-            input("\033[93mProceed with installation? (y/N): \033[0m").strip().lower()
-        )
+        confirm = input(
+            "\033[93mProceed with installation? (y/N): \033[0m"
+        ).strip().lower()
         if confirm != "y":
             print("\033[93m[!]\033[0m Installation cancelled.")
             input("\n\033[93mPress Enter to continue...\033[0m")
@@ -301,7 +327,7 @@ class LeegionFramework:
             if result.returncode == 0:
                 print("\033[92m✅ Installation completed successfully!\033[0m")
                 print(
-                    "\033[96mYou can now run 'leegion' from anywhere on your system.\033[0m"
+                    "\033[96mYou can now run 'leegion' from anywhere on your system."
                 )
             else:
                 print("\033[91m❌ Installation failed:\033[0m")
@@ -318,7 +344,9 @@ class LeegionFramework:
         print("\033[93m" + "=" * 50 + "\033[0m")
 
         confirm = (
-            input("\033[93mThis will reinstall the framework. Continue? (y/N): \033[0m")
+            input(
+                "\033[93mThis will reinstall the framework. Continue? (y/N): \033[0m"
+            )
             .strip()
             .lower()
         )
@@ -329,7 +357,9 @@ class LeegionFramework:
 
         # Check if running as root
         if os.geteuid() != 0:
-            print("\033[91m❌ Root privileges required for reinstallation\033[0m")
+            print(
+                "\033[91m❌ Root privileges required for reinstallation\033[0m"
+            )
             print(
                 f"  \033[92msudo python3 {os.path.join(os.getcwd(), 'setup.py')}\033[0m"
             )
@@ -378,7 +408,9 @@ class LeegionFramework:
 
         # Check if running as root
         if os.geteuid() != 0:
-            print("\033[91m❌ Root privileges required for uninstallation\033[0m")
+            print(
+                "\033[91m❌ Root privileges required for uninstallation\033[0m"
+            )
             print("  \033[92msudo /opt/leegion-framework/uninstall.sh\033[0m")
             input("\n\033[93mPress Enter to continue...\033[0m")
             return
@@ -395,15 +427,22 @@ class LeegionFramework:
                 if result.returncode == 0:
                     print("\033[92m✅ Uninstallation completed successfully!\033[0m")
                     print(
-                        "\033[96mUser configuration preserved in ~/.config/leegion/\033[0m"
+                        "\033[96mUser configuration preserved in "
+                        "~/.config/leegion/\033[0m"
                     )
                 else:
                     print("\033[91m❌ Uninstallation failed:\033[0m")
                     print(result.stderr)
             else:
-                print(
-                    "\033[91m❌ Uninstaller not found. Manual removal required.\033[0m"
-                )
+                # E501 fix: break up error message assignment
+                error_color = "\033[91m"
+                error_text = "❌ Uninstaller not found. Manual removal required."
+                reset_color = "\033[0m"
+                # Break f-string into parts
+                part1 = f"{error_color}{error_text}"
+                part2 = reset_color
+                msg = f"{part1}{part2}"
+                print(msg)
 
         except Exception as e:
             print(f"\033[91m❌ Uninstallation error: {e}\033[0m")
@@ -419,8 +458,14 @@ class LeegionFramework:
         checks = [
             ("/opt/leegion-framework", "Framework Directory"),
             ("/usr/local/bin/leegion", "Global Executable"),
-            (os.path.expanduser("~/.config/leegion"), "User Config Directory"),
-            (os.path.expanduser("~/.config/leegion/config.json"), "User Config File"),
+            (
+                os.path.expanduser("~/.config/leegion"),
+                "User Config Directory"
+            ),
+            (
+                os.path.expanduser("~/.config/leegion/config.json"),
+                "User Config File"
+            ),
         ]
 
         for path, description in checks:
@@ -521,50 +566,71 @@ class LeegionFramework:
                     if choice == "1":
                         clear_screen()
                         self.modules["vpn"].run()
-                        input("\n\033[93mPress Enter to return to main menu...\033[0m")
+                        input(
+                            "\n\033[93mPress Enter to return to main menu...\033[0m"
+                        )
                     elif choice == "2":
                         clear_screen()
                         self.modules["nmap"].run()
-                        input("\n\033[93mPress Enter to return to main menu...\033[0m")
+                        input(
+                            "\n\033[93mPress Enter to return to main menu...\033[0m"
+                        )
                     elif choice == "3":
                         clear_screen()
                         self.modules["wpscan"].run()
-                        input("\n\033[93mPress Enter to return to main menu...\033[0m")
+                        input(
+                            "\n\033[93mPress Enter to return to main menu...\033[0m"
+                        )
                     elif choice == "4":
                         clear_screen()
                         self.modules["subdomain"].run()
-                        input("\n\033[93mPress Enter to return to main menu...\033[0m")
+                        input(
+                            "\n\033[93mPress Enter to return to main menu...\033[0m"
+                        )
                     elif choice == "5":
                         clear_screen()
                         self.modules["dirbrute"].run()
-                        input("\n\033[93mPress Enter to return to main menu...\033[0m")
+                        input(
+                            "\n\033[93mPress Enter to return to main menu...\033[0m"
+                        )
                     elif choice == "6":
                         clear_screen()
                         self.modules["ssl"].run()
-                        input("\n\033[93mPress Enter to return to main menu...\033[0m")
+                        input(
+                            "\n\033[93mPress Enter to return to main menu...\033[0m"
+                        )
                     elif choice == "7":
                         clear_screen()
                         self.modules["helper"].run()
-                        input("\n\033[93mPress Enter to return to main menu...\033[0m")
+                        input(
+                            "\n\033[93mPress Enter to return to main menu...\033[0m"
+                        )
                     elif choice == "8":
                         clear_screen()
                         self.modules["downloader"].run()
-                        input("\n\033[93mPress Enter to return to main menu...\033[0m")
+                        input(
+                            "\n\033[93mPress Enter to return to main menu...\033[0m"
+                        )
                     elif choice == "9":
                         clear_screen()
                         self.modules["revshell"].run()
-                        input("\n\033[93mPress Enter to return to main menu...\033[0m")
+                        input(
+                            "\n\033[93mPress Enter to return to main menu...\033[0m"
+                        )
                     elif choice == "10":
                         clear_screen()
                         self.report_generator.interactive_report_generation()
-                        input("\n\033[93mPress Enter to return to main menu...\033[0m")
+                        input(
+                            "\n\033[93mPress Enter to return to main menu...\033[0m"
+                        )
                     elif choice == "11":
                         clear_screen()
                         self.handle_settings_menu()
                     elif choice == "0":
                         clear_screen()
                         print(
-                            "\033[92m[+]\033[0m Exiting Leegion Framework. Happy Ethical Hacking!"
+                            "\033[92m[+]\033[0m Exiting Leegion Framework. "
+                            "Happy Ethical Hacking!"
                         )
                         self.logger.info("Framework shutdown initiated by user")
                         break
