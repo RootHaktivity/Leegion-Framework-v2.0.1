@@ -1822,13 +1822,47 @@ class CommandHelper(BaseModule):
     def _ettercap_cheatsheet(self):
         """Ettercap command cheatsheet"""
         commands = {
-            "Basic Usage": [
+            "Interface Selection": [
                 ("ettercap -G", "Start graphical interface"),
                 ("ettercap -T -q -i eth0", "Text interface, quiet mode"),
-                (
-                    "ettercap -T -q -i eth0 -M arp:remote /192.168.1.1/ /192.168.1.2/",
-                    "ARP spoofing between hosts",
-                ),
+                ("ettercap -C -i eth0", "Curses interface"),
+                ("ettercap -D -i eth0", "Daemon mode"),
+            ],
+            "Target Selection": [
+                ("ettercap -T -q -i eth0 -M arp:remote /192.168.1.1/ /192.168.1.2/", "ARP spoofing between hosts"),
+                ("ettercap -T -q -i eth0 -M arp:remote /192.168.1.1/ //", "ARP spoofing to gateway"),
+                ("ettercap -T -q -i eth0 -M arp:remote // /192.168.1.2/", "ARP spoofing from gateway"),
+                ("ettercap -T -q -i eth0 -M arp:remote /192.168.1.0/24/", "ARP spoofing entire subnet"),
+            ],
+            "Attack Methods": [
+                ("ettercap -T -q -i eth0 -M arp:remote /192.168.1.1/ /192.168.1.2/", "ARP spoofing"),
+                ("ettercap -T -q -i eth0 -M icmp:remote /192.168.1.1/ /192.168.1.2/", "ICMP redirect"),
+                ("ettercap -T -q -i eth0 -M dhcp:remote /192.168.1.1/ /192.168.1.2/", "DHCP spoofing"),
+                ("ettercap -T -q -i eth0 -M port:remote /192.168.1.1/ /192.168.1.2/", "Port stealing"),
+            ],
+            "Sniffing Options": [
+                ("ettercap -T -q -i eth0 -s", "Sniff only (no attack)"),
+                ("ettercap -T -q -i eth0 -u", "Update arp cache"),
+                ("ettercap -T -q -i eth0 -p", "Don't poison"),
+                ("ettercap -T -q -i eth0 -n", "Don't resolve names"),
+            ],
+            "Filtering": [
+                ("ettercap -T -q -i eth0 -F filter.ef", "Load filter file"),
+                ("ettercap -T -q -i eth0 -f filter.ef", "Load filter file (alternative)"),
+                ("ettercap -T -q -i eth0 -L logfile", "Log to file"),
+                ("ettercap -T -q -i eth0 -l logdir", "Log to directory"),
+            ],
+            "Advanced Options": [
+                ("ettercap -T -q -i eth0 -w capture.pcap", "Save to pcap file"),
+                ("ettercap -T -q -i eth0 -r capture.pcap", "Read from pcap file"),
+                ("ettercap -T -q -i eth0 -t tcp", "Sniff only TCP"),
+                ("ettercap -T -q -i eth0 -t udp", "Sniff only UDP"),
+            ],
+            "Plugin Usage": [
+                ("ettercap -T -q -i eth0 -P autoadd", "Auto-add new hosts"),
+                ("ettercap -T -q -i eth0 -P chk_poison", "Check poisoning"),
+                ("ettercap -T -q -i eth0 -P dos_attack", "DoS attack plugin"),
+                ("ettercap -T -q -i eth0 -P find_conn", "Find connections"),
             ],
         }
 
@@ -1917,18 +1951,66 @@ class CommandHelper(BaseModule):
             "Certificate Analysis": [
                 ("openssl s_client -connect example.com:443", "Connect to SSL service"),
                 ("openssl x509 -in cert.pem -text -noout", "View certificate details"),
-                (
-                    "openssl s_client -connect example.com:443 -servername example.com",
-                    "SNI connection",
-                ),
+                ("openssl s_client -connect example.com:443 -servername example.com", "SNI connection"),
+                ("openssl s_client -connect example.com:443 -showcerts", "Show all certificates in chain"),
+                ("openssl x509 -in cert.pem -noout -dates", "Show certificate validity dates"),
+                ("openssl x509 -in cert.pem -noout -subject", "Show certificate subject"),
+                ("openssl x509 -in cert.pem -noout -issuer", "Show certificate issuer"),
+                ("openssl x509 -in cert.pem -noout -fingerprint", "Show certificate fingerprint"),
             ],
             "Key Generation": [
                 ("openssl genrsa -out private.key 2048", "Generate RSA private key"),
+                ("openssl genrsa -out private.key 4096 -aes256", "Generate encrypted RSA key"),
+                ("openssl genpkey -algorithm RSA -out private.key -pkeyopt rsa_keygen_bits:2048", "Generate RSA key (new syntax)"),
+                ("openssl genpkey -algorithm EC -out ec.key -pkeyopt ec_paramgen_curve:P-256", "Generate EC key"),
+                ("openssl genpkey -algorithm Ed25519 -out ed25519.key", "Generate Ed25519 key"),
+            ],
+            "Certificate Signing": [
                 ("openssl req -new -key private.key -out request.csr", "Generate CSR"),
-                (
-                    "openssl x509 -req -in request.csr -signkey private.key -out cert.pem",
-                    "Self-sign certificate",
-                ),
+                ("openssl req -new -key private.key -out request.csr -subj '/CN=example.com'", "Generate CSR with subject"),
+                ("openssl x509 -req -in request.csr -signkey private.key -out cert.pem", "Self-sign certificate"),
+                ("openssl x509 -req -in request.csr -CA ca.crt -CAkey ca.key -out cert.pem", "Sign with CA"),
+                ("openssl x509 -req -in request.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out cert.pem", "Sign with CA and create serial"),
+            ],
+            "Hash Functions": [
+                ("openssl dgst -md5 file.txt", "Calculate MD5 hash"),
+                ("openssl dgst -sha1 file.txt", "Calculate SHA1 hash"),
+                ("openssl dgst -sha256 file.txt", "Calculate SHA256 hash"),
+                ("openssl dgst -sha512 file.txt", "Calculate SHA512 hash"),
+                ("echo -n 'password' | openssl dgst -sha256", "Hash a string"),
+            ],
+            "Encryption/Decryption": [
+                ("openssl enc -aes-256-cbc -salt -in file.txt -out file.enc", "Encrypt file with AES"),
+                ("openssl enc -aes-256-cbc -d -in file.enc -out file.txt", "Decrypt AES encrypted file"),
+                ("openssl enc -des3 -salt -in file.txt -out file.enc", "Encrypt with 3DES"),
+                ("openssl enc -bf -salt -in file.txt -out file.enc", "Encrypt with Blowfish"),
+                ("openssl enc -rc4 -in file.txt -out file.enc", "Encrypt with RC4"),
+            ],
+            "Base64 Encoding": [
+                ("openssl base64 -in file.txt -out file.b64", "Encode to base64"),
+                ("openssl base64 -d -in file.b64 -out file.txt", "Decode from base64"),
+                ("echo -n 'hello' | openssl base64", "Encode string to base64"),
+                ("echo -n 'aGVsbG8=' | openssl base64 -d", "Decode base64 string"),
+            ],
+            "Password Generation": [
+                ("openssl rand -base64 32", "Generate random base64 string"),
+                ("openssl rand -hex 32", "Generate random hex string"),
+                ("openssl rand -out random.bin 1024", "Generate random binary file"),
+                ("openssl passwd -1", "Generate Unix password hash"),
+                ("openssl passwd -6", "Generate SHA512 password hash"),
+            ],
+            "SSL/TLS Testing": [
+                ("openssl s_client -connect example.com:443 -tls1_2", "Force TLS 1.2"),
+                ("openssl s_client -connect example.com:443 -tls1_3", "Force TLS 1.3"),
+                ("openssl s_client -connect example.com:443 -cipher 'HIGH:!aNULL'", "Test specific ciphers"),
+                ("openssl s_client -connect example.com:443 -verify_return_error", "Verify certificate"),
+                ("openssl s_client -connect example.com:443 -prexit", "Print session info"),
+            ],
+            "Certificate Conversion": [
+                ("openssl x509 -in cert.pem -outform DER -out cert.der", "Convert PEM to DER"),
+                ("openssl x509 -in cert.der -inform DER -out cert.pem", "Convert DER to PEM"),
+                ("openssl pkcs12 -export -in cert.pem -inkey private.key -out cert.p12", "Convert to PKCS12"),
+                ("openssl pkcs12 -in cert.p12 -out cert.pem -nodes", "Extract from PKCS12"),
             ],
         }
 
