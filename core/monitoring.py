@@ -158,7 +158,7 @@ class MonitoringSystem:
 
             # Trim history if too long
             if len(self.metrics_history) > self.max_metrics_history:
-                self.metrics_history = self.metrics_history[-self.max_metrics_history :]
+                self.metrics_history = self.metrics_history[-self.max_metrics_history:]
 
         except Exception as e:
             self._create_alert(

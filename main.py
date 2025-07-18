@@ -25,7 +25,6 @@ sys.path.insert(0, str(Path(__file__).parent))  # noqa: E402
 # Local imports
 import core.backup  # noqa: E402
 import core.banner  # noqa: E402
-import core.logger  # noqa: E402
 from config.settings import (  # noqa: E402
     create_directories_from_config,
     load_config,

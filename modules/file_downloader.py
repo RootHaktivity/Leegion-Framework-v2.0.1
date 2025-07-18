@@ -22,8 +22,8 @@ from pathlib import Path
 # Add parent directory to path for imports
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from core.base_module import BaseModule
-from core.banner import clear_screen, print_clean_menu_header
+from core.base_module import BaseModule  # noqa: E402
+from core.banner import clear_screen, print_clean_menu_header  # noqa: E402
 
 
 class FileDownloader(BaseModule):
