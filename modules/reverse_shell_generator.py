@@ -550,7 +550,6 @@ class ReverseShellGenerator(BaseModule):
                 port_int = int(port)
                 if not (1 <= port_int <= 65535):
                     raise ValueError("Port out of range")
-                port_str = str(port_int)
             except ValueError:
                 self.print_error("Invalid port number")
                 return True
