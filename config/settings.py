@@ -81,9 +81,7 @@ def load_config(config_path: str = "config/config.json") -> Dict[str, Any]:
     else:
         # Create default config file
         save_config(DEFAULT_CONFIG, config_path)
-        print(
-            f"\033[92m[+]\033[0m Created default configuration at {config_path}"
-        )
+        print(f"\033[92m[+]\033[0m Created default configuration at {config_path}")
         return DEFAULT_CONFIG.copy()
 
 
@@ -193,15 +191,12 @@ def validate_config(config: Dict[str, Any]) -> bool:
     # Validate numeric values
     if not isinstance(config["max_threads"], int) or config["max_threads"] <= 0:
         print(
-            f"\033[91m[!]\033[0m Invalid max_threads value: "
-            f"{config['max_threads']}"
+            f"\033[91m[!]\033[0m Invalid max_threads value: " f"{config['max_threads']}"
         )
         return False
 
     if not isinstance(config["timeout"], (int, float)) or config["timeout"] <= 0:
-        print(
-            f"\033[91m[!]\033[0m Invalid timeout value: {config['timeout']}"
-        )
+        print(f"\033[91m[!]\033[0m Invalid timeout value: {config['timeout']}")
         return False
 
     return True

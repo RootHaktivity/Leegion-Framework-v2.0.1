@@ -87,9 +87,7 @@ class ReportGenerator:
             conn.close()
 
         except Exception as e:
-            print(
-                f"\033[91m[!]\033[0m Database initialization failed: {e}"
-            )
+            print(f"\033[91m[!]\033[0m Database initialization failed: {e}")
 
     def store_scan_result(
         self, module_name: str, target: str, scan_type: str, results: Dict[str, Any]
@@ -209,16 +207,13 @@ class ReportGenerator:
 
             if not scan_data:
                 print(
-                    "\033[91m[!]\033[0m No scan data available for "
-                    "report generation"
+                    "\033[91m[!]\033[0m No scan data available for " "report generation"
                 )
                 return
 
             # Generate in multiple formats
             formats = (
-                input(
-                    "Select formats (json,html,pdf,csv - comma separated): "
-                )
+                input("Select formats (json,html,pdf,csv - comma separated): ")
                 .strip()
                 .lower()
             )
@@ -242,15 +237,12 @@ class ReportGenerator:
                     print(f"\033[93m[!]\033[0m Unsupported format: {fmt}")
 
             print(
-                f"\033[92m[+]\033[0m Comprehensive report generated: "
-                f"{report_name}"
+                f"\033[92m[+]\033[0m Comprehensive report generated: " f"{report_name}"
             )
 
         except Exception as e:
             print(f"\033[91m[!]\033[0m Report generation failed: {e}")
-            self.logger.error(
-                f"Comprehensive report generation error: {e}"
-            )
+            self.logger.error(f"Comprehensive report generation error: {e}")
 
     def generate_vulnerability_report(self):
         """Generate focused vulnerability report"""
@@ -261,9 +253,7 @@ class ReportGenerator:
             vulnerabilities = self._get_all_vulnerabilities()
 
             if not vulnerabilities:
-                print(
-                    "\033[91m[!]\033[0m No vulnerabilities found in database"
-                )
+                print("\033[91m[!]\033[0m No vulnerabilities found in database")
                 return
 
             # Group vulnerabilities by severity
@@ -333,8 +323,7 @@ class ReportGenerator:
                     "total_assets": len(assets),
                     "asset_types": list(assets_by_type.keys()),
                     "assets_by_type_count": {
-                        k: len(v)
-                        for k, v in assets_by_type.items()
+                        k: len(v) for k, v in assets_by_type.items()
                     },
                 },
                 "assets_by_type": assets_by_type,
@@ -1236,7 +1225,9 @@ class ReportGenerator:
         except (FileNotFoundError, subprocess.CalledProcessError):
             print("\033[93m[!]\033[0m PDF generation requires wkhtmltopdf")
             print("\033[96m[i]\033[0m Install with: sudo apt-get install wkhtmltopdf")
-            print("\033[96m[i]\033[0m You can manually convert HTML to PDF using browser print function")
+            print(
+                "\033[96m[i]\033[0m You can manually convert HTML to PDF using browser print function"
+            )
 
     def _format_html_summary(self, data: Any) -> str:
         """Format data for HTML summary section"""
