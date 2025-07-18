@@ -29,8 +29,8 @@ class SSLAnalyzer(BaseModule):
 
     def __init__(self, config: Dict[str, Any]):
         super().__init__(config, "SSL_Analyzer")
-        self.analysis_results = []
-        self.certificates = {}
+        self.analysis_results: List[Dict[str, Any]] = []
+        self.certificates: Dict[str, Any] = {}
         self.timeout = config.get("timeout", 10)
 
     def run(self):

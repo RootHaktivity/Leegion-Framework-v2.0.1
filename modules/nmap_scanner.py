@@ -10,7 +10,7 @@ Copyright (c) 2025 Leegion. All rights reserved.
 import subprocess
 import json
 import xml.etree.ElementTree as ET
-from typing import Any, Dict, Optional
+from typing import Any, Dict, Optional, List
 from datetime import datetime
 import time
 from core.base_module import BaseModule
@@ -22,7 +22,7 @@ class NmapScanner(BaseModule):
 
     def __init__(self, config: Dict[str, Any]):
         super().__init__(config, "Nmap_Scanner")
-        self.scan_results = []
+        self.scan_results: List[Dict[str, Any]] = []
         self.current_scan = None
 
     def run(self):

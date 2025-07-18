@@ -233,7 +233,7 @@ def get_wordlist_path(config_key: str, config: Dict[str, Any]) -> str:
     Returns:
         Path to wordlist file
     """
-    wordlist_path = config.get(config_key, "")
+    wordlist_path: str = str(config.get(config_key, ""))
 
     # Check if the configured path exists
     if os.path.exists(wordlist_path):

@@ -9,7 +9,7 @@ import json
 import os
 import time
 from datetime import datetime
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List, Optional, Set
 
 import requests
 import csv
@@ -26,14 +26,14 @@ class DirectoryBruteforcer(BaseModule):
 
     def __init__(self, config: Dict[str, Any]):
         super().__init__(config, "Directory_Bruteforcer")
-        self.discovered_paths = set()
-        self.scan_results = []
+        self.discovered_paths: Set[str] = set()
+        self.scan_results: List[Dict[str, Any]] = []
         self.max_threads = config.get("max_threads", 20)
         self.timeout = config.get("timeout", 10)
         self.user_agent = config.get("user_agent", "Leegion-Framework/2.0")
 
         # Response analysis
-        self.baseline_responses = {}
+        self.baseline_responses: Dict[str, List[Dict[str, Any]]] = {}
         self.interesting_status_codes = [200, 301, 302, 401, 403, 500, 501, 502, 503]
 
     def run(self):

@@ -8,7 +8,7 @@ for various cybersecurity tools and techniques.
 import json
 import os
 from datetime import datetime
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Set
 
 from core.base_module import BaseModule
 from core.banner import print_module_header
@@ -19,9 +19,9 @@ class CommandHelper(BaseModule):
 
     def __init__(self, config: Dict[str, Any]):
         super().__init__(config, "Command_Helper")
-        self.custom_commands = {}
-        self.command_history = []
-        self.favorites = set()
+        self.custom_commands: Dict[str, str] = {}
+        self.command_history: List[str] = []
+        self.favorites: Set[str] = set()
 
     def run(self):
         """Main command helper interface"""

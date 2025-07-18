@@ -255,7 +255,7 @@ class BackupManager:
         for info_file in self.backup_dir.glob("*.info"):
             try:
                 with open(info_file, "r") as f:
-                    backup_info = json.load(f)
+                    backup_info: Dict[str, Any] = json.load(f)
 
                 # Check if backup file still exists
                 backup_file = self.backup_dir / backup_info["filename"]
@@ -336,7 +336,7 @@ class BackupManager:
 
     def _export_component(self, component: str) -> Dict[str, Any]:
         """Export a specific component"""
-        component_data = {
+        component_data: Dict[str, Any] = {
             "description": self.backup_components[component]["description"],
             "files": [],
         }

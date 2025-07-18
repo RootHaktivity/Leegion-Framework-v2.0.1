@@ -34,23 +34,20 @@ def install_package(package: str) -> bool:
     print("\033[96m[+]\033[0m Installing " + package + "...")
 
     # Try different installation methods
-    install_methods = [
-        # Method 1: pip install with --user flag
-        [sys.executable, "-m", "pip", "install", "--user", package],
-        # Method 2: pip3 install with --user flag
-        ["pip3", "install", "--user", package],
-        # Method 3: apt install for common packages on Debian/Ubuntu/Kali
-        (
-            ["apt", "install", "-y", "python3-" + package.replace("-", "")]
-            if package in ["python-nmap", "requests", "pyyaml"]
-            else None
-        ),
-        # Method 4: regular pip install
-        [sys.executable, "-m", "pip", "install", package],
-    ]
-
-    # Filter out None methods
-    install_methods = [method for method in install_methods if method is not None]
+    install_methods: List[List[str]] = []
+    
+    # Method 1: pip install with --user flag
+    install_methods.append([sys.executable, "-m", "pip", "install", "--user", package])
+    
+    # Method 2: pip3 install with --user flag
+    install_methods.append(["pip3", "install", "--user", package])
+    
+    # Method 3: apt install for common packages on Debian/Ubuntu/Kali
+    if package in ["python-nmap", "requests", "pyyaml"]:
+        install_methods.append(["apt", "install", "-y", "python3-" + package.replace("-", "")])
+    
+    # Method 4: regular pip install
+    install_methods.append([sys.executable, "-m", "pip", "install", package])
 
     for method in install_methods:
         try:

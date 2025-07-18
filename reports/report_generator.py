@@ -111,7 +111,7 @@ class ReportGenerator:
                 ),
             )
 
-            scan_id = cursor.lastrowid
+            scan_id = cursor.lastrowid or 0
 
             # Store vulnerabilities if present
             if "vulnerabilities" in results:

@@ -159,7 +159,7 @@ class SecurityManager:
 
     def hash_sensitive_data(self, data: str) -> str:
         """Hash sensitive data for storage"""
-        return hashlib.sha256(data.encode()).hexdigest()
+        return str(hashlib.sha256(data.encode()).hexdigest())
 
     def rate_limit_check(
         self, operation: str, max_attempts: int = 10, window_seconds: int = 60
@@ -323,7 +323,7 @@ class InMemoryRateLimiter:
         self.max_calls = max_calls
         self.period = period
         self.lock = threading.Lock()
-        self.calls = []  # List of timestamps
+        self.calls: List[float] = []  # List of timestamps
 
     def allow(self) -> bool:
         now = time.time()

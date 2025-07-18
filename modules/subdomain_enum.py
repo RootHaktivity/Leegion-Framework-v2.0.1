@@ -9,7 +9,7 @@ import json
 import os
 import time
 from datetime import datetime
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List, Optional, Set
 
 import dns.resolver
 import requests
@@ -23,8 +23,8 @@ class SubdomainEnumerator(BaseModule):
 
     def __init__(self, config: Dict[str, Any]):
         super().__init__(config, "Subdomain_Enumerator")
-        self.discovered_subdomains = set()
-        self.enumeration_results = []
+        self.discovered_subdomains: Set[str] = set()
+        self.enumeration_results: List[Dict[str, Any]] = []
         self.max_threads = config.get("max_threads", 50)
         self.timeout = config.get("timeout", 5)
 

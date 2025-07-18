@@ -24,11 +24,11 @@ class VPNManager(BaseModule):
 
     def __init__(self, config: Dict[str, Any]):
         super().__init__(config, "VPN_Manager")
-        self.vpn_process = None
-        self.vpn_thread = None
-        self.monitoring_thread = None
-        self.current_config = None
-        self.connection_start_time = None
+        self.vpn_process: Optional[subprocess.Popen[str]] = None
+        self.vpn_thread: Optional[threading.Thread] = None
+        self.monitoring_thread: Optional[threading.Thread] = None
+        self.current_config: Optional[Dict[str, str]] = None
+        self.connection_start_time: Optional[float] = None
         self.connection_stats = {
             "total_connections": 0,
             "successful_connections": 0,

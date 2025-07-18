@@ -26,8 +26,8 @@ class BaseModule(ABC):
         self.config = config
         self.module_name = module_name
         self.logger = core.logger.setup_logger(config.get("log_level", "INFO"))
-        self.results = []
-        self.session_data = {}
+        self.results: List[Dict[str, Any]] = []
+        self.session_data: Dict[str, Any] = {}
 
     @abstractmethod
     def run(self) -> None:

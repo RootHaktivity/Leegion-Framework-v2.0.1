@@ -24,7 +24,7 @@ class WPScanIntegration(BaseModule):
 
     def __init__(self, config: Dict[str, Any]):
         super().__init__(config, "WPScan_Integration")
-        self.scan_results = []
+        self.scan_results: List[Dict[str, Any]] = []
         self.api_token = config.get("wpscan_api_token", "")
 
     def run(self):
