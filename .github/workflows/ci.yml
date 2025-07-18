@@ -87,7 +87,7 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install black flake8 mypy
+        pip install black flake8 mypy types-requests types-tabulate
     
     - name: Run code formatting check
       run: |
