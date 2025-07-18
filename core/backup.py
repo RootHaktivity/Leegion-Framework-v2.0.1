@@ -192,6 +192,9 @@ class BackupManager:
             if info_path.exists():
                 with open(info_path, "r") as f:
                     backup_info = json.load(f)
+                    if not isinstance(backup_info, dict):
+                        return False
+                    backup_info = cast(Dict[str, Any], backup_info)
 
                 expected_checksum = backup_info.get("checksum")
                 if expected_checksum:

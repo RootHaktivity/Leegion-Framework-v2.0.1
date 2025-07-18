@@ -477,8 +477,8 @@ class NmapScanner(BaseModule):
         print(f"\033[96mDuration:\033[0m {scan_result['duration']:.2f} seconds")
         print(f"\033[96mHosts Found:\033[0m {len(scan_result['hosts'])}")
 
-        total_ports = sum(len(host["ports"]) for host in scan_result["hosts"])
-        open_ports = sum(
+        total_ports: int = sum(len(host["ports"]) for host in scan_result["hosts"])
+        open_ports: int = sum(
             len([p for p in host["ports"] if p["state"] == "open"])
             for host in scan_result["hosts"]
         )
@@ -503,10 +503,10 @@ class NmapScanner(BaseModule):
             print(f"  \033[96mStatus:\033[0m {host['status']}")
 
             # Display open ports
-            open_ports = [p for p in host["ports"] if p["state"] == "open"]
-            if open_ports:
+            host_open_ports = [p for p in host["ports"] if p["state"] == "open"]
+            if host_open_ports:
                 print("  \033[96mOpen Ports:\033[0m")
-                for port in open_ports[:10]:  # Limit to first 10
+                for port in host_open_ports[:10]:  # Limit to first 10
                     service_info = port["service"]
                     service_name = service_info.get("name", "unknown")
                     product = service_info.get("product", "")
@@ -522,8 +522,8 @@ class NmapScanner(BaseModule):
 
                     print(f"    {port_desc:15} {service_desc}")
 
-                if len(open_ports) > 10:
-                    print(f"    ... and {len(open_ports) - 10} more ports")
+                if len(host_open_ports) > 10:
+                    print(f"    ... and {len(host_open_ports) - 10} more ports")
 
             # Display OS information if available
             if host["os"] and host["os"]["matches"]:
