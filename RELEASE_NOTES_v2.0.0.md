@@ -6,6 +6,6 @@
 - Clean up repository: Remove unnecessary files and cache directories
 
 ### Technical Details
-- Framework version: 2.0.0
+- Framework version: 2.0.1
 - Python compatibility: 3.8+
 - Dependencies: See requirements.txt
