@@ -59,10 +59,7 @@ class LeegionLogger:
         # File handler with rotation
         log_file = log_dir / f"leegion_{datetime.now().strftime('%Y%m%d')}.log"
         file_handler = logging.handlers.RotatingFileHandler(
-            log_file, 
-            maxBytes=10 * 1024 * 1024,  # 10MB
-            backupCount=5, 
-            encoding="utf-8"
+            log_file, maxBytes=10 * 1024 * 1024, backupCount=5, encoding="utf-8"  # 10MB
         )
 
         file_formatter = logging.Formatter(

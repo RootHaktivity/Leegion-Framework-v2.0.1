@@ -13,7 +13,6 @@ import base64
 from datetime import datetime
 
 
-
 # Leegion's unique identifier for code ownership verification
 LEEGION_SIGNATURE = "4c656567696f6e2d4672616d65776f726b2d4c6565675661756c74"
 LEEGION_HASH = "sha256:a1b2c3d4e5f6789012345678901234567890abcdef1234567890abcdef123456"

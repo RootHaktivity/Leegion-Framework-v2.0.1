@@ -102,10 +102,7 @@ class WPScanIntegration(BaseModule):
         """Check if WPScan is available on the system"""
         try:
             result = subprocess.run(
-                ["wpscan", "--version"], 
-                capture_output=True, 
-                text=True, 
-                timeout=5
+                ["wpscan", "--version"], capture_output=True, text=True, timeout=5
             )
             return result.returncode == 0
         except (subprocess.TimeoutExpired, FileNotFoundError):
@@ -117,9 +114,7 @@ class WPScanIntegration(BaseModule):
         print(
             "WordPress scanning identifies security vulnerabilities in WordPress sites"
         )
-        print(
-            "by checking for outdated plugins, themes, and core WordPress versions."
-        )
+        print("by checking for outdated plugins, themes, and core WordPress versions.")
         print("\n\033[93m💡 WHAT YOU'LL DISCOVER:\033[0m")
         print("• Outdated WordPress core version with known vulnerabilities")
         print("• Vulnerable plugins (contact forms, e-commerce, SEO tools)")
@@ -156,9 +151,7 @@ class WPScanIntegration(BaseModule):
     def _enumerate_users(self):
         """Enumerate WordPress users"""
         print("\n\033[96m📚 WHY ENUMERATE WORDPRESS USERS?\033[0m")
-        print(
-            "User enumeration reveals WordPress usernames which can be used for:"
-        )
+        print("User enumeration reveals WordPress usernames which can be used for:")
         print("• Password brute force attacks against wp-login.php")
         print("• Social engineering with discovered real names")
         print("• Privilege escalation (finding admin vs subscriber accounts)")
@@ -187,9 +180,7 @@ class WPScanIntegration(BaseModule):
         elif choice == "2":
             args.extend(["--enumerate", "u1-100"])
         elif choice == "3":
-            range_input = self.get_user_input(
-                "Enter user ID range (e.g., 1-50): "
-            )
+            range_input = self.get_user_input("Enter user ID range (e.g., 1-50): ")
             if range_input:
                 args.extend(["--enumerate", f"u{range_input}"])
             else:
@@ -335,17 +326,11 @@ class WPScanIntegration(BaseModule):
         self.print_info("  --enumerate t        : Enumerate themes")
         self.print_info("  --enumerate vp       : Enumerate vulnerable plugins")
         self.print_info("  --enumerate cb       : Enumerate config backups")
-        self.print_info(
-            "  --detection-mode aggressive : Aggressive detection"
-        )
+        self.print_info("  --detection-mode aggressive : Aggressive detection")
         self.print_info("  --random-user-agent  : Use random user agents")
-        self.print_info(
-            "  --force              : Force scan even if not WordPress"
-        )
+        self.print_info("  --force              : Force scan even if not WordPress")
 
-        custom_args = self.get_user_input(
-            "Enter custom arguments (without --url): "
-        )
+        custom_args = self.get_user_input("Enter custom arguments (without --url): ")
         if not custom_args:
             return
 
@@ -360,9 +345,7 @@ class WPScanIntegration(BaseModule):
 
     def _batch_scan(self):
         """Scan multiple WordPress URLs"""
-        self.print_info(
-            "Enter WordPress URLs (one per line, empty line to finish):"
-        )
+        self.print_info("Enter WordPress URLs (one per line, empty line to finish):")
 
         urls = []
         while True:

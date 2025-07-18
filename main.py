@@ -74,9 +74,7 @@ class LeegionFramework:
                 # Running from source directory
                 config_path = "config/config.json"
         self.config = load_config(config_path)
-        self.logger = logger or setup_logger(
-            self.config.get("log_level", "INFO")
-        )
+        self.logger = logger or setup_logger(self.config.get("log_level", "INFO"))
         self.report_generator = ReportGenerator()
 
         # Leegion's ownership verification
@@ -186,9 +184,7 @@ class LeegionFramework:
         if os.path.exists(new_dir):
             self.config["vpn_config_dir"] = new_dir
             save_config(self.config)
-            print(
-                f"\033[92m[+]\033[0m VPN config directory updated to {new_dir}"
-            )
+            print(f"\033[92m[+]\033[0m VPN config directory updated to {new_dir}")
         else:
             print("\033[91m[!]\033[0m Directory does not exist.")
 
@@ -206,9 +202,7 @@ class LeegionFramework:
     def _reset_config(self):
         """Reset configuration to defaults"""
         confirm = (
-            input(
-                "Are you sure you want to reset to defaults? (y/N): "
-            ).strip().lower()
+            input("Are you sure you want to reset to defaults? (y/N): ").strip().lower()
         )
         if confirm == "y":
             from config.settings import DEFAULT_CONFIG
@@ -225,9 +219,8 @@ class LeegionFramework:
             )
 
             # Check if already installed
-            is_installed = (
-                os.path.exists("/opt/leegion-framework") and
-                os.path.exists("/usr/local/bin/leegion")
+            is_installed = os.path.exists("/opt/leegion-framework") and os.path.exists(
+                "/usr/local/bin/leegion"
             )
 
             if is_installed:
@@ -282,9 +275,7 @@ class LeegionFramework:
 
         # Check if running as root
         if os.geteuid() != 0:
-            print(
-                "\033[91m❌ Root privileges required for system installation\033[0m"
-            )
+            print("\033[91m❌ Root privileges required for system installation\033[0m")
             print()
             print("\033[96mTo install system-wide, please run:\033[0m")
             print(
@@ -307,9 +298,9 @@ class LeegionFramework:
         print("  • User config: ~/.config/leegion/")
         print()
 
-        confirm = input(
-            "\033[93mProceed with installation? (y/N): \033[0m"
-        ).strip().lower()
+        confirm = (
+            input("\033[93mProceed with installation? (y/N): \033[0m").strip().lower()
+        )
         if confirm != "y":
             print("\033[93m[!]\033[0m Installation cancelled.")
             input("\n\033[93mPress Enter to continue...\033[0m")
@@ -326,9 +317,7 @@ class LeegionFramework:
 
             if result.returncode == 0:
                 print("\033[92m✅ Installation completed successfully!\033[0m")
-                print(
-                    "\033[96mYou can now run 'leegion' from anywhere on your system."
-                )
+                print("\033[96mYou can now run 'leegion' from anywhere on your system.")
             else:
                 print("\033[91m❌ Installation failed:\033[0m")
                 print(result.stderr)
@@ -344,9 +333,7 @@ class LeegionFramework:
         print("\033[93m" + "=" * 50 + "\033[0m")
 
         confirm = (
-            input(
-                "\033[93mThis will reinstall the framework. Continue? (y/N): \033[0m"
-            )
+            input("\033[93mThis will reinstall the framework. Continue? (y/N): \033[0m")
             .strip()
             .lower()
         )
@@ -357,9 +344,7 @@ class LeegionFramework:
 
         # Check if running as root
         if os.geteuid() != 0:
-            print(
-                "\033[91m❌ Root privileges required for reinstallation\033[0m"
-            )
+            print("\033[91m❌ Root privileges required for reinstallation\033[0m")
             print(
                 f"  \033[92msudo python3 {os.path.join(os.getcwd(), 'setup.py')}\033[0m"
             )
@@ -408,9 +393,7 @@ class LeegionFramework:
 
         # Check if running as root
         if os.geteuid() != 0:
-            print(
-                "\033[91m❌ Root privileges required for uninstallation\033[0m"
-            )
+            print("\033[91m❌ Root privileges required for uninstallation\033[0m")
             print("  \033[92msudo /opt/leegion-framework/uninstall.sh\033[0m")
             input("\n\033[93mPress Enter to continue...\033[0m")
             return
@@ -458,14 +441,8 @@ class LeegionFramework:
         checks = [
             ("/opt/leegion-framework", "Framework Directory"),
             ("/usr/local/bin/leegion", "Global Executable"),
-            (
-                os.path.expanduser("~/.config/leegion"),
-                "User Config Directory"
-            ),
-            (
-                os.path.expanduser("~/.config/leegion/config.json"),
-                "User Config File"
-            ),
+            (os.path.expanduser("~/.config/leegion"), "User Config Directory"),
+            (os.path.expanduser("~/.config/leegion/config.json"), "User Config File"),
         ]
 
         for path, description in checks:
@@ -566,63 +543,43 @@ class LeegionFramework:
                     if choice == "1":
                         clear_screen()
                         self.modules["vpn"].run()
-                        input(
-                            "\n\033[93mPress Enter to return to main menu...\033[0m"
-                        )
+                        input("\n\033[93mPress Enter to return to main menu...\033[0m")
                     elif choice == "2":
                         clear_screen()
                         self.modules["nmap"].run()
-                        input(
-                            "\n\033[93mPress Enter to return to main menu...\033[0m"
-                        )
+                        input("\n\033[93mPress Enter to return to main menu...\033[0m")
                     elif choice == "3":
                         clear_screen()
                         self.modules["wpscan"].run()
-                        input(
-                            "\n\033[93mPress Enter to return to main menu...\033[0m"
-                        )
+                        input("\n\033[93mPress Enter to return to main menu...\033[0m")
                     elif choice == "4":
                         clear_screen()
                         self.modules["subdomain"].run()
-                        input(
-                            "\n\033[93mPress Enter to return to main menu...\033[0m"
-                        )
+                        input("\n\033[93mPress Enter to return to main menu...\033[0m")
                     elif choice == "5":
                         clear_screen()
                         self.modules["dirbrute"].run()
-                        input(
-                            "\n\033[93mPress Enter to return to main menu...\033[0m"
-                        )
+                        input("\n\033[93mPress Enter to return to main menu...\033[0m")
                     elif choice == "6":
                         clear_screen()
                         self.modules["ssl"].run()
-                        input(
-                            "\n\033[93mPress Enter to return to main menu...\033[0m"
-                        )
+                        input("\n\033[93mPress Enter to return to main menu...\033[0m")
                     elif choice == "7":
                         clear_screen()
                         self.modules["helper"].run()
-                        input(
-                            "\n\033[93mPress Enter to return to main menu...\033[0m"
-                        )
+                        input("\n\033[93mPress Enter to return to main menu...\033[0m")
                     elif choice == "8":
                         clear_screen()
                         self.modules["downloader"].run()
-                        input(
-                            "\n\033[93mPress Enter to return to main menu...\033[0m"
-                        )
+                        input("\n\033[93mPress Enter to return to main menu...\033[0m")
                     elif choice == "9":
                         clear_screen()
                         self.modules["revshell"].run()
-                        input(
-                            "\n\033[93mPress Enter to return to main menu...\033[0m"
-                        )
+                        input("\n\033[93mPress Enter to return to main menu...\033[0m")
                     elif choice == "10":
                         clear_screen()
                         self.report_generator.interactive_report_generation()
-                        input(
-                            "\n\033[93mPress Enter to return to main menu...\033[0m"
-                        )
+                        input("\n\033[93mPress Enter to return to main menu...\033[0m")
                     elif choice == "11":
                         clear_screen()
                         self.handle_settings_menu()

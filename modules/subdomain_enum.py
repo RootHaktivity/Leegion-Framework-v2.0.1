@@ -30,9 +30,7 @@ class SubdomainEnumerator(BaseModule):
 
     def run(self):
         """Main subdomain enumeration interface"""
-        print_module_header(
-            "Subdomain Enumerator", "Advanced Subdomain Discovery"
-        )
+        print_module_header("Subdomain Enumerator", "Advanced Subdomain Discovery")
 
         while True:
             self._display_enum_menu()
@@ -124,9 +122,7 @@ class SubdomainEnumerator(BaseModule):
             self.print_error("No wordlist available")
             return
 
-        self.print_info(
-            f"Starting wordlist enumeration with {len(wordlist)} entries"
-        )
+        self.print_info(f"Starting wordlist enumeration with {len(wordlist)} entries")
         self._enumerate_with_wordlist(domain, wordlist)
 
     def _dns_bruteforce(self):
@@ -170,9 +166,7 @@ class SubdomainEnumerator(BaseModule):
         # Multiple CT log sources
         ct_sources = [
             f"https://crt.sh/?q=%.{domain}&output=json",
-            (
-                f"https://certspotter.com/api/v0/certs?domain={domain}"
-            ),
+            (f"https://certspotter.com/api/v0/certs?domain={domain}"),
         ]
 
         for source in ct_sources:
@@ -207,9 +201,7 @@ class SubdomainEnumerator(BaseModule):
     def _subdomain_takeover_check(self):
         """Check discovered subdomains for takeover vulnerabilities"""
         if not self.discovered_subdomains:
-            self.print_warning(
-                "No subdomains discovered yet. Run enumeration first."
-            )
+            self.print_warning("No subdomains discovered yet. Run enumeration first.")
             return
 
         self.print_info(
@@ -254,9 +246,7 @@ class SubdomainEnumerator(BaseModule):
                 # Check HTTP status
                 http_status = self._check_http_status(subdomain)
                 if http_status in [404, 403, 502, 503]:
-                    self.print_info(
-                        f"Interesting status {http_status}: {subdomain}"
-                    )
+                    self.print_info(f"Interesting status {http_status}: {subdomain}")
 
             except Exception as e:
                 self.logger.debug(f"Takeover check failed for {subdomain}: {e}")
@@ -307,9 +297,7 @@ class SubdomainEnumerator(BaseModule):
         self._subdomain_takeover_check()
 
         duration = time.time() - start_time
-        self.print_success(
-            f"Comprehensive scan completed in {duration:.2f} seconds"
-        )
+        self.print_success(f"Comprehensive scan completed in {duration:.2f} seconds")
         self.print_success(
             f"Total unique subdomains found: {len(self.discovered_subdomains)}"
         )
@@ -377,9 +365,7 @@ class SubdomainEnumerator(BaseModule):
 
         # Use thread pool for concurrent checks
         with ThreadPoolExecutor(max_workers=self.max_threads) as executor:
-            futures = [
-                executor.submit(check_subdomain, sub) for sub in wordlist
-            ]
+            futures = [executor.submit(check_subdomain, sub) for sub in wordlist]
 
             for future in as_completed(futures):
                 try:
@@ -388,9 +374,7 @@ class SubdomainEnumerator(BaseModule):
                     self.logger.debug(f"Subdomain check error: {e}")
 
         print()  # New line after progress
-        self.print_success(
-            f"Wordlist enumeration completed. Found {found} subdomains."
-        )
+        self.print_success(f"Wordlist enumeration completed. Found {found} subdomains.")
 
     def _dns_bruteforce_with_wordlist(
         self, domain: str, wordlist: List[str], dns_servers: List[str]
@@ -437,9 +421,7 @@ class SubdomainEnumerator(BaseModule):
         """Query certificate transparency logs"""
         try:
             headers = {
-                "User-Agent": self.config.get(
-                    "user_agent", "Leegion-Framework/2.0"
-                )
+                "User-Agent": self.config.get("user_agent", "Leegion-Framework/2.0")
             }
             response = requests.get(url, headers=headers, timeout=30)
 
@@ -486,9 +468,7 @@ class SubdomainEnumerator(BaseModule):
         try:
             url = f"https://crt.sh/?q=%.{domain}&output=json"
             headers = {
-                "User-Agent": self.config.get(
-                    "user_agent", "Leegion-Framework/2.0"
-                )
+                "User-Agent": self.config.get("user_agent", "Leegion-Framework/2.0")
             }
             response = requests.get(url, headers=headers, timeout=30)
 
@@ -496,18 +476,14 @@ class SubdomainEnumerator(BaseModule):
                 self._parse_crtsh_response(response.json(), domain)
 
         except Exception as e:
-            self.print_warning(
-                f"Certificate transparency scan failed: {e}"
-            )
+            self.print_warning(f"Certificate transparency scan failed: {e}")
 
     def _perform_permutation_scan(
         self, domain: str, base_subs: Optional[List[str]] = None
     ):
         """Generate and test subdomain permutations"""
         if not base_subs:
-            base_subs = [
-                "www", "mail", "ftp", "admin", "api", "dev", "test", "staging"
-            ]
+            base_subs = ["www", "mail", "ftp", "admin", "api", "dev", "test", "staging"]
 
         # Permutation patterns
         patterns = [
@@ -554,8 +530,7 @@ class SubdomainEnumerator(BaseModule):
 
         # Combine all results
         all_found = (
-            google_subdomains + bing_subdomains + ct_subdomains + 
-            pattern_subdomains
+            google_subdomains + bing_subdomains + ct_subdomains + pattern_subdomains
         )
 
         for subdomain in set(all_found):
@@ -570,8 +545,7 @@ class SubdomainEnumerator(BaseModule):
             # Use requests to search for subdomains
             headers = {
                 "User-Agent": (
-                    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
-                    "AppleWebKit/537.36"
+                    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) " "AppleWebKit/537.36"
                 )
             }
 
@@ -598,8 +572,7 @@ class SubdomainEnumerator(BaseModule):
         try:
             headers = {
                 "User-Agent": (
-                    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
-                    "AppleWebKit/537.36"
+                    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) " "AppleWebKit/537.36"
                 )
             }
 
@@ -625,8 +598,7 @@ class SubdomainEnumerator(BaseModule):
             # Use multiple CT log sources
             ct_sources = [
                 f"https://crt.sh/?q=%.{domain}&output=json",
-                (f"https://certspotter.com/api/v0/certs?domain={domain}" 
-                 ),
+                (f"https://certspotter.com/api/v0/certs?domain={domain}"),
             ]
 
             for source in ct_sources:

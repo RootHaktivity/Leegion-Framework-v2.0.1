@@ -34,15 +34,11 @@ class DirectoryBruteforcer(BaseModule):
 
         # Response analysis
         self.baseline_responses = {}
-        self.interesting_status_codes = [
-            200, 301, 302, 401, 403, 500, 501, 502, 503
-        ]
+        self.interesting_status_codes = [200, 301, 302, 401, 403, 500, 501, 502, 503]
 
     def run(self):
         """Main directory bruteforce interface"""
-        print_module_header(
-            "Directory Bruteforcer", "Web Directory & File Discovery"
-        )
+        print_module_header("Directory Bruteforcer", "Web Directory & File Discovery")
 
         while True:
             self._display_bruteforce_menu()
@@ -173,9 +169,7 @@ class DirectoryBruteforcer(BaseModule):
         ]
 
         self.print_info(f"Testing {len(quick_wordlist)} common directories...")
-        self.print_info(
-            "Looking for: Admin panels, backups, APIs, configuration files"
-        )
+        self.print_info("Looking for: Admin panels, backups, APIs, configuration files")
         self._perform_directory_scan(target_url, quick_wordlist, "Quick Directory Scan")
 
     def _comprehensive_scan(self):
@@ -264,9 +258,7 @@ class DirectoryBruteforcer(BaseModule):
         elif ext_choice == "5":
             extensions = ["zip", "tar", "gz", "rar", "7z", "tar.gz"]
         elif ext_choice == "6":
-            custom_exts = self.get_user_input(
-                "Enter extensions (comma-separated): "
-            )
+            custom_exts = self.get_user_input("Enter extensions (comma-separated): ")
             if custom_exts:
                 extensions = [ext.strip() for ext in custom_exts.split(",")]
 
@@ -1090,9 +1082,7 @@ class DirectoryBruteforcer(BaseModule):
 
             # Show in batches
             if i % 15 == 0 and i < len(sorted_paths):
-                more = self.get_user_input(
-                    "Press Enter to continue or 'q' to stop: "
-                )
+                more = self.get_user_input("Press Enter to continue or 'q' to stop: ")
                 if more and more.lower() == "q":
                     break
 

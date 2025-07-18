@@ -15,14 +15,10 @@ import platform
 from typing import Any, Dict, List, Optional
 
 # Required packages for the framework
-REQUIRED_PACKAGES = [
-    "python-nmap", "requests", "colorama", "tabulate", "pyyaml"
-]
+REQUIRED_PACKAGES = ["python-nmap", "requests", "colorama", "tabulate", "pyyaml"]
 
 # Optional packages that enhance functionality
-OPTIONAL_PACKAGES = [
-    "python-openvpn", "dnspython", "cryptography", "beautifulsoup4"
-]
+OPTIONAL_PACKAGES = ["python-openvpn", "dnspython", "cryptography", "beautifulsoup4"]
 
 
 def install_package(package: str) -> bool:
@@ -45,17 +41,16 @@ def install_package(package: str) -> bool:
         ["pip3", "install", "--user", package],
         # Method 3: apt install for common packages on Debian/Ubuntu/Kali
         (
-            ["apt", "install", "-y", "python3-" + package.replace('-', '')]
-            if package in ["python-nmap", "requests", "pyyaml"] else None
+            ["apt", "install", "-y", "python3-" + package.replace("-", "")]
+            if package in ["python-nmap", "requests", "pyyaml"]
+            else None
         ),
         # Method 4: regular pip install
         [sys.executable, "-m", "pip", "install", package],
     ]
 
     # Filter out None methods
-    install_methods = [
-        method for method in install_methods if method is not None
-    ]
+    install_methods = [method for method in install_methods if method is not None]
 
     for method in install_methods:
         try:
@@ -147,8 +142,8 @@ def check_and_install_packages() -> None:
     # Install missing required packages
     if missing_required:
         print(
-            "\033[93m[!]\033[0m Missing required packages: " 
-            + ', '.join(missing_required)
+            "\033[93m[!]\033[0m Missing required packages: "
+            + ", ".join(missing_required)
         )
         for package in missing_required:
             if not install_package(package):
@@ -157,8 +152,7 @@ def check_and_install_packages() -> None:
     # Handle failed installations gracefully
     if failed_installs:
         print(
-            "\033[91m[!]\033[0m Failed to auto-install: " 
-            + ', '.join(failed_installs)
+            "\033[91m[!]\033[0m Failed to auto-install: " + ", ".join(failed_installs)
         )
         print("\033[93m[!]\033[0m Framework will continue with limited functionality")
         print("\033[96m[i]\033[0m To install manually on Kali Linux:")
@@ -175,8 +169,8 @@ def check_and_install_packages() -> None:
     # Inform about missing optional packages
     if missing_optional:
         print(
-            "\033[93m[!]\033[0m Optional packages not installed: " 
-            + ', '.join(missing_optional)
+            "\033[93m[!]\033[0m Optional packages not installed: "
+            + ", ".join(missing_optional)
         )
         print("\033[96m[i]\033[0m Some features may be limited without these packages")
 
@@ -223,18 +217,12 @@ def print_tool_availability():
     tools = check_external_tools()
 
     for tool, available in tools.items():
-        status = (
-            "\033[92m✓\033[0m" if available else "\033[91m✗\033[0m"
-        )
+        status = "\033[92m✓\033[0m" if available else "\033[91m✗\033[0m"
         print("  " + tool + ": " + status)
 
-    missing_tools = [
-        tool for tool, available in tools.items() if not available
-    ]
+    missing_tools = [tool for tool, available in tools.items() if not available]
     if missing_tools:
-        print(
-            "\n\033[93m[!]\033[0m Missing tools: " + ', '.join(missing_tools)
-        )
+        print("\n\033[93m[!]\033[0m Missing tools: " + ", ".join(missing_tools))
         print("\033[96m[i]\033[0m Install missing tools for full functionality")
 
 
@@ -293,8 +281,7 @@ def validate_domain(domain: str) -> bool:
     """
     # Require at least one dot in the domain
     domain_pattern = (
-        r"^(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\.)+"
-        r"[a-zA-Z]{2,}$"
+        r"^(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\.)+" r"[a-zA-Z]{2,}$"
     )
     return bool(re.match(domain_pattern, domain))
 
@@ -430,9 +417,7 @@ def check_internet_connectivity(
         return False
 
 
-def run_command_with_timeout(
-    command: List[str], timeout: int = 30
-) -> Dict[str, Any]:
+def run_command_with_timeout(command: List[str], timeout: int = 30) -> Dict[str, Any]:
     """
     Run a command with timeout and capture output
 
@@ -481,9 +466,7 @@ def run_command_with_timeout(
 class ProgressBar:
     """Simple progress bar for long-running operations"""
 
-    def __init__(
-        self, total: float, prefix: str = "Progress", length: int = 40
-    ):
+    def __init__(self, total: float, prefix: str = "Progress", length: int = 40):
         self.total = int(total)
         self.prefix = prefix
         self.length = length
@@ -496,17 +479,21 @@ class ProgressBar:
             self.current = self.total
 
         percent = (self.current / self.total) * 100
-        filled_length = int(
-            self.length * self.current // self.total
-        )
+        filled_length = int(self.length * self.current // self.total)
 
-        bar = (
-            "█" * filled_length + "-" * (self.length - filled_length)
-        )
+        bar = "█" * filled_length + "-" * (self.length - filled_length)
         print(
-            "\r\033[96m" + self.prefix + "\033[0m |" + bar + "| " 
-            + str(self.current) + "/" + str(self.total) 
-            + " (" + str(percent) + "%)",
+            "\r\033[96m"
+            + self.prefix
+            + "\033[0m |"
+            + bar
+            + "| "
+            + str(self.current)
+            + "/"
+            + str(self.total)
+            + " ("
+            + str(percent)
+            + "%)",
             end="",
             flush=True,
         )

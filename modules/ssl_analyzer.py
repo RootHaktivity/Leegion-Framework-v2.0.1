@@ -102,9 +102,7 @@ class SSLAnalyzer(BaseModule):
         print("• Expired certificates: Can indicate poor maintenance")
         print("• Weak ciphers: Make sites vulnerable to eavesdropping")
 
-        target = self.get_user_input(
-            "\nEnter hostname or URL (e.g., example.com): "
-        )
+        target = self.get_user_input("\nEnter hostname or URL (e.g., example.com): ")
         if not target:
             return
 
@@ -113,12 +111,8 @@ class SSLAnalyzer(BaseModule):
         if not hostname:
             return
 
-        self.print_info(
-            f"Starting comprehensive SSL analysis for {hostname}:{port}"
-        )
-        self.print_info(
-            "Checking: Certificate validity, encryption strength, and"
-        )
+        self.print_info(f"Starting comprehensive SSL analysis for {hostname}:{port}")
+        self.print_info("Checking: Certificate validity, encryption strength, and")
 
         try:
             # Get certificate information
@@ -155,9 +149,7 @@ class SSLAnalyzer(BaseModule):
 
         except Exception as e:
             self.print_error(f"SSL analysis failed: {e}")
-            self.logger.error(
-                f"SSL analysis error for {hostname}:{port}: {e}"
-            )
+            self.logger.error(f"SSL analysis error for {hostname}:{port}: {e}")
 
     def _certificate_chain_analysis(self):
         """Analyze SSL certificate chain"""
@@ -261,17 +253,13 @@ class SSLAnalyzer(BaseModule):
 
     def _certificate_expiry_check(self):
         """Check certificate expiration dates"""
-        targets_input = self.get_user_input(
-            "Enter hostnames (comma-separated): "
-        )
+        targets_input = self.get_user_input("Enter hostnames (comma-separated): ")
         if not targets_input:
             return
 
         targets = [target.strip() for target in targets_input.split(",")]
 
-        self.print_info(
-            f"Checking certificate expiry for {len(targets)} hosts"
-        )
+        self.print_info(f"Checking certificate expiry for {len(targets)} hosts")
 
         expiry_results = []
 
@@ -283,9 +271,7 @@ class SSLAnalyzer(BaseModule):
                 if cert_info:
                     expiry_date = cert_info.get("not_after")
                     if expiry_date:
-                        days_until_expiry = (
-                            expiry_date - datetime.now()
-                        ).days
+                        days_until_expiry = (expiry_date - datetime.now()).days
 
                         expiry_results.append(
                             {
@@ -293,16 +279,12 @@ class SSLAnalyzer(BaseModule):
                                 "port": port,
                                 "expiry_date": expiry_date.isoformat(),
                                 "days_until_expiry": days_until_expiry,
-                                "status": self._get_expiry_status(
-                                    days_until_expiry
-                                ),
+                                "status": self._get_expiry_status(days_until_expiry),
                             }
                         )
 
                         # Display result
-                        status_color = self._get_expiry_color(
-                            days_until_expiry
-                        )
+                        status_color = self._get_expiry_color(days_until_expiry)
                         self.print_info(
                             f"{hostname}:{port} - Expires in "
                             f"{status_color}{days_until_expiry}\033[0m days"
@@ -333,9 +315,7 @@ class SSLAnalyzer(BaseModule):
             if filename:
                 hostnames = self._load_hostnames_from_file(filename)
         elif option == "2":
-            hosts_input = self.get_user_input(
-                "Enter hostnames (comma-separated): "
-            )
+            hosts_input = self.get_user_input("Enter hostnames (comma-separated): ")
             if hosts_input:
                 hostnames = [host.strip() for host in hosts_input.split(",")]
 
@@ -343,9 +323,7 @@ class SSLAnalyzer(BaseModule):
             self.print_error("No hostnames provided")
             return
 
-        self.print_info(
-            f"Starting batch SSL scan for {len(hostnames)} hosts"
-        )
+        self.print_info(f"Starting batch SSL scan for {len(hostnames)} hosts")
 
         # Perform batch analysis
         batch_results = []
@@ -363,9 +341,7 @@ class SSLAnalyzer(BaseModule):
                         "subject": cert_info.get("subject", {}),
                         "issuer": cert_info.get("issuer", {}),
                         "expiry_date": cert_info.get("not_after"),
-                        "signature_algorithm": cert_info.get(
-                            "signature_algorithm"
-                        ),
+                        "signature_algorithm": cert_info.get("signature_algorithm"),
                         "key_size": cert_info.get("key_size"),
                     }
                     batch_results.append(basic_analysis)

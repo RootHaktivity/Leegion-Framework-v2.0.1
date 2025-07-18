@@ -18,8 +18,6 @@ from typing import Dict, Any, List
 from cryptography.fernet import Fernet
 
 
-
-
 class SecurityManager:
     """Centralized security management for the framework"""
 
@@ -239,9 +237,7 @@ def validate_input_security(
         if re.search(pattern, input_value, re.IGNORECASE):
             result = {
                 "valid": False,
-                "reason": (
-                    f"Potentially dangerous pattern detected: {pattern}"
-                ),
+                "reason": (f"Potentially dangerous pattern detected: {pattern}"),
             }
             return result
 
@@ -286,8 +282,7 @@ def validate_input_security(
                 result = {
                     "valid": False,
                     "reason": (
-                        f"Access to system file/directory blocked: "
-                        f"{dangerous_path}"
+                        f"Access to system file/directory blocked: " f"{dangerous_path}"
                     ),
                 }
                 return result
@@ -308,9 +303,7 @@ def validate_input_security(
             if dangerous_cmd in input_value:
                 result = {
                     "valid": False,
-                    "reason": (
-                        f"Dangerous command blocked: {dangerous_cmd}"
-                    ),
+                    "reason": (f"Dangerous command blocked: {dangerous_cmd}"),
                 }
                 return result
 

