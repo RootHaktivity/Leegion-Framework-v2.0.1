@@ -1634,10 +1634,53 @@ class CommandHelper(BaseModule):
         """John the Ripper command cheatsheet"""
         commands = {
             "Basic Usage": [
-                ("john hash.txt", "Crack password hashes"),
+                ("john hash.txt", "Crack password hashes with default settings"),
                 ("john --wordlist=wordlist.txt hash.txt", "Use specific wordlist"),
                 ("john --show hash.txt", "Show cracked passwords"),
                 ("john --format=raw-md5 hash.txt", "Specify hash format"),
+                ("john --list=formats", "List all supported hash formats"),
+            ],
+            "Hash Formats": [
+                ("john --format=raw-md5 hash.txt", "MD5 hashes"),
+                ("john --format=raw-sha1 hash.txt", "SHA1 hashes"),
+                ("john --format=raw-sha256 hash.txt", "SHA256 hashes"),
+                ("john --format=nt hash.txt", "Windows NT/LM hashes"),
+                ("john --format=sha512crypt hash.txt", "Linux SHA512 crypt"),
+                ("john --format=bcrypt hash.txt", "BCrypt hashes"),
+                ("john --format=md5crypt hash.txt", "MD5 crypt (Linux)"),
+            ],
+            "Wordlist Strategies": [
+                ("john --wordlist=/usr/share/wordlists/rockyou.txt hash.txt", "Use RockYou wordlist"),
+                ("john --wordlist=wordlist.txt --rules hash.txt", "Apply mangling rules"),
+                ("john --wordlist=wordlist.txt --incremental hash.txt", "Incremental mode"),
+                ("john --wordlist=wordlist.txt --single hash.txt", "Single crack mode"),
+                ("john --wordlist=wordlist.txt --external=filter hash.txt", "Custom external filter"),
+            ],
+            "Advanced Options": [
+                ("john --fork=4 hash.txt", "Use 4 CPU cores"),
+                ("john --session=my_session hash.txt", "Save/restore session"),
+                ("john --restore=my_session", "Restore previous session"),
+                ("john --pot=john.pot hash.txt", "Use custom pot file"),
+                ("john --show --format=raw-md5 hash.txt", "Show specific format results"),
+            ],
+            "Rule Files": [
+                ("john --wordlist=wordlist.txt --rules=All hash.txt", "Apply all rules"),
+                ("john --wordlist=wordlist.txt --rules=Extra hash.txt", "Extra mangling rules"),
+                ("john --wordlist=wordlist.txt --rules=Jumbo hash.txt", "Jumbo rule set"),
+                ("john --wordlist=wordlist.txt --rules=KoreLogic hash.txt", "KoreLogic rules"),
+            ],
+            "Performance Tuning": [
+                ("john --memory=4096 hash.txt", "Set memory limit to 4GB"),
+                ("john --max-run-time=3600 hash.txt", "Limit runtime to 1 hour"),
+                ("john --status=hash.txt", "Show cracking progress"),
+                ("john --log=john.log hash.txt", "Log output to file"),
+            ],
+            "Popular Hash Types": [
+                ("john --format=raw-md5 hash.txt", "MD5 (32 chars: 5f4dcc3b5aa765d61d8327deb882cf99)"),
+                ("john --format=raw-sha1 hash.txt", "SHA1 (40 chars: 5baa61e4c9b93f3f0682250b6cf8331b7ee68fd8)"),
+                ("john --format=nt hash.txt", "Windows NT (32 chars: 32ed87bdb5fdc5e9cba88547376818d4)"),
+                ("john --format=sha512crypt hash.txt", "Linux SHA512 ($6$...)"),
+                ("john --format=bcrypt hash.txt", "BCrypt ($2a$... or $2b$...)"),
             ],
         }
 
@@ -1651,14 +1694,63 @@ class CommandHelper(BaseModule):
                 ("hashcat -m 1000 hash.txt wordlist.txt", "NTLM cracking"),
                 ("hashcat -m 1800 hash.txt wordlist.txt", "SHA512 cracking"),
                 ("hashcat -m 0 hash.txt wordlist.txt -r rules.txt", "Use rule file"),
+                ("hashcat --help", "Show all options and hash types"),
             ],
-            "Attack Modes": [
-                ("hashcat -a 0 -m 0 hash.txt wordlist.txt", "Dictionary attack"),
-                (
-                    "hashcat -a 1 -m 0 hash.txt wordlist1.txt wordlist2.txt",
-                    "Combinator attack",
-                ),
+            "Hash Types (-m)": [
+                ("hashcat -m 0 hash.txt wordlist.txt", "MD5 (32 chars)"),
+                ("hashcat -m 100 hash.txt wordlist.txt", "SHA1 (40 chars)"),
+                ("hashcat -m 1400 hash.txt wordlist.txt", "SHA256 (64 chars)"),
+                ("hashcat -m 1000 hash.txt wordlist.txt", "NTLM (32 chars)"),
+                ("hashcat -m 1800 hash.txt wordlist.txt", "SHA512 (128 chars)"),
+                ("hashcat -m 3200 hash.txt wordlist.txt", "BCrypt"),
+                ("hashcat -m 500 hash.txt wordlist.txt", "MD5 Crypt (Linux)"),
+                ("hashcat -m 7400 hash.txt wordlist.txt", "SHA256 Crypt (Linux)"),
+            ],
+            "Attack Modes (-a)": [
+                ("hashcat -a 0 -m 0 hash.txt wordlist.txt", "Dictionary attack (wordlist)"),
+                ("hashcat -a 1 -m 0 hash.txt wordlist1.txt wordlist2.txt", "Combinator attack (word1+word2)"),
                 ("hashcat -a 3 -m 0 hash.txt ?a?a?a?a", "Mask attack (4 chars)"),
+                ("hashcat -a 6 -m 0 hash.txt wordlist.txt ?a?a", "Hybrid dict+mask (word+2chars)"),
+                ("hashcat -a 7 -m 0 hash.txt ?a?a wordlist.txt", "Hybrid mask+dict (2chars+word)"),
+            ],
+            "Mask Characters": [
+                ("hashcat -a 3 -m 0 hash.txt ?l?l?l?l?l?l", "6 lowercase letters"),
+                ("hashcat -a 3 -m 0 hash.txt ?u?u?u?u?u?u", "6 uppercase letters"),
+                ("hashcat -a 3 -m 0 hash.txt ?d?d?d?d", "4 digits"),
+                ("hashcat -a 3 -m 0 hash.txt ?s?s?s?s", "4 special characters"),
+                ("hashcat -a 3 -m 0 hash.txt ?a?a?a?a", "4 any characters"),
+                ("hashcat -a 3 -m 0 hash.txt ?b?b?b?b", "4 bytes (0x00-0xff)"),
+            ],
+            "GPU Optimization": [
+                ("hashcat -d 0,1,2 -m 0 hash.txt wordlist.txt", "Use GPUs 0,1,2"),
+                ("hashcat -w 3 -m 0 hash.txt wordlist.txt", "Workload profile (1-4)"),
+                ("hashcat --opencl-device-types 1,2 -m 0 hash.txt wordlist.txt", "Use CPU and GPU"),
+                ("hashcat -n 80 -m 0 hash.txt wordlist.txt", "Limit to 80% GPU usage"),
+            ],
+            "Rule Files": [
+                ("hashcat -r /usr/share/hashcat/rules/best64.rule -m 0 hash.txt wordlist.txt", "Best64 rules"),
+                ("hashcat -r /usr/share/hashcat/rules/d3ad0ne.rule -m 0 hash.txt wordlist.txt", "D3ad0ne rules"),
+                ("hashcat -r /usr/share/hashcat/rules/rockyou-30000.rule -m 0 hash.txt wordlist.txt", "RockYou rules"),
+                ("hashcat -r /usr/share/hashcat/rules/OneRuleToRuleThemAll.rule -m 0 hash.txt wordlist.txt", "OneRuleToRuleThemAll"),
+            ],
+            "Performance & Output": [
+                ("hashcat -o cracked.txt -m 0 hash.txt wordlist.txt", "Save cracked passwords"),
+                ("hashcat --potfile-disable -m 0 hash.txt wordlist.txt", "Disable potfile"),
+                ("hashcat --session=my_session -m 0 hash.txt wordlist.txt", "Save/restore session"),
+                ("hashcat --restore my_session", "Restore previous session"),
+                ("hashcat --status -m 0 hash.txt wordlist.txt", "Show progress"),
+            ],
+            "Advanced Options": [
+                ("hashcat --increment -m 0 hash.txt ?a?a?a?a", "Incremental mask (1-4 chars)"),
+                ("hashcat --increment-min=3 --increment-max=6 -m 0 hash.txt ?a?a?a?a?a?a", "Incremental 3-6 chars"),
+                ("hashcat --loopback -m 0 hash.txt wordlist.txt", "Use cracked passwords as wordlist"),
+                ("hashcat --left -m 0 hash.txt wordlist.txt", "Show uncracked hashes"),
+                ("hashcat --show -m 0 hash.txt", "Show cracked hashes"),
+            ],
+            "Popular Wordlists": [
+                ("hashcat -m 0 hash.txt /usr/share/wordlists/rockyou.txt", "RockYou wordlist"),
+                ("hashcat -m 0 hash.txt /usr/share/wordlists/metasploit/unix_passwords.txt", "Unix passwords"),
+                ("hashcat -m 0 hash.txt /usr/share/wordlists/SecLists/Passwords/Common-Credentials/10-million-password-list-top-1000000.txt", "10M password list"),
             ],
         }
 
@@ -1667,18 +1759,61 @@ class CommandHelper(BaseModule):
     def _aircrack_cheatsheet(self):
         """Aircrack-ng command cheatsheet"""
         commands = {
-            "Interface": [
-                ("airmon-ng start wlan0", "Start monitor mode"),
+            "Interface Management": [
+                ("airmon-ng start wlan0", "Start monitor mode on wlan0"),
                 ("airmon-ng stop wlan0mon", "Stop monitor mode"),
+                ("airmon-ng check kill", "Kill processes that interfere with monitor mode"),
                 ("iwconfig", "List wireless interfaces"),
+                ("ifconfig wlan0mon up", "Bring monitor interface up"),
             ],
-            "Reconnaissance": [
-                ("airodump-ng wlan0mon", "Scan for networks"),
+            "Network Discovery": [
+                ("airodump-ng wlan0mon", "Scan for all networks"),
+                ("airodump-ng -c 6 wlan0mon", "Scan on specific channel"),
+                ("airodump-ng --bssid 00:11:22:33:44:55 wlan0mon", "Focus on specific network"),
+                ("airodump-ng --essid 'NetworkName' wlan0mon", "Focus on network by name"),
+                ("airodump-ng --manufacturer wlan0mon", "Show manufacturer information"),
+            ],
+            "Packet Capture": [
                 ("airodump-ng -c 6 -w capture wlan0mon", "Capture on channel 6"),
-                (
-                    "airodump-ng -c 6 --bssid 00:11:22:33:44:55 -w capture wlan0mon",
-                    "Capture specific network",
-                ),
+                ("airodump-ng -c 6 --bssid 00:11:22:33:44:55 -w capture wlan0mon", "Capture specific network"),
+                ("airodump-ng -c 6 --bssid 00:11:22:33:44:55 --channel 6 -w capture wlan0mon", "Capture with channel lock"),
+                ("airodump-ng --ivs -w capture wlan0mon", "Capture only IVs (WEP)"),
+                ("airodump-ng --wps wlan0mon", "Scan for WPS-enabled networks"),
+            ],
+            "WEP Attacks": [
+                ("aireplay-ng --deauth 1 -a 00:11:22:33:44:55 wlan0mon", "Deauthentication attack"),
+                ("aireplay-ng --fakeauth 0 -a 00:11:22:33:44:55 -h 00:11:22:33:44:66 wlan0mon", "Fake authentication"),
+                ("aireplay-ng --arp -r replay_arp-0123-456789.cap wlan0mon", "ARP replay attack"),
+                ("aircrack-ng capture-01.cap", "Crack WEP with captured packets"),
+                ("aircrack-ng -b 00:11:22:33:44:55 capture-01.cap", "Crack specific network"),
+            ],
+            "WPA/WPA2 Attacks": [
+                ("aireplay-ng --deauth 10 -a 00:11:22:33:44:55 -c FF:FF:FF:FF:FF:FF wlan0mon", "Deauth to capture handshake"),
+                ("aircrack-ng -w wordlist.txt capture-01.cap", "Dictionary attack on WPA"),
+                ("aircrack-ng -w wordlist.txt -e 'NetworkName' capture-01.cap", "Crack specific network"),
+                ("aircrack-ng -w wordlist.txt -b 00:11:22:33:44:55 capture-01.cap", "Crack by BSSID"),
+            ],
+            "WPS Attacks": [
+                ("reaver -i wlan0mon -b 00:11:22:33:44:55", "Reaver WPS attack"),
+                ("reaver -i wlan0mon -b 00:11:22:33:44:55 -vv", "Verbose Reaver attack"),
+                ("reaver -i wlan0mon -b 00:11:22:33:44:55 -K 1", "KoreK attack method"),
+                ("bully wlan0mon -b 00:11:22:33:44:55", "Bully WPS attack"),
+            ],
+            "Advanced Attacks": [
+                ("mdk4 wlan0mon d -b blacklist.txt", "Deauthentication flood"),
+                ("mdk4 wlan0mon b -f networks.txt", "Beacon flood"),
+                ("mdk4 wlan0mon a -a 00:11:22:33:44:55", "Authentication flood"),
+                ("mdk4 wlan0mon p -t 00:11:22:33:44:55", "Probe request flood"),
+            ],
+            "Analysis Tools": [
+                ("airdecap-ng -w password capture-01.cap", "Decrypt WEP/WPA traffic"),
+                ("airdecloak-ng -i capture-01.cap -o decloaked.cap", "Remove WEP cloaking"),
+                ("packetforge-ng --arp -a 00:11:22:33:44:55 -h 00:11:22:33:44:66 -k 192.168.1.1 -l 192.168.1.100 -y fragment-0123-456789.xor -w arp-request", "Forge ARP packet"),
+            ],
+            "Wordlists for WPA": [
+                ("aircrack-ng -w /usr/share/wordlists/rockyou.txt capture-01.cap", "RockYou wordlist"),
+                ("aircrack-ng -w /usr/share/wordlists/metasploit/unix_passwords.txt capture-01.cap", "Unix passwords"),
+                ("aircrack-ng -w /usr/share/wordlists/SecLists/Passwords/Common-Credentials/10-million-password-list-top-1000000.txt capture-01.cap", "10M password list"),
             ],
         }
 
@@ -1702,17 +1837,75 @@ class CommandHelper(BaseModule):
     def _tcpdump_cheatsheet(self):
         """tcpdump command cheatsheet"""
         commands = {
-            "Basic Usage": [
+            "Basic Capture": [
                 ("tcpdump -i eth0", "Capture on interface"),
                 ("tcpdump -i eth0 -w capture.pcap", "Save to file"),
                 ("tcpdump -r capture.pcap", "Read from file"),
-                ("tcpdump -i eth0 port 80", "Capture HTTP traffic"),
+                ("tcpdump -i eth0 -c 100", "Capture only 100 packets"),
+                ("tcpdump -i eth0 -s 0", "Capture full packet size"),
             ],
-            "Filters": [
-                ("tcpdump host 192.168.1.1", "Filter by host"),
-                ("tcpdump src host 192.168.1.1", "Filter by source"),
-                ("tcpdump dst host 192.168.1.1", "Filter by destination"),
-                ("tcpdump tcp port 80", "Filter TCP port 80"),
+            "Protocol Filters": [
+                ("tcpdump -i eth0 port 80", "Capture HTTP traffic"),
+                ("tcpdump -i eth0 port 443", "Capture HTTPS traffic"),
+                ("tcpdump -i eth0 port 22", "Capture SSH traffic"),
+                ("tcpdump -i eth0 port 53", "Capture DNS traffic"),
+                ("tcpdump -i eth0 tcp", "Capture only TCP"),
+                ("tcpdump -i eth0 udp", "Capture only UDP"),
+                ("tcpdump -i eth0 icmp", "Capture only ICMP"),
+            ],
+            "Host Filters": [
+                ("tcpdump -i eth0 host 192.168.1.1", "Filter by host"),
+                ("tcpdump -i eth0 src host 192.168.1.1", "Filter by source"),
+                ("tcpdump -i eth0 dst host 192.168.1.1", "Filter by destination"),
+                ("tcpdump -i eth0 net 192.168.1.0/24", "Filter by network"),
+                ("tcpdump -i eth0 src net 192.168.1.0/24", "Filter by source network"),
+            ],
+            "Port Filters": [
+                ("tcpdump -i eth0 tcp port 80", "Filter TCP port 80"),
+                ("tcpdump -i eth0 portrange 20-23", "Filter port range"),
+                ("tcpdump -i eth0 src port 22", "Filter source port 22"),
+                ("tcpdump -i eth0 dst port 80", "Filter destination port 80"),
+            ],
+            "Advanced Filters": [
+                ("tcpdump -i eth0 'tcp[tcpflags] & tcp-syn != 0'", "Capture SYN packets"),
+                ("tcpdump -i eth0 'tcp[tcpflags] & tcp-rst != 0'", "Capture RST packets"),
+                ("tcpdump -i eth0 'tcp[tcpflags] & tcp-fin != 0'", "Capture FIN packets"),
+                ("tcpdump -i eth0 'tcp[tcpflags] & tcp-ack != 0'", "Capture ACK packets"),
+                ("tcpdump -i eth0 'tcp[13] & 2 != 0'", "Capture SYN packets (alternative)"),
+            ],
+            "Content Analysis": [
+                ("tcpdump -i eth0 -A", "Print packet contents in ASCII"),
+                ("tcpdump -i eth0 -X", "Print packet contents in hex and ASCII"),
+                ("tcpdump -i eth0 -XX", "Print packet contents in hex and ASCII (with ethernet header)"),
+                ("tcpdump -i eth0 -s 0 -X port 80", "Full HTTP packet analysis"),
+                ("tcpdump -i eth0 -s 0 -A port 80", "HTTP content in ASCII"),
+            ],
+            "Traffic Analysis": [
+                ("tcpdump -i eth0 -q", "Quiet mode (less verbose)"),
+                ("tcpdump -i eth0 -v", "Verbose mode"),
+                ("tcpdump -i eth0 -vv", "More verbose"),
+                ("tcpdump -i eth0 -vvv", "Maximum verbosity"),
+                ("tcpdump -i eth0 -tttt", "Print timestamp in readable format"),
+            ],
+            "Security Analysis": [
+                ("tcpdump -i eth0 'tcp[tcpflags] & tcp-syn != 0 and tcp[tcpflags] & tcp-ack == 0'", "SYN scan detection"),
+                ("tcpdump -i eth0 'icmp[icmptype] == icmp-echo'", "Ping requests"),
+                ("tcpdump -i eth0 'icmp[icmptype] == icmp-echoreply'", "Ping replies"),
+                ("tcpdump -i eth0 'tcp port 80 and (((ip[2:2] - ((ip[0]&0xf)<<2)) - ((tcp[12]&0xf0)>>2)) != 0)'", "HTTP POST requests"),
+            ],
+            "Network Troubleshooting": [
+                ("tcpdump -i eth0 -n", "Don't resolve hostnames"),
+                ("tcpdump -i eth0 -nn", "Don't resolve hostnames or ports"),
+                ("tcpdump -i eth0 -e", "Print ethernet header"),
+                ("tcpdump -i eth0 -l", "Line buffered output"),
+                ("tcpdump -i eth0 -U", "Unbuffered output"),
+            ],
+            "Complex Filters": [
+                ("tcpdump -i eth0 'host 192.168.1.1 and port 80'", "Host AND port filter"),
+                ("tcpdump -i eth0 'host 192.168.1.1 or host 192.168.1.2'", "Multiple hosts"),
+                ("tcpdump -i eth0 'not port 22'", "Exclude SSH traffic"),
+                ("tcpdump -i eth0 'tcp and not port 22 and not port 80'", "TCP but not SSH/HTTP"),
+                ("tcpdump -i eth0 'src host 192.168.1.1 and dst port 80'", "Source host to HTTP"),
             ],
         }
 
